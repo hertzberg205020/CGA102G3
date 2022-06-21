@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="align-items-start form-row" method="post" enctype="multipart/form-data" action="/bookmall/book">
+
+    <input type="hidden" name="action" value="insert">
+    <div class="form-group col-6">
+        <label for="title">書名</label>
+        <input type="text" id="title" name="title" class="form-control is-invalid" placeholder="請輸入書名" >
+    </div>
+    <div class="form-group col-6">
+        <label for="ISBN">ISBN-13</label>
+        <input type="text" id="ISBN" name="ISBN" class="form-control is-invalid" placeholder="ISBN-13" >
+    </div>
+    <div class="form-group col-4">
+        <label for="edition">版次</label>
+        <input type="number" id="edition" name="edition" class="form-control" placeholder="請輸入版次" >
+    </div>
+    <button type="submit" id="submit_btn">Submit form</button>
+</form>
+</body>
+</html>

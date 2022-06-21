@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>商城首頁</title>
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style-type: none;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* 導航列樣式 */
+        header {
+            background-color: #678F74;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            width: 1200px;
+            padding: 5px 0px 0px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        .logo img {
+            height: 60px;
+        }
+        .nav-item {
+            margin-top: 18px;
+            display: flex;
+        }
+        nav .mall a {
+            color: rgb(232, 232, 232);
+            position: relative;
+            font-family: 'Poppins';
+        }
+        nav .mall a:after {
+            background-color: white;
+            content: "";
+            position:absolute;
+            height: 3px;
+            width: 0;
+            left: 0;
+            bottom: -10px;
+            transition: 0.3s;
+        }
+        nav .mall a:hover{
+            color: white;
+        }
+        nav .mall a:hover:after {
+            width: 100%;
+        }
+        .nav_mid {
+            display: flex;
+        }
+        .search {
+            display: flex;
+            align-items: center;
+        }
+        .search>input {
+            background-color: white;
+            box-sizing: border-box;
+            height: 32px;
+            width: 280px;
+            border: 10px;
+            padding: 15px;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 0px 0px 5px;
+            font-family: Noto Sans TC, serif;
+        }
+        .search button {
+            background: lightgray;
+            cursor: pointer;
+            display: block;
+            border: 10px;
+            height: 32px;
+            width: 50px;
+            padding: 4px 15px 10px 15px;
+            border-radius: 0px 5px 5px 0px;
+        }
+        button img {
+            width: 22px;
+        }
+        .mall {
+            margin-top: 12px;
+            margin-left: 10px;
+        }
+        .mall>ul {
+            display: flex;
+        }
+        .mall>ul>li {
+            padding: 8px 8px 0px;
+        }
+        .right_side{
+            display: flex;
+        }
+        .cart button#cart_btn{
+            border:1.5px solid white;
+            background: #678F74;
+            height: 30px;
+            width: 30px;
+            margin-top: 17px;
+            margin-right: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        div.member > img{
+            margin-top: -5px;
+            margin-right: 10px;
+            width: 33px;
+            height: 35px;
+        }
+        .dropbtn {
+            position: relative;
+            background-color: #678F74;
+            color: lightgray;
+            padding-top: 2px;
+            display: flex;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative; 
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 120px;
+            right: 0;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        }
+        .dropdown-content a {
+            color: #678F74;
+            background-color: #e9e9e9;
+            padding: 6px 12px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            width: 110px;
+            color: #e9e9e9;
+            background-color: #678F74;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropbtn:hover {
+            color: white;
+        }
+
+
+/* 輪播 */
+.carousel .carousel-item {
+            height: 350px;
+            background-color: #777;
+        }
+        .carousel-inner > .carousel-item > img {
+            position: absolute;
+            object-fit: contain;
+            top: 0;
+            left: 0;
+            width: 960px;
+        }
+        .carousel > button{
+            background-color: rgba(181, 181, 181, 0.9);
+            height: 60px;
+            width: 5%;
+            margin-top: 130px;
+        }
+        .carousel > button:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        .size_ctrl{
+            width: 960px;
+            margin: auto;
+        }
+
+        /* 商品列表 */
+        main.main{
+            border: 1px solid red;
+            width: 960px;
+            padding: 25px 0px 25px;
+            margin: auto;
+        }
+        main.main ul.item_list{
+            border: 1px solid blue;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        main.main ul.item_list > li{
+            border: 1px solid black;
+            width: calc((100% - 60px) / 4);
+            margin-right: 20px;
+            margin-bottom: 80px;
+        }
+        main.main ul.item_list > li:nth-child(4n){ 
+            margin-right: 0px;
+        }
+        #bk{
+            margin-left: 40px;
+            height: 200px;
+            width: auto;
+        }
+        .item_text{
+            border: 1px solid white;
+            display: block; 
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+@media (max-width: 767.98px){
+          main.main{
+        margin-left: 0;
+        width: 100%;
+    }
+}
+@media (max-width: 767.98px){
+    main.main ul.item_list > li{
+        width: calc((100% - 20px) / 2);
+    }
+}
+
+
+        /*footer*/
+        footer{
+            margin: auto;
+            justify-content: space-between;
+        }
+        .footer-dark {
+            margin-top: 30px;
+            display: flex;
+            padding: 5px;
+            color: white;
+            background-color: #678F74;
+        }
+        div.contain {
+            display: flex;  
+            width: 1200px;
+            justify-content: space-between;
+        }
+        div.contain item{
+            width: 300px;
+        }
+        div.contain ul a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.6;
+            font-size: 12px;
+        }
+        div.contain ul a:hover {
+            opacity: 0.95;
+        }
+        div.contain p {
+            opacity: 0.6;
+            font-size: 6px;
+        }
+        .footer-dark .copyright {
+            width: 100%;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 12px;
+        }
+
+        .god {
+            margin-left: 30%;
+        }
+        .cs {
+            bottom: 30px;
+            left: 91%;
+            transition: all 0.5s;
+            position: sticky;
+        }
+        .cs:hover {
+            transform: scale(1.2, 1.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <nav>
+        <div class="logo">
+            <img src="static/images/LOGObig.png">
+        </div>
+        <div class="nav_mid">
+            <div class="search">
+                <input type="text" placeholder="輸入書名或 isbn 查詢一般商城" name="" id="search_content" />
+                <button id="search_btn">
+                    <div id="icon_wrapper">
+                        <img src="static/images/magnifier2.png"><img>
+                    </div>
+                </button>
+            </div>
+            <div class="mall">
+                <ul>
+                    <li><a href="#">一般商城</a></li>
+                    <li><a href="#">二手商城</a></li>
+                    <li><a href="#">二手競標</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right_side">
+            <div class="cart">
+                <button id="cart_btn">
+                    <img class="cart" src="static/images/mall.png" height="25" width="25">
+                </button>
+            </div>
+        <div>
+            <ul class="nav-item dropdown">
+                <div class="dropdown">
+                    <li class="dropbtn">
+                        <div class="member">
+                            <img src="static/images/member.png" height="25" width="25">
+                        </div>
+                        會員專區
+                    </li>
+                    <div class="dropdown-content">
+                        <a href="#">會員資料</a>
+                        <a href="#">訂單管理</a>
+                        <a href="#">收藏商品</a>
+                        <a href="#">錢包管理</a>
+                        <a href="#">通知查詢</a>
+                        <a href="#">競標中商品</a>
+                        <a href="#">登出</a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        </div>
+    </nav>
+</header>
+
+<!-- 輪播區塊 -->
+<div id="carouselExampleCaptions" class="carousel slide size_ctrl" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="static/images/img3.jpg" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="static/images/img1.jpg" class="d-block w-100">
+        </div>
+        <div class="carousel-item">
+            <img src="static/images/img2.png" class="d-block w-100">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </button>
+</div>
+
+<!-- 商品列表 -->
+<main class="main">
+    <BIG>官方商城</BIG>     
+    <ul class="item_list">
+        <li>
+            <div class="img_block" href="#">
+              <img id="bk" src="static/images/1.jpg">
+            </div>
+            <span class="item_text">深入淺出Java</span>
+        </li>
+        <li>
+            <div class="img_block" href="#">
+              <img id="bk" src="static/images/2.jpg">
+            </div>
+            <span class="item_text">APPLYING UML AND</span>
+        </li>
+        <li>       
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/3.jpg">
+              </div>
+              <span class="item_text">Java 程式設計入門</span>       
+          </li>
+          <li>      
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/4.jpg">
+              </div>
+              <span class="item_text">Java 王者歸來</span>    
+          </li>
+    </ul>
+          <p>二手競標</p>
+    <ul class="item_list">
+          <li>          
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/5.jpg">
+              </div>
+              <span class="item_text">Java7 教學手冊</span> 
+          </li>
+          <li>       
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/6.jpg">
+              </div>
+              <span class="item_text">最新 Java 程式語言</span>
+          </li>
+          <li>   
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/7.jpg">
+              </div>
+              <span class="item_text">企業及軟體架構模式</span>
+          </li>
+          <li>       
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/8.jpg">
+              </div>
+              <span class="item_text">物件導向</span>      
+          </li>
+    </ul>
+          <p>二手定價</p>
+    <ul class="item_list">
+          <li>       
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/9.jpg">
+              </div>
+              <span class="item_text">UML 物件導向系統分析與設計</span>
+          </li>
+          <li>    
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/10.jpg">
+              </div>
+              <span class="item_text">SQL Server 資料庫設計與開發實務</span>      
+          </li>
+          <li>      
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/11.jpg">
+              </div>
+              <span class="item_text">Head First SQL</span>
+          </li>
+          <li> 
+              <div class="img_block" href="#">
+                <img id="bk" src="static/images/12.jpg">
+              </div>
+              <span class="item_text">UML Thinking in 大象</span>
+          </li>
+    </ul>
+</main>
+
+    <img class="god" src="static/images/Godbless.png" height="500px;" width="500px;"></img><br>
+    <img class="cs" src="static/images/cs.png" height="90px;" width="90px;" href="#"></img>
+
+<!-- footer -->
+<div class="footer-dark">
+    <footer>
+        <div class="contain">
+            <item>
+                <h3>商城</h3>
+                    <ul>
+                        <li><a href="#">一般商城</a></li>
+                        <li><a href="#">二手定價商城</a></li>
+                        <li><a href="#">二手競標商城</a></li>
+                    </ul>
+            </item>
+            <item>        
+                <h3>關於</h3>
+                    <ul>
+                        <li><a href="#">資訊書城</a></li>
+                        <li><a href="#">聯絡方式</a></li>
+                        <li><a href="#">團隊</a></li>
+                    </ul>
+            </item>        
+            <item>              
+                <h3>緣起</h3>
+                    <p>對於軟體工程師來說，比起網路上發散的資訊，​"書"成了沒日沒夜練功時的好導師。​也因此我們希望能有個以 "書"
+                        為中心的資訊軟體交易平台方便大家買賣及交流，除了提拔你，也​達到多人且重複使用的精神。</p>
+            </item>
+        </div>
+        <p class="copyright">CGA102 TEAM3 © 2022</p>
+    </footer>
+</div>
+<script>
+    $("#cart_btn").click(function(){
+     window.open('index.html', '_blank');
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+</body>
+</html>

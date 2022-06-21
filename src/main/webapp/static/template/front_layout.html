@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>商城首頁</title>
+    <link rel="stylesheet" href="../css/front_layout.css">
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../images/LOGObig.png">
+            </div>
+            <div class="nav_mid">
+                <div class="search">
+                    <input type="text" placeholder="輸入書名或 isbn 查詢一般商城" name="" id="search_content" />
+                    <button id="search_btn">
+                        <div id="icon_wrapper">
+                            <img src="../images/magnifier2.png"><img>
+                        </div>
+                    </button>
+                </div>
+                <div class="mall">
+                    <ul>
+                        <li><a href="#">一般商城</a></li>
+                        <li><a href="#">二手商城</a></li>
+                        <li><a href="#">二手競標</a></li>
+                    </ul>
+                </div>
+            </div>
+        <div class="right_side">
+            <div class="cart">
+                <button id="cart_btn">
+                    <img class="cart" src="../images/mall.png" height="25" width="25"></img>
+                </button>
+            </div>
+            <div>
+                <ul class="nav-item dropdown">
+                    <div class="dropdown">
+                        <li class="dropbtn">
+                            <div class="member">
+                                <img src="../images/member.png" height="25" width="25"></img>
+                            </div>
+                            會員專區
+                        </li>
+                        <div class="dropdown-content">
+                            <a href="#">會員資料</a>
+                            <a href="#">訂單管理</a>
+                            <a href="#">收藏商品</a>
+                            <a href="#">錢包管理</a>
+                            <a href="#">通知查詢</a>
+                            <a href="#">競標中商品</a>
+                            <a href="#">登出</a>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>    
+        </nav>
+    </header>
+
+    <img class="god" src="../images/Godbless.png" height="500px;" width="500px;"></img><br>
+    <img class="cs" src="../images/cs.png" height="90px;" width="90px;" href="#"></img>
+
+    <!-- footer -->
+    <div class="footer-dark">
+        <footer>
+            <div class="contain">
+                <item>
+                    <h3>商城</h3>
+                        <ul>
+                            <li><a href="#">一般商城</a></li>
+                            <li><a href="#">二手定價商城</a></li>
+                            <li><a href="#">二手競標商城</a></li>
+                        </ul>
+                </item>
+                <item>        
+                    <h3>關於</h3>
+                        <ul>
+                            <li><a href="#">資訊書城</a></li>
+                            <li><a href="#">聯絡方式</a></li>
+                            <li><a href="#">團隊</a></li>
+                        </ul>
+                </item>        
+                <item>              
+                    <h3>緣起</h3>
+                        <p>對於軟體工程師來說，比起網路上發散的資訊，​"書"成了沒日沒夜練功時的好導師。​也因此我們希望能有個以 "書"
+                            為中心的資訊軟體交易平台方便大家買賣及交流，除了提拔你，也​達到多人且重複使用的精神。</p>
+                </item>
+            </div>
+            <p class="copyright">CGA102 TEAM3 © 2022</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <script>
+               $("#cart_btn").click(function(){
+                window.open('index.html', '_blank');
+               });
+    </script>
+</body>
+</html>

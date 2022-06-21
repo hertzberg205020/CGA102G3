@@ -1,0 +1,25 @@
+#table_container{
+    width: 90%;
+    margin: auto;
+    padding: 10px 0;
+}
+
+header.header{
+    z-index: 10;
+}
+
+#fileImg {
+    display: block;
+    width: 600px;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+}
+
+.xdsoft_datetimepicker .xdsoft_datepicker {
+    width:  300px;   /* width:  300px; */
+}
+.xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
+    height: 151px;   /* height:  151px; */
+}
+
+
