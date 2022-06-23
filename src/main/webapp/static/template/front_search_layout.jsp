@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>商城首頁</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_search_layout.css">
 </head>
 
