@@ -88,9 +88,10 @@ public class BookEditParamUtil {
 
     public static Map<String, String[]> handleParams(Map<String, String[]> parameterMap) {
         // 將request.getParameterMap()重新裝進parameterMap，request.getParameterMap()是不可變map
-        Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
-        HashMap<String, String[]> map = (HashMap<String, String[]>) entries.stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//        Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
+//        HashMap<String, String[]> map = (HashMap<String, String[]>) entries.stream()
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        HashMap<String, String[]> map = new HashMap<>(parameterMap);
         // bookID, edition, pubdate, pages 都要檢查轉換格式，避免500
 
         String[] bookIDStrArr = map.get("bookID");

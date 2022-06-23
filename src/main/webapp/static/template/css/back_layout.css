@@ -6,12 +6,14 @@ body{
     margin: 0;
     padding: 0;
     vertical-align: middle;
+    background:radial-gradient(circle farthest-corner at bottom,rgb(190, 240, 255),rgb(222, 222, 222));
 }
 html{
     --header-height:60px;
     --aside-width:205px;
     display: table;
     margin: auto;
+
 }
 
 /* 卷軸樣式 */
@@ -34,12 +36,15 @@ html{
 }
 
 header.header{
-    border: 1px solid rgb(0, 100, 125);
-    background-color:rgb(210, 240, 250);
-    position: sticky;
+    background-color: rgb(240, 250, 255);
+    border: 1px solid lightgray;
+    width: calc(100% - var(--aside-width));
     height: var(--header-height);
-    margin-left: var(--aside-width);
+    margin-left: 215px;
+    margin-top: 10px;
+    border-radius: 5px;
     top: 0;
+    box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
 }
 header.header h1{
     margin-left: 20px;
@@ -53,6 +58,7 @@ aside.aside{
     top: 0;
     min-height: 100vh;
     overflow-y:scroll;
+    box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
 }
 img.img{
     margin: 30px;
@@ -94,7 +100,8 @@ nav ul li a{
 
 nav ul li ul li a#a:hover,
 nav ul li label:hover,
-nav ul li#logout:hover{
+nav ul li#logout:hover,
+nav ul li#bookmng:hover{
     color: rgb(0, 255, 255);
 }
 nav ul ul{
@@ -129,9 +136,12 @@ input{
 
 
 main.main{
-    border: 1px solid rgb(0, 100, 125);
-    background-color: rgba(0, 100, 125, 0.1);
+    margin: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid lightgray;
     width: calc(100% - var(--aside-width));
-    margin-left: var(--aside-width);
+    margin-left: 215px;
     min-height: calc(100vh - var(--header-height));
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
 }

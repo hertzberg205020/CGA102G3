@@ -1,9 +1,10 @@
-package com.cga102g3.web.book.controller; /**
+/**
  * @Description
  * @Author Robert
  * @Version
  * @Date 2022-06-15 下午 11:16
  */
+package com.cga102g3.web.book.controller;
 
 
 import com.cga102g3.core.controller.PostBaseServlet;
@@ -31,7 +32,7 @@ import static com.cga102g3.core.util.CommonUtil.writePojo2Json;
 @MultipartConfig(fileSizeThreshold = 1,
         maxFileSize = 15*1024*1024, maxRequestSize = 50*1024*1024)
 public class BookEditServletPost extends PostBaseServlet {
-    private static final String saveDir = "/images/books";
+    private static final String saveDir = "/static/images/books";
     private static String destDirPath;
     private final BookService service = new BookServiceImpl();
 
@@ -68,7 +69,7 @@ public class BookEditServletPost extends PostBaseServlet {
         PrintWriter out = response.getWriter();
         if (res) {
             // 跳轉去查全部頁面
-            response.sendRedirect(request.getContextPath() + "/book/back_book_view.jsp");
+            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
         } else {
             // 正常操作不會到這
             out.println("fail");
@@ -99,7 +100,7 @@ public class BookEditServletPost extends PostBaseServlet {
             writePojo2Json(response, errMsgs);
             return;
         }
-        System.out.println(request.getRealPath("/images/books/5.jpg"));
+
         // 獲取上傳檔案流
         Part part = request.getPart("uploadImg");
         // 處理書籍更新業務邏輯
@@ -107,7 +108,7 @@ public class BookEditServletPost extends PostBaseServlet {
         PrintWriter out = response.getWriter();
         if (res) {
             // 跳轉去查全部頁面
-            response.sendRedirect(request.getContextPath() + "/book/back_book_view.jsp");
+            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
         } else {
             // 正常操作不會到這
             out.println("fail");

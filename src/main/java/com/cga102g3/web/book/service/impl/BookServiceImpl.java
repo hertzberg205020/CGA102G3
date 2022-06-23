@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class BookServiceImpl implements BookService {
     private static final String[] EXTENSIONS = {".jpg", ".png", ".jpeg", ".tiff"};
-    private BookDao dao;
+    private final BookDao dao;
 
     public BookServiceImpl() {
         dao = new BookDaoImpl();
