@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <title>管理後臺 | 競標商品管理</title>
+    <style type="text/css">
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            width: 1200px;
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+        }
+        html{
+            --header-height:60px;
+            --aside-width:205px;
+            display: table;
+            margin: auto;
+            background:radial-gradient(circle farthest-corner at bottom,rgb(190, 240, 255),rgb(222, 222, 222));
+        }
+
+/* 卷軸樣式 */
+::-webkit-scrollbar {
+width: 7px;
+}
+
+::-webkit-scrollbar-track {
+box-shadow: inset 0 0 5px grey; 
+border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+background: darkgray; 
+border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background:lightgray; 
+}
+
+        header.header{
+            background-color: rgb(240, 250, 255);
+            border: 1px solid lightgray;
+            width: calc(100% - var(--aside-width));
+            height: var(--header-height);
+            margin-left: 215px;
+            margin-top: 10px;
+            border-radius: 5px;
+            top: 0;
+            box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
+        }
+        header.header h1{
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        aside.aside{
+            background-color: rgb(0, 100, 125);
+            position: fixed;
+            width: var(--aside-width);   
+            top: 0;
+            min-height: 100vh;
+            overflow-y:scroll;
+            box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
+        }
+        img.img{
+            margin: 30px;
+            margin-bottom: 5px;
+        }
+        img.img2{
+            margin-right: 5px;
+            margin-bottom: -4px;
+        }
+        nav.nav{
+            width:180px;
+        }
+        nav .menu label{
+            cursor: pointer;
+        }
+        
+        nav ul{
+            position:absolute;
+            color: white;
+            background-color: rgb(0, 100, 125);
+            list-style: none;
+            padding-left: 5px;
+            width: 100%;
+            border-radius: 5px;
+        }
+        nav ul li a{
+            background-color: rgb(0, 80, 100);
+            border-bottom: 5px solid rgb(0, 80, 100);
+            border-top: 5px solid rgb(0, 80, 100);
+            padding-left: 10px;
+            color: white;
+            text-decoration: none;
+            display: none;
+        }
+
+        [id^=btn]:checked + ul li a{
+            display: block
+        }
+
+        nav ul li ul li a#a:hover,
+        nav ul li label:hover,
+        nav ul li#logout:hover,
+        nav ul li#bookmng:hover{
+            color: rgb(0, 255, 255);
+        }
+        nav ul ul{
+            position: static;
+        }
+        nav ul ul li{
+            line-height: 20px;
+            padding-left: 0;
+            border-bottom: none;
+        }
+        nav ul ul li a{
+            font-size: 14px;
+        }
+        nav ul li{
+            line-height: 45px;
+            padding-left: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.2)
+        }
+        nav ul li label.label span{
+            margin-left: 45px;
+            font-size: 20px;
+            padding: 10px 15px;
+        }
+        nav ul li span.rotate{
+            transform: rotate(-180deg);
+            transition: 0.5s;
+        }
+        input{
+            display: none;
+        }
+
+        
+        main.main{
+            margin: 10px;
+            background-color: rgb(255, 255, 255);
+            border: 1px solid lightgray;
+            width: calc(100% - var(--aside-width));
+            margin-left: 215px;
+            min-height: calc(100vh - var(--header-height));
+            border-radius: 5px;
+            box-shadow: 3px 3px 3px rgba(150, 150, 150, 0.5);
+        }
+        
+        /* style for main section */
+        .table td{
+            border-top: transparent;
+            text-align: center;
+        }
+        .table th {
+            border-top: transparent;
+        }
+        thead {
+            vertical-align: bottom;
+            height: 36px;
+        }
+        thead tr th {
+            text-align: center; 
+            color: gray;
+            background-color: wheat;
+        }
+        tbody tr th {
+            text-align: center;
+            color: steelblue;
+            border-left:0.5px solid gainsboro;
+        }
+        /* .last-row {
+            border-bottom: 1px solid gainsboro;
+        } */
+        .last-col {
+            border-right: 1px solid gainsboro;
+        }
+        tbody {
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .bi-book {
+            color:goldenrod;
+            font-size: 18px;
+        }
+        .bi-pencil-fill {
+            color:darkgreen;
+        }
+        button.btn-outline-success {
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .page-item:first-child .page-link {
+            border-top-left-radius: 1.2rem;
+            border-bottom-left-radius: 1.2rem;
+        }
+        .page-item:last-child .page-link {
+            border-top-right-radius: 1.2rem;
+            border-bottom-right-radius: 1.2rem;
+        }
+        .page-item .page-link:hover {
+            background-color: wheat;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="text-center" style="font-size: 32px; font-weight:600; color:rgb(82, 136, 138)">競標商品管理</h1>
+    </header>
+    <aside class="aside">
+        <img class="img" src="../images/Book2.png" height="130" width="130"></img>
+        <nav class="nav">
+            <ul class="menu">
+                <li>
+                    <img class="img2" src="../images/member.png" height="20px" width="20px">
+                    <label for="btn-1" class="label">員工管理<span class="fas fa-caret-down"></span>
+                    </label>   
+                    <input type="checkbox" id="btn-1">
+                    <ul>
+                        <li><a id="a" ref ="#">員工帳號管理</a></li>
+                        <li><a id="a" ref ="#">員工權限管理</a></li>
+                    </ul> 
+                </li>
+                <li>
+                    <img class="img2" src="../images/member.png" height="20px" width="20px">
+                    <label for="btn-2" class="label">會員管理<span class="fas fa-caret-down"></span>
+                    </label>
+                    <input type="checkbox" id="btn-2">
+                    <ul>
+                        <li><a id="a" ref ="#">會員資料</a></li>
+                        <!-- <li><a id="a" ref ="#">書目詳情</a></li> -->
+                    </ul>                
+                </li>
+                <li>
+                    <img class="img2" src="../images/coin.png" height="20px" width="20px">
+                    <label for="btn-3" class="label">金流管理<span class="fas fa-caret-down"></span>
+                    </label>
+                    <input type="checkbox" id="btn-3">
+                    <ul>
+                        <!-- <li><a id="a" ref ="#">二手商品匯款管理</a></li> -->
+                        <li><a id="a" ref ="#">查詢錢包使用紀錄</a></li>
+                    </ul>    
+                </li>
+                <li>
+                    <img class="img2" src="../images/mall.png" height="20px" width="20px">
+                    <label for="btn-5" class="label">一般商城<span class="fas fa-caret-down"></span>
+                    </label>
+                    <input type="checkbox" id="btn-5">
+                    <ul>
+                        <li><a id="a" ref ="#">一般商品管理</a></li>
+                        <li><a id="a" ref ="#">特賣專案管理</a></li>
+                        <li><a id="a" ref ="#">商品訂單管理</a></li>
+                    </ul>  
+                </li>
+                <li>
+                    <img class="img2" src="../images/bid.png" height="20px" width="20px">
+                    <label for="btn-7" class="label">商城競標<span class="fas fa-caret-down"></span>
+                    </label>
+                    <input type="checkbox" id="btn-7">
+                    <ul>
+                        <li><a id="a" ref ="#">競標商品管理</a></li>
+                        <li><a id="a" ref ="#">競標訂單管理</a></li>
+                    </ul>
+                </li>
+                <li id="bookmng">
+                <img class="img2" src="../images/book.png" height="20px" width="20px">
+                    書目管理
+                </li>
+                <li id="logout">
+                <img class="img2" src="../images/logout.png" height="20px" width="20px">
+                登出
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main">
+        <div class="container">
+            <div class="d-flex mt-4">
+                <span style="font-size: 22px;">查詢結果</span> 
+                <!-- <div class="ml-auto">
+                    <ul class="pagination pagination-sm justify-content-end" >
+                        <li class="page-item" >
+                            <a class="page-link text-secondary" href="#">上一頁</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-secondary" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-secondary" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-secondary" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link text-secondary" href="#">下一頁</a>
+                        </li>
+                    </ul>
+                </div>    -->
+            </div>
+            <table class="table table-sm table-hover" style="font-size:14px;">
+                <thead >
+                    <tr>
+                        <th style="border-radius: 8px 0 0 0; height: 20px;">競標商品編號</th>
+                        <th>書目編號</th>
+                        <th>競標底價</th>
+                        <th>直購價</th>
+                        <th>最高出價</th>
+                        <th>商品狀態</th>
+                        <th>起標時間</th>
+                        <th>結標時間</th>
+                        <th style="border-radius: 0 8px 0 0;">修改</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="header-row" scope="row">1 <a href="https://tw.yahoo.com/" target="_blank"  data-toggle="tooltip" data-placement="right" title="查看商品詳情"><i class="bi bi-book"></i></a></th>
+                        <td>1</td>
+                        <td>200</td>
+                        <td>600</td>
+                        <td>300</td>
+                        <td>結標售出</td>
+                        <td>2022-5-1 12:00</td>
+                        <td>2022-5-31 8:00</td>
+                        <td class="last-col"><a class="text-light"
+							href="${pageContext.request.contextPath}/bid/bidprod_back_update_page.html"
+							target="_blank"> <i class="bi bi-pencil-fill"></i></a></td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+            <!-- <div>
+                <ul class="pagination justify-content-end mb-5" >
+                    <li class="page-item" >
+                        <a class="page-link text-secondary" href="#">上一頁</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-secondary" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-secondary" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-secondary" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link text-secondary" href="#">下一頁</a>
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </main>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+
+<script>
+           $(".label").find("span").click(function(){
+             $(this).toggleClass("rotate");
+           });
+               // Init tooltips
+             $('[data-toggle="tooltip"]').tooltip();
+
+            // function showTooltip() {
+            //   $('#hello').tooltip('show');
+            // }
+
+            // function hideTooltip() {
+            //   $('#hello').tooltip('hide');
+            // }
+
+            // function toggleTooltip() {
+            //   $('#hello').tooltip('toggle');
+            // }
+
+
+</script>
+</body>
+</html>
