@@ -1,0 +1,88 @@
+/* MAIN CONTENT */
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
+
+/* .section-info {
+    height: 480px;
+} */
+.modal-content {
+    background-color: lightslategray;
+}
+#pic {
+    cursor: pointer;
+}
+.general {
+    border: 3px dashed lightgrey;
+    border-radius: 5px;
+}
+.seller-info {
+    border: 3px dashed lightgrey;
+    border-radius: 5px;
+}
+.btn {
+    border-radius: 50px;
+    font-size: 20px;
+}
+.new-book {
+    background-color: lightpink;
+    border-radius: 5px;
+    padding: 7px;
+
+}
+.new-book:hover {
+    color:darkslateblue;
+}
+.bid {
+    margin-top: 100px;
+}
+.bid-time {
+    color: gray;
+}
+
+.hr-text {
+    position: relative;
+    border: none;
+    height: 0.5px;
+    background: #999;
+    margin-top: 3rem;
+}
+.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    background: #fff;
+    font-weight: 400;
+    color: #999;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-indent: 0;
+}
+
+.content-summary {
+    line-height: 2rem;
+    text-indent: 2rem;
+    /* margin-bottom: 3rem; */
+}
+
+.table-of-content {
+    text-indent: 2rem;
+}
+
+.review {
+    background-color: whitesmoke;
+    border-radius: 10px;
+}
+
+.card-img-top {
+    width: 100%;
+}
+.card-body a:hover {
+    font-weight: bold;
+    color:goldenrod;
+}
+.read-more a:hover {
+    color: black;
+}

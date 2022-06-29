@@ -16,4 +16,12 @@
         <filter-name>setCharacterEncoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <listener>
+        <listener-class>com.cga102g3.web.bid_activ.listener.BidActivitiesSchedulingListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.cga102g3.core.linstener.ResourceListener</listener-class>
+    </listener>
 </web-app>

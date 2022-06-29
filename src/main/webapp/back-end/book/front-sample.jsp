@@ -19,8 +19,8 @@
 
 <body>
 <%@include file="/static/template/front_layout_header.jsp" %>
-<img class="god" src="${pageContext.request.contextPath}/static/images/Godbless.png" height="500px;" width="500px;"><br>
-<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
+<%--<img class="god" src="${pageContext.request.contextPath}/static/images/Godbless.png" height="500px;" width="500px;"><br>--%>
+<%--<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">--%>
 <%@include file="/static/template/front_layout_footer.jsp" %>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="${pageContext.request.contextPath}/static/template/js/front_layout.js"></script>

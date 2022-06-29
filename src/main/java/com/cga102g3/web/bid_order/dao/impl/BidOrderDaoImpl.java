@@ -68,14 +68,13 @@ public class BidOrderDaoImpl implements BidOrderDao {
         int res = 0;
         final String sql =
                 "update bid_order\n" +
-                "set bid_ship_stat = ?, pay_seller = ?\n" +
+                "set bid_ship_stat = ?\n" +
                 "where bid_order_ID = ?;";
         try {
             conn = JDBCUtil.getConnection();
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, pojo.getBidShipStat());
-            pstmt.setBoolean(2, pojo.getPaySeller());
-            pstmt.setInt(3, pojo.getBidOrderID());
+            pstmt.setInt(2, pojo.getBidOrderID());
             res = pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +93,7 @@ public class BidOrderDaoImpl implements BidOrderDao {
 
         final String sql =
                 "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
-                "       bid_ship_stat, pay_seller\n" +
+                "       bid_ship_stat\n" +
                 "from bid_order\n" +
                 "where bid_order_ID = ?;";
 
@@ -135,7 +134,7 @@ public class BidOrderDaoImpl implements BidOrderDao {
 
         final String sql =
                 "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
-                "       bid_ship_stat, pay_seller\n" +
+                "       bid_ship_stat\n" +
                 "from bid_order\n" +
                 "limit ?, ?;";
 
@@ -154,6 +153,20 @@ public class BidOrderDaoImpl implements BidOrderDao {
         return list;
     }
 
+    @Override
+    public int insert(Connection conn, BidOrder bidOrder) throws SQLException {
+        int res = 0;
+        final String sql =
+                "insert into bid_order(bid_ID, mbr_ID, bid_price) \n" +
+                "VALUES (?, ?, ?); ";
+        try( PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setInt(1, bidOrder.getBidID());
+            pstmt.setInt(2, bidOrder.getMbrID());
+            pstmt.setInt(3, bidOrder.getBidPrice());
+            return pstmt.executeUpdate();
+        }
+    }
+
     /**
      * 依會員編號查詢競標商品訂單，每頁12筆資料
      * @param mbrID
@@ -169,7 +182,7 @@ public class BidOrderDaoImpl implements BidOrderDao {
 
         final String sql =
                 "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
-                "       bid_ship_stat, pay_seller\n" +
+                "       bid_ship_stat\n" +
                 "from bid_order\n" +
                 "where mbr_ID = ?\n" +
                 "limit ?, ?;";
@@ -196,35 +209,35 @@ public class BidOrderDaoImpl implements BidOrderDao {
      * @param page
      * @return
      */
-    @Override
-    public List<BidOrder> selectByPaySeller(Boolean paySeller, Integer page) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        List<BidOrder> list = null;
-
-        final String sql =
-                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
-                        "       bid_ship_stat, pay_seller\n" +
-                        "from bid_order\n" +
-                        "where pay_seller = ?\n" +
-                        "limit ?, ?;";
-
-        try {
-            conn = JDBCUtil.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setBoolean(1, paySeller);
-            pstmt.setInt(2, (page - 1) * pageSize);
-            pstmt.setInt(3, pageSize + 1);
-            rs = pstmt.executeQuery();
-            list = retrieve(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            JDBCUtil.close(conn, pstmt, rs);
-        }
-        return list;
-    }
+//    @Override
+//    public List<BidOrder> selectByPaySeller(Boolean paySeller, Integer page) {
+//        Connection conn = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        List<BidOrder> list = null;
+//
+//        final String sql =
+//                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
+//                        "       bid_ship_stat, pay_seller\n" +
+//                        "from bid_order\n" +
+//                        "where pay_seller = ?\n" +
+//                        "limit ?, ?;";
+//
+//        try {
+//            conn = JDBCUtil.getConnection();
+//            pstmt = conn.prepareStatement(sql);
+//            pstmt.setBoolean(1, paySeller);
+//            pstmt.setInt(2, (page - 1) * pageSize);
+//            pstmt.setInt(3, pageSize + 1);
+//            rs = pstmt.executeQuery();
+//            list = retrieve(rs);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            JDBCUtil.close(conn, pstmt, rs);
+//        }
+//        return list;
+//    }
 
     /**
      * 將查詢結果放入list中，並返回
@@ -242,7 +255,6 @@ public class BidOrderDaoImpl implements BidOrderDao {
             bidOrder.setBidPrice(rs.getInt("bid_price"));
             bidOrder.setBidOrderDate(rs.getTimestamp("bid_order_date"));
             bidOrder.setBidShipStat(rs.getInt("bid_ship_stat"));
-            bidOrder.setPaySeller(rs.getBoolean("pay_seller"));
             list.add(bidOrder);
         }
         return list;

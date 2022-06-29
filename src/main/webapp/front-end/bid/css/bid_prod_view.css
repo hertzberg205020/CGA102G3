@@ -1,0 +1,22 @@
+.container {
+    padding: 2rem 0rem;
+}
+
+h4 {
+    margin: 2rem 0rem 1rem;
+}
+
+.table-image td, .table-image th {
+    vertical-align: middle;
+}
+
+.table_container{
+    width: 90%;
+    margin: auto;
+    padding: 10px 0;
+}
+
+main.main {
+    min-height: 75vh;
+}
+

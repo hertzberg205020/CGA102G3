@@ -17,7 +17,15 @@ public class BidOrder {
     private Timestamp bidOrderDate;
     // 物流狀態 0: 撿貨中, 1: 配送中, 2: 已送達
     private Integer bidShipStat;
-    private Boolean paySeller;
+
+    public BidOrder() {
+    }
+
+    public BidOrder(Integer bidID, Integer mbrID, Integer bidPrice) {
+        this.bidID = bidID;
+        this.mbrID = mbrID;
+        this.bidPrice = bidPrice;
+    }
 
     public Integer getBidOrderID() {
         return bidOrderID;
@@ -67,13 +75,6 @@ public class BidOrder {
         this.bidShipStat = bidShipStat;
     }
 
-    public Boolean getPaySeller() {
-        return paySeller;
-    }
-
-    public void setPaySeller(Boolean paySeller) {
-        this.paySeller = paySeller;
-    }
 
     @Override
     public String toString() {
@@ -84,7 +85,6 @@ public class BidOrder {
                 ", bidPrice=" + bidPrice +
                 ", bidOrderDate=" + bidOrderDate +
                 ", bidShipStat=" + bidShipStat +
-                ", paySeller=" + paySeller +
                 '}';
     }
 }

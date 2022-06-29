@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -200,6 +201,144 @@ public class BidProdDaoImpl implements BidProdDao {
             JDBCUtil.close(conn, ps, rs);
         }
         return list;
+    }
+
+    @Override
+    public int updateStat2Launch(Connection conn, Integer bidID) {
+        final String sql =
+                "update bid_prod\n" +
+                "set bid_prod_stat = 2\n" +
+                "where bid_id = ?;";
+        try(PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setInt(1, bidID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int updateStat2Launch(Connection conn, List<BidProd> bidProds) throws SQLException {
+        if (bidProds != null && !bidProds.isEmpty()) {
+            StringBuilder sb = new StringBuilder("(SELECT bid_id WHERE bid_id in ( ");
+            for (BidProd bidProd :
+                    bidProds) {
+                sb.append(bidProd.getBidID()).append(", ");
+            }
+            sb.delete(sb.length()-2, sb.length()-1);
+            sb.append("));");
+            String substring = sb.toString();
+            final String sql = "UPDATE bid_prod\n" +
+                               "SET bid_prod_stat = 2\n" +
+                               "WHERE bid_id = " + substring;
+            System.out.println(sql);
+            try(PreparedStatement pstmt = conn.prepareStatement(sql);) {
+                return pstmt.executeUpdate();
+            }
+        }
+        return 0;
+    }
+
+
+    @Override
+    public int updateStat2Sold(Integer bidID) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        final String sql =
+                "update bid_prod\n" +
+                "set bid_prod_stat = 3\n" +
+                "where bid_id = ?;";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateStat2Sold(Connection conn, Integer bidID) throws SQLException {
+        final String sql =
+                "update bid_prod\n" +
+                "set bid_prod_stat = 3\n" +
+                "where bid_id = ?;";
+        try(PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setInt(1, bidID);
+            return pstmt.executeUpdate();
+        }
+    }
+
+    @Override
+    public int updateStat2NoTender(Integer bidID) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        final String sql =
+                "update bid_prod\n" +
+                "set bid_prod_stat = 4\n" +
+                "where bid_id = ?;";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateStat2Abandon(Integer bidID) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        final String sql =
+                "update bid_prod\n" +
+                "set bid_prod_stat = 5\n" +
+                "where bid_id = ?;";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return 0;
+    }
+
+    @Override
+    public List<BidProd> selectEnableLaunchProducts(Connection conn) throws SQLException {
+        List<BidProd> list = new ArrayList<>();
+        final String sql =
+                "SELECT bid_id, book_id, start_price, bid_direct_price, bid_cur_price, bid_prod_stat, bid_start, bid_end\n" +
+                "FROM bid_prod\n" +
+                "WHERE bid_prod_stat = 1 AND bid_start <= now() AND now() < bid_end;";
+        try(PreparedStatement ps = conn.prepareStatement(sql);) {
+            try(ResultSet rs = ps.executeQuery();) {
+                list = retrieve(rs);
+                return list;
+            }
+        }
     }
 
     /**
@@ -395,6 +534,7 @@ public class BidProdDaoImpl implements BidProdDao {
 //        bidProd.setBidEnd(end);
 //        
 //        bidProdDao.update(bidProd);
+
 
 
     }

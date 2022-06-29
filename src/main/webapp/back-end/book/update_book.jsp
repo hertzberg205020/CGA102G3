@@ -161,7 +161,9 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- bootstrap JS-->
 <script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
+<!-- 模板的JS -->
 <script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
+<!-- 自身的JS -->
 <script src="${pageContext.request.contextPath}/back-end/book/js/back_book_update.js"></script>
 </body>
 </html>

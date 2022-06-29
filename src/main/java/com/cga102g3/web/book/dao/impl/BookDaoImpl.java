@@ -527,5 +527,12 @@ public class BookDaoImpl implements BookDao {
 //        List<Book> books = bookDao.selectByISBNExclID("9787121408564", 1);
 //        System.out.println(books);
 
+        BookDao bookDao = new BookDaoImpl();
+        List<Book> books = bookDao.selectByTitle("c", 1);
+        for (Book book :
+                books) {
+            System.out.println(book.getTitle());
+        }
+
     }
 }

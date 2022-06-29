@@ -109,21 +109,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Map<String, Object> getBooksByKeyword(String keyword, int page) {
-//        int nextPage = -1;
-//        Map<String, Object> res = new HashMap<>();
         List<Book> books = null;
         if (keyword == null || keyword.isEmpty()) {
             books = dao.selectAll(page);
-//            if (books.size() == 13) {
-//                nextPage = page + 1;
-//                books.remove(books.size()-1);
-//            }
-//            res.put("nextPage", nextPage);
-//            res.put("data", books);
-//            return res;
             return getMapResult(books, page);
         }
-        // 這裡邏輯還沒寫
+
         String isbnOrTitle = isISBNOrTitle(keyword);
         if ("ISBN".equals(isbnOrTitle)) {
             books = dao.selectByISBN(keyword, page);
@@ -187,7 +178,8 @@ public class BookServiceImpl implements BookService {
      * @param keyword
      * @return
      */
-    private String isISBNOrTitle(String keyword) {
+    @Override
+    public String isISBNOrTitle(String keyword) {
         return is13Digits(keyword) ? "ISBN" : "title";
     }
 

@@ -12,6 +12,8 @@ public class BidActiv {
     // bidActiv:bidID, ex: bidActiv:1
     private String bidActivID;
     private Integer bidID;
+    private Integer bookID;
+    private Integer startPrice;
     // 存redis中對應的zset的key值, ex: bidActiv:1:rec
     private String zsetKey4Recs;
     private long bidStart;
@@ -21,9 +23,11 @@ public class BidActiv {
     public BidActiv() {
     }
 
-    public BidActiv(String bidActivID, Integer bidID, String zsetKey4Recs, long bidStart, long bidEnd, Integer bidDirectPrice) {
+    public BidActiv(String bidActivID, Integer bidID, Integer bookID, Integer startPrice, String zsetKey4Recs, long bidStart, long bidEnd, Integer bidDirectPrice) {
         this.bidActivID = bidActivID;
         this.bidID = bidID;
+        this.bookID = bookID;
+        this.startPrice = startPrice;
         this.zsetKey4Recs = zsetKey4Recs;
         this.bidStart = bidStart;
         this.bidEnd = bidEnd;
@@ -44,6 +48,14 @@ public class BidActiv {
 
     public void setBidID(Integer bidID) {
         this.bidID = bidID;
+    }
+
+    public Integer getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(Integer bookID) {
+        this.bookID = bookID;
     }
 
     public String getZsetKey4Recs() {
@@ -91,11 +103,21 @@ public class BidActiv {
         return Objects.hash(bidActivID);
     }
 
+    public Integer getStartPrice() {
+        return startPrice;
+    }
+
+    public void setStartPrice(Integer startPrice) {
+        this.startPrice = startPrice;
+    }
+
     @Override
     public String toString() {
         return "BidActiv{" +
                 "bidActivID='" + bidActivID + '\'' +
                 ", bidID=" + bidID +
+                ", bookID=" + bookID +
+                ", startPrice=" + startPrice +
                 ", zsetKey4Recs='" + zsetKey4Recs + '\'' +
                 ", bidStart=" + bidStart +
                 ", bidEnd=" + bidEnd +

@@ -11,7 +11,6 @@ import com.cga102g3.core.util.JedisPoolUtil;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 
-@WebListener
 public class ResourceListener implements ServletContextListener {
 
     public ResourceListener() {
@@ -20,6 +19,7 @@ public class ResourceListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         /* This method is called when the servlet context is initialized(when the Web application is deployed). */
+
     }
 
     @Override

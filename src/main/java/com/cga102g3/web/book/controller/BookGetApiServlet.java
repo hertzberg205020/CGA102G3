@@ -52,7 +52,7 @@ public class BookGetApiServlet extends BaseGetAPIServlet {
     }
 
     /**
-     * /book/api/getEditionsByISBN
+     * /book/api/getCategories
      *
      * @param request
      * @param response

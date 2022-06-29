@@ -28,4 +28,7 @@ public interface BookService {
     Book getBookByISBNAndEdition(String ISBN, Integer edition);
 
     Map<String, Object> getBooksByKeyword(String keyword, int page);
+
+   String isISBNOrTitle(String keyword);
+
 }

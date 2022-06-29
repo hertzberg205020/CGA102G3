@@ -7,23 +7,23 @@ package com.cga102g3.web.bid_activ.entity;
  * @Date 2022-06-22 下午 05:00
  */
 public class Bidder {
-    private Integer MbrID;
+    private Integer mbrID;
     private Integer price;
 
     public Bidder() {
     }
 
     public Bidder(Integer mbrID, Integer price) {
-        MbrID = mbrID;
+        this.mbrID = mbrID;
         this.price = price;
     }
 
     public Integer getMbrID() {
-        return MbrID;
+        return mbrID;
     }
 
     public void setMbrID(Integer mbrID) {
-        MbrID = mbrID;
+        this.mbrID = mbrID;
     }
 
     public Integer getPrice() {
@@ -37,7 +37,7 @@ public class Bidder {
     @Override
     public String toString() {
         return "Bidder{" +
-                "MbrID=" + MbrID +
+                "MbrID=" + mbrID +
                 ", price=" + price +
                 '}';
     }

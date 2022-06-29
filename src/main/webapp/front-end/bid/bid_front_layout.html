@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <title>二手商品頁面</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style-type: none;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* 導航列樣式 */
+        header {
+            background-color: #678F74;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav {
+            width: 1200px;
+            padding: 5px 0px 0px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+        .nav-item {
+            margin-top: 18px;
+            display: flex;
+        }
+        nav .mall a {
+            color: rgb(232, 232, 232);
+            position: relative;
+            font-family: 'Poppins';
+        }
+        nav .mall a:after {
+            background-color: white;
+            content: "";
+            position:absolute;
+            height: 3px;
+            width: 0;
+            left: 0;
+            bottom: -10px;
+            transition: 0.3s;
+        }
+        nav .mall a:hover{
+            color: white;
+        }
+        nav .mall a:hover:after {
+            width: 100%;
+        }
+        .nav_mid {
+            display: flex;
+        }
+        .search {
+            display: flex;
+            align-items: center;
+        }
+        .search>input {
+            background-color: white;
+            box-sizing: border-box;
+            height: 32px;
+            width: 280px;
+            border: 10px;
+            padding: 15px;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px 0px 0px 5px;
+            font-family: Noto Sans TC, serif;
+        }
+        .search button {
+            background: lightgray;
+            cursor: pointer;
+            display: block;
+            border: 10px;
+            height: 32px;
+            width: 50px;
+            padding: 4px 15px 10px 15px;
+            border-radius: 0px 5px 5px 0px;
+        }
+        button img {
+            width: 23px;
+            margin-bottom: 5px;
+        }
+
+        .mall {
+            margin-top: 12px;
+            margin-left: 10px;
+        }
+        .mall>ul {
+            display: flex;
+        }
+        .mall>ul>li {
+            padding: 8px 8px 0px;
+        }
+
+        .right_side{
+            display: flex;
+        }
+        .cart button#cart_btn{
+            border:1.5px solid white;
+            background: #678F74;
+            height: 30px;
+            width: 30px;
+            margin-top: 17px;
+            margin-right: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        div.member > img{
+          margin-top: -5px;
+          margin-right: 10px;
+          width: 33px;
+          height: 35px;
+        }
+        .dropbtn {
+            position: relative;
+            background-color: #678F74;
+            color: lightgray;
+            padding-top: 2px;
+            display: flex;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .dropdown {
+            position: relative; 
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 120px;
+            right: 0;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        }
+        .dropdown-content a {
+            color: #678F74;
+            background-color: #e9e9e9;
+            padding: 6px 12px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            width: 110px;
+            color: #e9e9e9;
+            background-color: #678F74;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropbtn:hover {
+            color: white;
+        }
+
+        /*footer*/
+        footer{
+            margin: auto;
+            justify-content: space-between;
+        }
+        .footer-dark {
+            margin-top: 30px;
+            display: flex;
+            padding: 5px;
+            color: white;
+            background-color: #678F74;
+        }
+        div.contain {
+            display: flex;  
+            width: 1200px;
+            justify-content: space-between;
+        }
+        div.contain item{
+            width: 300px;
+        }
+        div.contain ul a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.6;
+            font-size: 12px;
+        }
+        div.contain ul a:hover {
+            opacity: 0.95;
+        }
+        div.contain p {
+            opacity: 0.6;
+            font-size: 6px;
+        }
+        .footer-dark .copyright {
+            width: 100%;
+            text-align: center;
+            opacity: 0.5;
+            font-size: 12px;
+        }
+
+        .god {
+            margin-left: 30%;
+        }
+        .cs {
+            bottom: 30px;
+            left: 91%;
+            transition: all 0.5s;
+            position: sticky;
+        }
+        .cs:hover {
+            transform: scale(1.2, 1.2);
+            cursor: pointer;
+        }
+
+
+
+        /* MAIN CONTENT */
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: ">";
+        }
+
+        /* .section-info {
+            height: 480px;
+        } */
+        .modal-content {
+            background-color: lightslategray;
+        }
+        #pic {
+            cursor: pointer;
+        }
+        .general {
+            border: 3px dashed lightgrey;
+            border-radius: 5px;
+        }
+        .seller-info {
+            border: 3px dashed lightgrey;
+            border-radius: 5px;
+        }
+        .btn {
+            border-radius: 50px;
+            font-size: 20px;
+        }
+        .new-book {
+            background-color: lightpink;
+            border-radius: 5px;
+            padding: 7px;
+
+        }
+        .new-book:hover {
+            color:darkslateblue;
+        }
+        .bid {
+            margin-top: 100px;
+        }
+        .bid-time {
+            color: gray;
+        }
+
+        .hr-text {
+            position: relative;
+            border: none;
+            height: 0.5px;
+            background: #999;
+            margin-top: 3rem;
+        }
+        .hr-text::before {
+            content: attr(data-content);
+            display: inline-block;
+            background: #fff;
+            font-weight: 400;
+            color: #999;
+            padding: 0.2rem 2rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-indent: 0;
+        }
+
+        .content-summary {
+            line-height: 2rem;
+            text-indent: 2rem;
+            /* margin-bottom: 3rem; */
+        }
+
+        .table-of-content {
+            text-indent: 2rem;
+        }
+
+        .review {
+            background-color: whitesmoke;
+            border-radius: 10px;
+        }
+
+        .card-img-top {
+            width: 100%;      
+        }
+        .card-body a:hover {
+            font-weight: bold;
+            color:goldenrod;
+        }
+        .read-more a:hover {
+            color: black;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/LOGObig.png">
+            </div>
+            <div class="nav_mid">
+                <div class="search">
+                    <input type="text" placeholder="輸入書名或 isbn 查詢一般商城" name="" id="search_content" />
+                    <button id="search_btn">
+                        <div id="icon_wrapper">
+                            <img src="images/magnifier2.png"><img>
+                        </div>
+                    </button>
+                </div>
+                <div class="mall">
+                    <ul>
+                        <li><a href="#">一般商城</a></li>
+                        <li><a href="#">二手商城</a></li>
+                        <li><a href="#">二手競標</a></li>
+                    </ul>
+                </div>
+            </div>
+        <div class="right_side">
+            <div class="cart">
+                <button id="cart_btn">
+                    <img class="cart" src="images/mall.png" height="25" width="25"></img>
+                </button>
+            </div>
+            <div>
+                <ul class="nav-item dropdown">
+                    <div class="dropdown">
+                        <li class="dropbtn">
+                            <div class="member">
+                                <img src="images/member.png" height="25" width="25"></img>
+                            </div>
+                            會員專區
+                        </li>
+                        <div class="dropdown-content">
+                            <a href="#">會員資料</a>
+                            <a href="#">訂單管理</a>
+                            <a href="#">收藏商品</a>
+                            <a href="#">錢包管理</a>
+                            <a href="#">通知查詢</a>
+                            <a href="#">競標中商品</a>
+                            <a href="#">登出</a>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>    
+        </nav>
+    </header>
+    <main class="container">
+        
+        <!-- BREADCRUMB -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent">
+                <li class="breadcrumb-item"><a href="#" class="text-success bg-transparent">首頁</a></li>
+                <li class="breadcrumb-item "><a href="#" class="text-success bg-transparent">二手競標</a></li>
+                <li class="breadcrumb-item"><a href="#" class="text-success bg-transparent">Java</a></li>
+                <li class="breadcrumb-item active text-dark" aria-current="page">Java程式設計入門</li>
+            </ol>
+        </nav>
+    
+
+        <!-- INFORMATION SECTION -->
+        <div class="section-info row mb-5">
+            <!-- Book Picture -->
+            <div class="col-md mt-2">
+                <!-- click to enlarge picture -->
+                <img src="images/3.jpg" width="90%" id="pic" data-toggle="modal" data-target="#Modal-1" border="1px solid black">
+                <!-- model -->
+                <div class="modal fade" id="Modal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close mb-2" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="font-size: 35px;">&times;</span>
+                                </button>
+                                <div class="pic-enlarge">
+                                    <img src='images/3.jpg' width="100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Detail Information -->
+            <div class="col-md mt-2">
+                <h3 class="title ml-3">Java程式設計入門 <span style="font-size: 20px; color:slategrey;">(二手書)</span></h3>
+                <div class="author m-3">作者: 洪國勝</div>
+                <div class="general ml-3 mb-4 mr-3">
+                    <div class="publisher mt-2 mb-2">出版社: 旗標</div>
+                    <div class="pubdate mb-2">出版日期: 2018/08/15</div>
+                    <div class="direct-price mb-2">直購價: <span style="color:goldenrod; font-weight:bold;">500</span>元</div>
+                    <div class="cur-price mb-2">目前出價: <span style="font-size: 24px; color: royalblue; font-weight: 500;">300</span>元</div>
+                </div>
+                <div class="seller-info ml-3 mb-5 mr-3">
+                    <div class="seller mt-2 mb-2">賣家: David</div>
+                    <div class="condition mb-2">書況: 良好，無畫線註記</div>
+                </div>
+                <div class="other-options ml-3 mr-3">
+                    其他版本: <span class="p-2 rounded-lg"><a href="#" class="new-book">購買新書</a></span>
+                </div>
+            </div>
+            <!-- Buying Options -->
+            <div class="col-md ml-3">     
+                <div class="bid">
+                    <div style="font-size: 1.2rem; color:slategrey"><i class="bi bi-pencil-square"></i> 參與競標</div>
+                    <form class="form-inline">
+                        <input class="form-control mr-1" type="number" id="bidPrice" min="1" step="10" placeholder="請輸入金額">
+            
+                        <button class="btn btn-warning mt-2" type="submit">我要出價 <i class="bi bi-coin"></i></button>
+                    </form>
+                    <div class="bid-time mt-2"> 
+                        <i class="bi-alarm" style="font-size: 1.2rem; color: grey;"></i> 2022/07/15 0:00:00 結束
+                    </div>
+                </div>
+                <hr>
+                <div class="btn-direct-buy mt-5 text-right">
+                    <span class="align-middle">數量 = 1</span>
+                    <button type="button" class="btn btn-outline-info btn-lg ml-2"> <i class="bi bi-bag-heart-fill"></i> 直接購買</button>
+                </div>    
+            </div>
+        </div>
+        
+
+        <!-- BOOK SUMMERY SECTION -->
+        <hr data-content="內容簡介" class="hr-text">
+        <div class="section-intro row p-3">
+            <div class="content-summary col">
+                <p>大量範例＋實作練習＋遊戲專案, 密集式範例學習最有效！<br>
+                    主題最完整！保證紮穩物件導向程式設計基礎！<br>
+                </p>   
+                 <p>
+                    Java 是目前業界使用最廣泛的程式語言，學習 Java 可說是投資報酬率最高的選擇！作者任教程式設計 30 年，深知學習程式設計的困境，本書不會像坊間程式語言學習書籍一樣，花費大量的篇幅在瑣碎的語法細節，而是介紹關鍵必要的語法，透過大量的範例演練、實作練習，讓初學者從零開始製作繪圖程式、經典電腦遊戲…等範例程式，快速窺見程式設計的奧秘與精髓！
+                 </p>  
+                <ul>
+                    <li>● 關鍵語法與物件導向觀念解說</li>
+                    <li>● 主題最完整：視窗程式設計、影像處理、動畫製作、物件導向、檔案輸出入、公用類別庫</li>
+                    <li>● 專案實作：經典撲克牌遊戲、繪圖程式、樂透開獎程式自己作, 學習不枯燥</li>
+                    <li>● 以簡短範例代替多餘的文字敘述, 並在各主題適時安插自我練習, 以密集式範例學習加深您的學習效果</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- TABLE OF CONTENT SECTION -->
+        <hr data-content="目錄" class="hr-text">
+        <div class="section-intro row p-3">
+            <div class="table-of-content col">
+                <ul>
+                    <li>第1章 概論</li>
+                    <li>第2章 程式的編譯與執行</li>
+                    <li>第3章 基本觀念</li>
+                    <li>第4章 基本輸出入</li>
+                    <li>第5章 決策敘述</li>
+                    <li>第6章 迴圈結構</li>
+                    <li>第7章 陣列</li>
+                    <li>第8章 方法</li>
+                    <li>第9章 類別</li>
+                    <li>第10章 公用類別庫</li>
+                    <li>第11章 例外處理</li>
+                    <li>第12章 檔案</li>
+                    <li>第13章 視窗程式設計</li>
+                    <li>第14章 版面配置</li>
+                    <li>第15章 Swing 元件</li>
+                    <li>第16章 繪圖</li>
+                    <li>第17章 專題製作</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BOOK REVIEW SECTION -->
+        <hr data-content="書籍評論" class="hr-text">
+        <div class="section-review p-4">
+            <div class="review row">
+                <div class="col-md-3">
+                    <p class="customer-name font-weight-bold">Ann</p>
+                    <p class="review-date">2022-6-12</p>
+                </div>
+                <div class="col-md-9">
+                    laborum natus eos hic ad veritatis quia, nulla exercitationem. Accusantium corrupti minus quasi, soluta id cumque!              
+                </div>            
+            </div>
+            <hr>
+    
+            <div class="review row">
+                <div class="col-md-3">
+                    <p class="customer-name font-weight-bold">Brian</p>
+                    <p class="review-date">2022-5-12</p>
+                </div>
+                <div class="col-md-9">
+                    laborum natus eos hic ad veritatis quia, nulla exercitationem. Accusantium corrupti minus quasi, soluta id cumque!              
+                </div>            
+            </div>
+            <hr>
+    
+            <div class="review row">
+                <div class="col-md-3">
+                    <p class="customer-name font-weight-bold">Cara</p>
+                    <p class="review-date">2022-4-18</p>
+                </div>
+                <div class="col-md-9">
+                    laborum natus eos hic ad veritatis quia, nulla exercitationem. Accusantium corrupti minus quasi, soluta id cumque!              
+                </div>            
+            </div>
+            <hr>
+    
+            <div class="review row">
+                <div class="col-md-3">
+                    <p class="customer-name font-weight-bold">Daniel</p>
+                    <p class="review-date">2022-3-15</p>        
+                </div>
+                <div class="col-md-9">
+                    laborum natus eos hic ad veritatis quia, nulla exercitationem. Accusantium corrupti minus quasi, soluta id cumque!              
+                </div>            
+            </div>
+            <hr>
+    
+            <div class="review row">
+                <div class="col-md-3">
+                    <p class="customer-name font-weight-bold">Eason</p>
+                    <p class="review-date">2022-2-18</p>        
+                </div>
+                <div class="col-md-9">
+                    laborum natus eos hic ad veritatis quia, nulla exercitationem. Accusantium corrupti minus quasi, soluta id cumque!              
+                </div>            
+            </div>
+        </div>
+
+        <!-- BOOK RECOMMEND BY CATEGORY SECTION -->
+        <hr data-content="相同類別推薦" class="hr-text">
+        <div class="section-others p-5">
+            <div class="card-deck pt-3">
+                <div class="card">
+                    <img class="card-img-top" src="images/4.jpg" alt="Card image cap">
+                    <div class="card-body"><a href="#"> Java 最強入門邁向頂尖高手之路: 王者歸來 </a></div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="images/5.jpg" alt="Card image cap">
+                    <div class="card-body"> <a href="#"> Java 7 教學手冊 第五版</a> </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="images/6.jpg" alt="Card image cap">
+                    <div class="card-body"> <a href="#"> 最新 Java 程式語言 修訂第七版 </a> </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="images/1.jpg" alt="Card image cap">
+                    <div class="card-body"> <a href="#">深入淺出 Java 程式設計 </a> </div>
+                </div>
+            </div>
+            <div class="read-more text-right"><a href="#">查看更多...</a></div>
+            <img class="god" src="images/Godbless.png" height="500px;" width="500px;"><br>
+        </div>
+        
+        <img class="cs" src="images/cs.png" height="90px;" width="90px;" href="#">
+    </main>
+    
+
+    <!-- footer -->
+    <div class="footer-dark">
+        <footer>
+            <div class="contain">
+                <item>
+                    <h3>商城</h3>
+                        <ul>
+                            <li><a href="#">一般商城</a></li>
+                            <li><a href="#">二手定價商城</a></li>
+                            <li><a href="#">二手競標商城</a></li>
+                        </ul>
+                </item>
+                <item>        
+                    <h3>關於</h3>
+                        <ul>
+                            <li><a href="#">資訊書城</a></li>
+                            <li><a href="#">聯絡方式</a></li>
+                            <li><a href="#">團隊</a></li>
+                        </ul>
+                </item>        
+                <item>              
+                    <h3>緣起</h3>
+                        <p>對於軟體工程師來說，比起網路上發散的資訊，​"書"成了沒日沒夜練功時的好導師。​也因此我們希望能有個以 "書"
+                            為中心的資訊軟體交易平台方便大家買賣及交流，除了提拔你，也​達到多人且重複使用的精神。</p>
+                </item>
+            </div>
+            <p class="copyright">CGA102 TEAM3 © 2022</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+    crossorigin="anonymous"></script>
+
+
+    <script>
+               $("#cart_btn").click(function(){
+                window.open('index.html', '_blank');
+               });
+    </script>
+</body>
+</html>
