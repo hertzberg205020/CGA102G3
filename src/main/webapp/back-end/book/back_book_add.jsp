@@ -28,11 +28,13 @@
     <title>管理後臺</title>
 </head>
 <body>
+
 <header class="header">
     <h1>這邊再麻煩大家寫自己的項目名稱</h1>
 </header>
 <%@include file="/static/template/back_layout_aside.jsp"%>
 <main class="main">
+
     <div id="table_container" class="">
 <%--        回書籍查詢頁面--%>
         <div class="row justify-content-between">

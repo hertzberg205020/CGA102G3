@@ -449,9 +449,9 @@ public class BookDaoImpl implements BookDao {
 
     public static void main(String[] args) {
         // 依主鍵查詢
-//        BookDao bookDao = new BookDaoImpl();
-//        Book book = bookDao.selectByPrimaryKey(1);
-//        System.out.println(book);
+        BookDao bookDao = new BookDaoImpl();
+        Book book = bookDao.selectByPrimaryKey(1);
+        System.out.println(book);
 
         // 查詢全部書籍，每頁12筆
 //        BookDao bookDao = new BookDaoImpl();
