@@ -75,8 +75,18 @@ function showInfo() {
         tbody.append(`未找到符合條件的結果`);
     }
 
-    nextPageBtn.hidden = (_nextPage === -1);
-    prePageBtn.hidden = (curPage <= 1);
+    nextPageBtn.classList.remove('invisible');
+    prePageBtn.classList.remove('invisible');
+
+    nextPageBtn['disabled'] = (_nextPage === -1);
+    prePageBtn['disabled'] = (curPage <= 1);
+
+    if (_nextPage === -1) {
+        nextPageBtn.classList.add('invisible');
+    }
+    if (curPage <= 1) {
+        prePageBtn.classList.add('invisible');
+    }
 }
 
 function init() {

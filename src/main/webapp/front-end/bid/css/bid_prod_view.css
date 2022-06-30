@@ -20,3 +20,7 @@ main.main {
     min-height: 75vh;
 }
 
+.invisible {
+    visibility: hidden;
+}
+

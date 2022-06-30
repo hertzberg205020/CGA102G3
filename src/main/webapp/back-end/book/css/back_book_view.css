@@ -19,3 +19,7 @@ h4 {
 header.header{
     z-index: 10;
 }
+
+.invisible {
+    visibility: hidden;
+}

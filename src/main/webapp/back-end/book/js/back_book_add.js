@@ -9,6 +9,7 @@ const uploadImg = document.querySelector('#uploadImg');
 const publisher = document.querySelector('#publisher');
 const translator = document.querySelector('#translator');
 const prefix = document.querySelector('#prefix').value;
+const fieldset = document.querySelector('fieldset ');
 
 
 const status = {'ISBN': false, 'edition': false, title: false, author: false};
@@ -121,6 +122,29 @@ function chkPass() {
     submit_btn['disabled'] = false;
 }
 
+function sendFormData(res) {
+    const bookData = new FormData(form);
+    $.ajax({
+        type: 'POST',
+        url: `${prefix}/book/edit`,
+        data: bookData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            const {err, msg} = {...response};
+            res['err'] = err;
+            fieldset['disabled'] = true;
+            submit_btn['disabled'] = true;
+        },
+        error: function (thrownError) {
+            console.log(thrownError);
+        }
+    });
+}
+
+
 /**
  * 初始化各式綁定事件
  */
@@ -139,16 +163,36 @@ function init() {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    swal("已成功建立此書籍資訊", {
-                        icon: "success",
-                    });
+                    // form.submit();
                     // 送出資料
-                    form.submit();
+                    let res = {err: true};
+                    sendFormData(res);
+                    if (!res['err']) {
+                        swal({
+                            position: 'top',
+                            icon: 'success',
+                            title: '資料新增成功',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        swal({
+                            title: "新增失敗",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
+                    }
+
                 } else {
-                    swal("未新增任何訊息");
+                    swal({
+                        title: "未新增任額資訊",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    });
                 }
             });
-
     });
 
     function editionDuplicatedHint() {
@@ -316,7 +360,7 @@ function init() {
 
     // 檔案上傳時顯示上傳圖片的檔名
     $('#uploadImg').change(function (e) {
-        $('.custom-file-label').html(e.target.files[0].name);
+        $('.custom-file-label').html(e.target.files[e.target.files.length - 1].name);
     });
 
     getCategories();

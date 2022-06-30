@@ -8,6 +8,7 @@ package com.cga102g3.web.book.controller;
 
 
 import com.cga102g3.core.controller.PostBaseServlet;
+import com.cga102g3.core.pojo.ErrMsg;
 import com.cga102g3.core.util.WebUtils;
 import com.cga102g3.web.book.entity.Book;
 import com.cga102g3.web.book.service.BookService;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,7 +56,7 @@ public class BookEditServletPost extends PostBaseServlet {
         Map<String, String[]> parameterMap = BookEditParamUtil.handleParams(request.getParameterMap());
 
         Book book = WebUtils.copyParams2Bean(parameterMap, new Book());
-
+        System.out.println(book);
         // 請求參數驗證方法
         Set<String> errMsgs = BookEditParamUtil.chkInsertBookParams(book);
         if (!errMsgs.isEmpty()) {
@@ -69,7 +71,10 @@ public class BookEditServletPost extends PostBaseServlet {
         PrintWriter out = response.getWriter();
         if (res) {
             // 跳轉去查全部頁面
-            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
+//            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
+            ErrMsg errMsg = new ErrMsg();
+            errMsg.setErr(false);
+            writePojo2Json(response, errMsg);
         } else {
             // 正常操作不會到這
             out.println("fail");

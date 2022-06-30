@@ -88,7 +88,7 @@
             </div>
 
             <div class="row justify-content-around mt-2">
-                <button type="button" class="btn btn-outline-dark" id="prePageBtn" hidden>上一頁</button>
+                <button type="button" class="btn btn-outline-dark" id="prePageBtn" disabled>上一頁</button>
                 <button type="button" class="btn btn-outline-dark" id="nextPageBtn">下一頁</button>
             </div>
         </div>
