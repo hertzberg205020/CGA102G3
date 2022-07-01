@@ -1,0 +1,11 @@
+#detail {
+    border: 1px solid gray;
+    margin-left: 30%;
+    margin-top: 20px;
+}
+#detail td {
+    background-color: #adc0b3;
+}
+#detail th {
+    background-color: #678F74;
+}

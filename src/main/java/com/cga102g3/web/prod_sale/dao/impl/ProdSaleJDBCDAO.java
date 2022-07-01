@@ -2,6 +2,7 @@ package com.cga102g3.web.prod_sale.dao.impl;
 
 import java.util.*;
 
+import com.cga102g3.core.util.JDBCUtil;
 import com.cga102g3.web.prod_sale.dao.ProdSaleDAO_interface;
 import com.cga102g3.web.prod_sale.entity.ProdSaleVO;
 
@@ -156,8 +157,8 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 			}
 		}
 	}
-	
-	
+
+
 	@Override
 	public ProdSaleVO findByPrimaryKey(Integer saleID, Integer prodID) {
 
@@ -219,7 +220,7 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 		}
 		return prodsaleVO;
 	}
-	
+
 	@Override
 	public List<ProdSaleVO> getAll() {
 		List<ProdSaleVO> list = new ArrayList<ProdSaleVO>();
@@ -277,12 +278,92 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 		}
 		return list;
 	}
-	
-	
+
+	/**
+	 * @description: 同時新增促銷專案及產品
+	 * @param: [prodSaleVO, con]
+	 * @return: void
+	 * @auther: Luke
+	 * @date: 2022/06/29 10:54:54
+	 */
+	@Override
+	public void insert2(ProdSaleVO prodSaleVO, Connection con) {
+		PreparedStatement ps = null;
+		final String sql = "INSERT INTO prod_sale (sale_ID, prod_ID, sale_price) VALUES (?, ?, ?)";
+		System.out.println("dao");
+		try {
+			System.out.println("dao2");
+			ps = con.prepareStatement(sql);
+			ps.setInt(1,prodSaleVO.getSaleID());
+			ps.setInt(2,prodSaleVO.getProdID());
+			ps.setInt(3,prodSaleVO.getSalePrice());
+			ps.executeUpdate();
+			System.out.println("dao3");
+		} catch (SQLException se) {
+			if (con != null) {
+				try {
+					// 3●設定於當有exception發生時之catch區塊內
+					System.err.print("Transaction is being ");
+					System.err.println("rolled back-由-ProdSale");
+					con.rollback();
+				} catch (SQLException excep) {
+					throw new RuntimeException("rollback error occured. "
+							+ excep.getMessage());
+				}
+			}
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		}finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	/**
+	 * @description: 利用saleID返回單一ProdSaleVO
+	 * @param: [saleID]
+	 * @return: com.cga102g3.web.prod_sale.entity.ProdSaleVO
+	 * @auther: Luke
+	 * @date: 2022/07/01 10:57:45
+	 */
+	@Override
+	public List<ProdSaleVO> getBySaleID(Integer saleID) {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<ProdSaleVO> list = new ArrayList<>();
+		final String sql = "SELECT * FROM bookstore.prod_sale where sale_ID=?;";
+		try {
+			con = JDBCUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1,saleID);
+			rs = ps.executeQuery();
+			while (rs.next()){
+				ProdSaleVO prodSaleVO = new ProdSaleVO();
+				prodSaleVO.setSaleID(rs.getInt("sale_ID"));
+				prodSaleVO.setProdID(rs.getInt("prod_ID"));
+				prodSaleVO.setSalePrice(rs.getInt("sale_price"));
+				list.add(prodSaleVO);
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
+		}finally {
+			JDBCUtil.close(con,ps,rs);
+		}
+		return list;
+	}
+
+
 	public static void main(String[] args) {
 
 		ProdSaleJDBCDAO dao = new ProdSaleJDBCDAO();
-		
+
 		// �s�W
 //		ProdSaleVO prodsaleVO1 = new ProdSaleVO();
 //		prodsaleVO1.setSaleID(4);
@@ -307,12 +388,14 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 //		System.out.println("Price = " +prodsaleVO3.getSalePrice() + ".");
 
 		// �d��2
-		List<ProdSaleVO> list = dao.getAll();
-		for (ProdSaleVO aProdSale : list) {
-			System.out.print("SaleID = " + aProdSale.getSaleID() + ",");
-			System.out.print("ProdID = " +aProdSale.getProdID() + ",");
-			System.out.print("Price = " +aProdSale.getSalePrice() + ".");
-			System.out.println();
-		}
+//		List<ProdSaleVO> list = dao.getAll();
+//		for (ProdSaleVO aProdSale : list) {
+//			System.out.print("SaleID = " + aProdSale.getSaleID() + ",");
+//			System.out.print("ProdID = " +aProdSale.getProdID() + ",");
+//			System.out.print("Price = " +aProdSale.getSalePrice() + ".");
+//			System.out.println();
+//		}
+		List<ProdSaleVO> list = dao.getBySaleID(13);
+		System.out.println(list);
 	}
 }

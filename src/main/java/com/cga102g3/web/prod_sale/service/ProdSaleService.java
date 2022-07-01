@@ -45,4 +45,5 @@ public class ProdSaleService {
 		return dao.getAll();
 	}
 
+	public List<ProdSaleVO> getBySaleID(Integer saleID){return dao.getBySaleID(saleID);}
 }

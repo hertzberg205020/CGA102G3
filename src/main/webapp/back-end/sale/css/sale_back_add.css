@@ -1,0 +1,70 @@
+
+/* style for main section */
+.table td {
+    border-top: transparent;
+    text-align: center;
+}
+
+.table th {
+    border-top: transparent;
+}
+
+thead {
+    vertical-align: bottom;
+    height: 36px;
+}
+
+thead tr th {
+    text-align: center;
+    color: gray;
+    background-color: wheat;
+}
+
+tbody tr th {
+    text-align: center;
+    color: steelblue;
+    border-left: 0.5px solid gainsboro;
+}
+
+/* .last-row {
+    border-bottom: 1px solid gainsboro;
+} */
+.last-col {
+    border-right: 1px solid gainsboro;
+}
+
+tbody {
+    border-bottom: 1px solid gainsboro;
+}
+
+.bi-book {
+    color: goldenrod;
+    font-size: 18px;
+}
+
+.bi-pencil-fill {
+    color: darkgreen;
+}
+
+button.btn-outline-success {
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 1.2rem;
+    border-bottom-left-radius: 1.2rem;
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+}
+
+.page-item .page-link:hover {
+    background-color: wheat;
+}
+
+input.bid-input {
+    display: inline;
+}
