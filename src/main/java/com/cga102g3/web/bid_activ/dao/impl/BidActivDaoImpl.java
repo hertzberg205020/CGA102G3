@@ -276,7 +276,7 @@ public class BidActivDaoImpl implements BidActivDao {
                 "WHERE\n" +
                 "    NOW() BETWEEN bid_start AND bid_end\n" +
                 "    AND bid_prod_stat = 2\n" +
-                "    AND LOWER(b.title) REGEXP CONCAT(LOWER(?))\n" +
+                "    AND LOWER(b.title) LIKE CONCAT('%', LOWER(?), '%')\n" +
                 "ORDER BY bp.bid_id\n" +
                 "LIMIT ?, ?;";
 
@@ -412,10 +412,11 @@ public class BidActivDaoImpl implements BidActivDao {
 
         // sql
 //        System.out.println(bidActivDao.selectAllBidInfo(1));
-//        System.out.println(bidActivDao.selectBidInfoByTitle("C", 1));
+//        List<Map<String, Object>> maps = bidActivDao.selectBidInfoByTitle("c", 1);
+//        maps.forEach(e -> System.out.println(e.get("title")));
 //        System.out.println(bidActivDao.selectBidInfoByISBN("9787121408564", 1));
-        List<Map<String, Object>> maps = bidActivDao.selectBidInfoByISBN("9789864761760", 1);
-        System.out.println(maps);
+//        List<Map<String, Object>> maps = bidActivDao.selectBidInfoByISBN("9789864761760", 1);
+//        System.out.println(maps);
         // 關閉連接池
         JedisPoolUtil.shutdownJedisPool();
     }

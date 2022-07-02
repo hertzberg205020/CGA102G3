@@ -87,10 +87,10 @@ function showInfo(data) {
                     <td>${bidInfo.bidPrice}</td>
                     <td class="bookTitle">${bidInfo.title}</td>
                     <td>${bidInfo.bidShipStat}</td>
-                    <td><button class="btn btn-sm chk_btn">貨到確認</button></td>
+                    <td><button class="btn btn-sm chk_btn" id="${bidInfo.bidOrderID}">貨到確認</button></td>
                 </tr>
             `);
-            $('.chk_btn').click(async function () {
+            $(`#${bidInfo.bidOrderID}`).click(async function () {
                 $(this).parent().prev().text('已送達');
                 // 發送ajax請求，變更訂單狀態
                 await(
