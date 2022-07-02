@@ -113,7 +113,10 @@ public class BookEditServletPost extends PostBaseServlet {
         PrintWriter out = response.getWriter();
         if (res) {
             // 跳轉去查全部頁面
-            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
+//            response.sendRedirect(request.getContextPath() + "/back-end/book/back_book_view.jsp");
+            ErrMsg errMsg = new ErrMsg();
+            errMsg.setErr(false);
+            writePojo2Json(response, errMsg);
         } else {
             // 正常操作不會到這
             out.println("fail");

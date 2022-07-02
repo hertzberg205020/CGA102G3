@@ -142,7 +142,7 @@
 
 </main>
 <!-- Jquery -->
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- datetimepicker-->
 <%--<script src="${pageContext.request.contextPath}/datetimepicker/jquery.js"></script>--%>
 <script src="${pageContext.request.contextPath}/static/datetimepicker/jquery.datetimepicker.full.js"></script>

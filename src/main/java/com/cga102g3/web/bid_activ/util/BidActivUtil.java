@@ -14,17 +14,28 @@ import java.util.List;
  */
 public class BidActivUtil {
     public static BidActiv fromBidProd2BidActiv(BidProd bidProd) {
-        return new BidActiv(
-               "bidActiv:" + bidProd.getBidID(),
-                bidProd.getBidID(),
-                bidProd.getBookID(),
-                bidProd.getStartPrice() != null ? bidProd.getStartPrice() : 0,
-                "bidActiv:" + bidProd.getBidID() + ":rec",
-                bidProd.getBidStart().getTime(),
-                bidProd.getBidEnd().getTime(),
-                bidProd.getBidDirectPrice()
-        );
+//        return new BidActiv(
+//               "bidActiv:" + bidProd.getBidID(),
+//                bidProd.getBidID(),
+//                bidProd.getBookID(),
+//                bidProd.getStartPrice() != null ? bidProd.getStartPrice() : 0,
+//                "bidActiv:" + bidProd.getBidID() + ":rec",
+//                bidProd.getBidStart().getTime(),
+//                bidProd.getBidEnd().getTime(),
+//                bidProd.getBidDirectPrice()
+//        );
+        return new BidActiv.Builder()
+                .setBidActivID("bidActiv:" + bidProd.getBidID())
+                .setBidID(bidProd.getBidID())
+                .setBookID(bidProd.getBookID())
+                .setStartPrice(bidProd.getStartPrice() != null ? bidProd.getStartPrice() : 0)
+                .setZsetKey4Recs("bidActiv:" + bidProd.getBidID() + ":rec")
+                .setBidStart(bidProd.getBidStart().getTime())
+                .setBidEnd(bidProd.getBidEnd().getTime())
+                .setBidDirectPrice(bidProd.getBidDirectPrice())
+                .build();
     }
+
     public static List<BidActiv> fromBidProd2BidActiv(List<BidProd> bidProds) {
         List<BidActiv> activities = new ArrayList<>();
         for (BidProd bidProd :

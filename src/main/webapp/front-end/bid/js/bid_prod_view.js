@@ -78,7 +78,7 @@ function showInfo() {
 
     }
     if (bidInfoList.length === 0) {
-        tbody.append(`未找到符合條件的結果`);
+        tbody.append(`<th colspan="6" style="color: palevioletred">未找到符合條件的結果</th>>`);
     }
 
     nextPageBtn.classList.remove('invisible');

@@ -226,15 +226,15 @@ public class BidActivDaoImpl implements BidActivDao {
     public List<Map<String, Object>> selectBidInfoByISBN(String ISBN, int page) {
         final String sql =
                 "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end\n" +
-                        "FROM bid_prod AS bp\n" +
-                        "         JOIN book AS b\n" +
-                        "                ON bp.bid_id = b.book_ID\n" +
-                        "WHERE\n" +
-                        "    NOW() BETWEEN bid_start AND bid_end\n" +
-                        "    AND bid_prod_stat = 2\n" +
-                        "    AND b.ISBN = ?\n" +
-                        "ORDER BY bp.bid_id\n" +
-                        "LIMIT ?, ?;";
+                "FROM bid_prod AS bp\n" +
+                "         JOIN book AS b\n" +
+                "                ON bp.book_id = b.book_ID\n" +
+                "WHERE\n" +
+                "    NOW() BETWEEN bid_start AND bid_end\n" +
+                "    AND bid_prod_stat = 2\n" +
+                "    AND b.ISBN = ?\n" +
+                "ORDER BY bp.bid_id\n" +
+                "LIMIT ?, ?;";
 
         List<Map<String, Object>> bidInfoList = null;
 
@@ -272,7 +272,7 @@ public class BidActivDaoImpl implements BidActivDao {
                 "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end\n" +
                 "FROM bid_prod AS bp\n" +
                 "         JOIN book AS b\n" +
-                "                ON bp.bid_id = b.book_ID\n" +
+                "                ON bp.book_id = b.book_ID\n" +
                 "WHERE\n" +
                 "    NOW() BETWEEN bid_start AND bid_end\n" +
                 "    AND bid_prod_stat = 2\n" +
@@ -414,7 +414,8 @@ public class BidActivDaoImpl implements BidActivDao {
 //        System.out.println(bidActivDao.selectAllBidInfo(1));
 //        System.out.println(bidActivDao.selectBidInfoByTitle("C", 1));
 //        System.out.println(bidActivDao.selectBidInfoByISBN("9787121408564", 1));
-
+        List<Map<String, Object>> maps = bidActivDao.selectBidInfoByISBN("9789864761760", 1);
+        System.out.println(maps);
         // 關閉連接池
         JedisPoolUtil.shutdownJedisPool();
     }

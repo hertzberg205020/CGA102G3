@@ -9,7 +9,7 @@ const uploadImg = document.querySelector('#uploadImg');
 const publisher = document.querySelector('#publisher');
 const translator = document.querySelector('#translator');
 const prefix = document.querySelector('#prefix').value;
-const fieldset = document.querySelector('fieldset ');
+const fieldset = document.querySelector('fieldset');
 
 
 const status = {'ISBN': false, 'edition': false, title: false, author: false};
@@ -172,8 +172,8 @@ function init() {
                             position: 'top',
                             icon: 'success',
                             title: '資料新增成功',
-                            showConfirmButton: false,
-                            timer: 1500
+                            button: false,
+                            timer: 2000
                         });
                     } else {
                         swal({

@@ -1,4 +1,5 @@
-package com.cga102g3.web.bid_activ.listener; /**
+package com.cga102g3.web.bid_activ.listener;
+/**
  * @Description
  * @Author Robert
  * @Version
@@ -26,7 +27,7 @@ public class BidActivitiesSchedulingListener implements ServletContextListener {
         BidActivitiesSchedulingService service = new BidActivitiesSchedulingServiceImpl();
         // 建立競拍活動排程器
         this.timer = new Timer();
-        GregorianCalendar cal = new GregorianCalendar(2022, Calendar.JUNE, 29, 11, 41, 0);
+        GregorianCalendar cal = new GregorianCalendar(2022, Calendar.JULY, 2, 21, 10, 0);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {

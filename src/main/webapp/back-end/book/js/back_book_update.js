@@ -11,6 +11,7 @@ const preCategory = document.querySelector('#preCategory');
 const publisher = document.querySelector('#publisher');
 const translator = document.querySelector('#translator');
 const prefix = document.querySelector('#prefix').value;
+const fieldset = document.querySelector('fieldset');
 
 
 const status = {'ISBN': true, 'edition': true, title: true, author: true};
@@ -123,6 +124,26 @@ function chkPass() {
     submit_btn['disabled'] = false;
 }
 
+function sendFormData(res) {
+    const bookData = new FormData(form);
+    $.ajax({
+        type: 'POST',
+        url: `${prefix}/book/edit`,
+        data: bookData,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            const {err, msg} = {...response};
+            res['err'] = err;
+        },
+        error: function (thrownError) {
+            console.log(thrownError);
+        }
+    });
+}
+
 /**
  * 初始化各式綁定事件
  */
@@ -156,16 +177,36 @@ function init() {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    swal("已成功建立此書籍資訊", {
-                        icon: "success",
-                    });
+                    // form.submit();
                     // 送出資料
-                    form.submit();
+                    let res = {err: true};
+                    sendFormData(res);
+                    if (!res['err']) {
+                        swal({
+                            position: 'top',
+                            icon: 'success',
+                            title: '資料新增成功',
+                            button: false,
+                            timer: 2000
+                        });
+                    } else {
+                        swal({
+                            title: "新增失敗",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        });
+                    }
+
                 } else {
-                    swal("未新增任何訊息");
+                    swal({
+                        title: "未新增任額資訊",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    });
                 }
             });
-
     });
 
     function editionDuplicatedHint() {
@@ -219,7 +260,7 @@ function init() {
         // 用ajax檢視資料庫中是否有有相同isbn編號的書籍，在editions中添加版次
         $.ajax({
             type: 'GET',
-            url: `/bookmall/book/api/getEditionsByISBNExclID?ISBN=${ISBN.value}&bookID=${bookID.value}`,
+            url: `${prefix}/book/api/getEditionsByISBNExclID?ISBN=${ISBN.value}&bookID=${bookID.value}`,
             dataType: 'json',
             async: false,
             success: function (response) {
@@ -234,9 +275,9 @@ function init() {
 
 
         // 提示資料庫中存有的版次
+        const edition_classList = edition.classList;
         edition_classList.remove('is-valid');
         edition_classList.remove('is-invalid');
-        const edition_classList = edition.classList;
         if (editions.indexOf(parseInt(edition.value)) !== -1) {
             // 移除許可
             editionDuplicatedHint();

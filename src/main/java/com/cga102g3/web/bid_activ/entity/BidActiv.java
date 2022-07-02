@@ -34,6 +34,74 @@ public class BidActiv {
         this.bidDirectPrice = bidDirectPrice;
     }
 
+    private BidActiv(BidActiv.Builder builder) {
+        bidActivID = builder.bidActivID;
+        bidID = builder.bidID;
+        bookID = builder.bookID;
+        startPrice = builder.startPrice;
+        zsetKey4Recs = builder.zsetKey4Recs;
+        bidStart = builder.bidStart;
+        bidEnd = builder.bidEnd;
+        bidDirectPrice = builder.bidDirectPrice;
+    }
+
+    public static class Builder {
+        private String bidActivID = "";
+        private Integer bidID = 0;
+        private Integer bookID = 0;
+        private Integer startPrice = 0;
+        private String zsetKey4Recs = "";
+        private long bidStart = 0L;
+        private long bidEnd = 0L;
+        private Integer bidDirectPrice = 0;
+
+
+
+        public Builder setBidActivID(String bidActivID) {
+            this.bidActivID = bidActivID;
+            return this;
+        }
+
+        public Builder setBidID(Integer bidID) {
+            this.bidID = bidID;
+            return this;
+        }
+
+        public Builder setBookID(Integer bookID) {
+            this.bookID = bookID;
+            return this;
+        }
+
+        public Builder setStartPrice(Integer startPrice) {
+            this.startPrice = startPrice;
+            return this;
+        }
+
+        public Builder setZsetKey4Recs(String zsetKey4Recs) {
+            this.zsetKey4Recs = zsetKey4Recs;
+            return this;
+        }
+
+        public Builder setBidStart(long bidStart) {
+            this.bidStart = bidStart;
+            return this;
+        }
+
+        public Builder setBidEnd(long bidEnd) {
+            this.bidEnd = bidEnd;
+            return this;
+        }
+
+        public Builder setBidDirectPrice(Integer bidDirectPrice) {
+            this.bidDirectPrice = bidDirectPrice;
+            return this;
+        }
+
+        public BidActiv build() {
+            return new BidActiv(this);
+        }
+    }
+
     public String getBidActivID() {
         return bidActivID;
     }

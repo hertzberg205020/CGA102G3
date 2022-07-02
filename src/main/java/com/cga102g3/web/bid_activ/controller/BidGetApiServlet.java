@@ -226,7 +226,7 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
         response.setCharacterEncoding("utf-8");
         Map<String, Object> res = bidGameService.getBooksByKeyword(keyword, page);
 //        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-
+        System.out.println(res.get("data"));
         writePojo2Json(response, res);
     }
 

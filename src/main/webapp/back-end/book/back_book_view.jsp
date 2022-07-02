@@ -97,7 +97,7 @@
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Jquery -->
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- bootstrap JS-->
 <script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 <!-- 模板的JS -->

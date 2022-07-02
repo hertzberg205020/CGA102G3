@@ -43,19 +43,18 @@
     <div id="table_container" class="">
         <%--        回書籍查詢頁面--%>
 
-        <form class="align-items-start form-row" method="post" enctype="multipart/form-data"
-              action="${pageContext.request.contextPath}/book/edit">
-
+        <form class="align-items-start form-row">
             <fieldset class="form-row">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" id="preCategory" value="${book.categoryName}">
                 <input type="hidden" id="prefix" value="${pageContext.request.contextPath}">
-                <input  id="prePubdate" name="pubdate" type="hidden" value="${book.pubdate}"/>
+                <input id="prePubdate" name="pubdate" type="hidden" value="${book.pubdate}"/>
                 <%--            <input type="hidden" name="action" value="${book.bookID}">--%>
 
                 <div class="form-group col-12 row" style="width: 100%">
                     <label for="bookID" class="col-2 col-form-label">書目編號</label>
-                    <input type="text" id="bookID" name="bookID" value="${book.bookID}" class="col-8 form-control-plaintext" readonly>
+                    <input type="text" id="bookID" name="bookID" value="${book.bookID}"
+                           class="col-8 form-control-plaintext" readonly>
                     <button type="button" class="btn btn-outline-secondary ml-auto"
                             onclick="javascript:location.href='${pageContext.request.contextPath}/back-end/book/back_book_view.jsp'">
                         返回查詢
@@ -66,14 +65,16 @@
 
                 <div class="form-group col-6">
                     <label for="title">書名</label>
-                    <input type="text" id="title" name="title" class="form-control is-valid" placeholder="請輸入書名" required
+                    <input type="text" id="title" name="title" class="form-control is-valid" placeholder="請輸入書名"
+                           required
                            value="${book.title}">
                     <div class="invalid-feedback">必提項目</div>
                     <div class="valid-feedback"></div>
                 </div>
                 <div class="form-group col-6">
                     <label for="ISBN">ISBN-13</label>
-                    <input type="text" id="ISBN" name="ISBN" class="form-control is-valid" placeholder="ISBN-13" required
+                    <input type="text" id="ISBN" name="ISBN" class="form-control is-valid" placeholder="ISBN-13"
+                           required
                            value="${book.ISBN}">
                     <div class="invalid-feedback">必提項目</div>
                     <div class="valid-feedback"></div>
@@ -99,7 +100,8 @@
 
                 <div class="form-group col-6">
                     <label for="author">書籍作者</label>
-                    <input type="text" class="form-control is-valid" id="author" name="author" placeholder="請輸入作者" required
+                    <input type="text" class="form-control is-valid" id="author" name="author" placeholder="請輸入作者"
+                           required
                            value="${book.author}">
                     <div class="invalid-feedback">必填項目</div>
                     <div class="valid-feedback"></div>
@@ -117,12 +119,13 @@
                 <div class="form-group col-6">
                     <label class="control-label" for="pubdate">出版日期</label>
                     <%--                <input class="form-control" id="pubDate" name="pubdate" placeholder="YYYY/MM/DD" type="date" max="9999-12-31"/>--%>
-                    <input class="form-control" id="pubdate" name="pubdate" type="text" />
+                    <input class="form-control" id="pubdate" name="pubdate" type="text"/>
                 </div>
 
                 <div class="form-group col-12">
                     <label for="summary">簡介</label>
-                    <textarea class="form-control" id="summary" name="summary" rows="8" value="">${book.summary}</textarea>
+                    <textarea class="form-control" id="summary" name="summary" rows="8"
+                              value="">${book.summary}</textarea>
                 </div>
 
                 <div class="form-group col-12">
@@ -145,19 +148,19 @@
                 </div>
 
                 <div class="form-group col-12 justify-content-center row" id="img_container">
-                    <img src="${pageContext.request.contextPath}/static/images/books/${book.bookID}.jpg" id="fileImg" class="">
+                    <img src="${pageContext.request.contextPath}/static/images/books/${book.bookID}.jpg" id="fileImg"
+                         class="">
                     <input type="hidden" value="${pageContext.request.getRealPath("/static/images/books/42.jpg")}">
                 </div>
 
-                <button class="btn btn-primary ml-auto mr-1" type="submit" id="submit_btn">Submit form</button>
+                <button class="btn btn-primary ml-auto mr-1" type="button" id="submit_btn">Submit form</button>
             </fieldset>
-
         </form>
     </div>
 
 </main>
 <!-- Jquery -->
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- datetimepicker-->
 <%--<script src="${pageContext.request.contextPath}/datetimepicker/jquery.js"></script>--%>
 <script src="${pageContext.request.contextPath}/static/datetimepicker/jquery.datetimepicker.full.js"></script>

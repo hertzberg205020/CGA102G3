@@ -5,13 +5,16 @@ package com.cga102g3.web.bid_order.dao.impl;
 import com.cga102g3.core.util.JDBCUtil;
 import com.cga102g3.web.bid_order.dao.BidOrderDao;
 import com.cga102g3.web.bid_order.entity.BidOrder;
+import com.cga102g3.web.bid_order.entity.BidOrderStat;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -168,6 +171,60 @@ public class BidOrderDaoImpl implements BidOrderDao {
     }
 
     /**
+     * 依據mbrID選取會員競標訂單訊息
+     * @param mbrID
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> selectByMbrID(Integer mbrID) {
+        final String sql =
+                "SELECT bo.bid_order_ID, bo.bid_ID, bo.bid_price, bo.bid_order_date, bo.bid_ship_stat, b.title\n" +
+                "FROM bid_order AS bo\n" +
+                "        JOIN bid_prod AS bp\n" +
+                "            ON bo.bid_ID = bp.bid_id\n" +
+                "        JOIN book AS b\n" +
+                "            ON bp.book_id = b.book_ID\n" +
+                "WHERE bo.mbr_ID = ?;";
+        List<Map<String, Object>> bidOrderInfo = new ArrayList<>();
+        try(Connection conn = JDBCUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setInt(1, mbrID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> bidOrderInfoRec = new HashMap<>();
+                bidOrderInfoRec.put("bidOrderID", rs.getInt("bid_order_ID"));
+                bidOrderInfoRec.put("bidID", rs.getInt("bid_ID"));
+                bidOrderInfoRec.put("bidPrice", rs.getInt("bid_price"));
+                bidOrderInfoRec.put("bidOrderDate", rs.getTimestamp("bid_order_date").getTime());
+                BidOrderStat bidShipStat = convert(rs.getInt("bid_ship_stat"));
+                bidOrderInfoRec.put("bidShipStat", bidShipStat.getStat());
+                bidOrderInfoRec.put("title", rs.getString("title"));
+                bidOrderInfo.add(bidOrderInfoRec);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bidOrderInfo;
+    }
+
+    @Override
+    public int updateStat2Delivered(Integer bidOrderID) {
+        final String sql =
+                "UPDATE bid_order\n" +
+                "SET bid_ship_stat = 2\n" +
+                "where bid_order_ID = ?;";
+        try(Connection conn = JDBCUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            pstmt.setInt(1, bidOrderID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
      * 依會員編號查詢競標商品訂單，每頁12筆資料
      * @param mbrID
      * @param page
@@ -259,6 +316,18 @@ public class BidOrderDaoImpl implements BidOrderDao {
         }
         return list;
     }
+    private BidOrderStat convert(int statCode) {
+        switch (statCode) {
+            case 0:
+                return BidOrderStat.PICKING;
+            case 1:
+                return  BidOrderStat.IN_TRANSIT;
+            case 2:
+                return BidOrderStat.DELIVERED;
+            default:
+                return BidOrderStat.ERROR;
+        }
+    }
 
     public static void main(String[] args) {
 //        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
@@ -290,6 +359,15 @@ public class BidOrderDaoImpl implements BidOrderDao {
 //        bidOrder.setPaySeller(true);
 //        bidOrder.setBidShipStat(1);
 //        bidOrderDao.update(bidOrder);
+
+//        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
+//        List<Map<String, Object>> maps = bidOrderDao.selectByMbrID(1);
+//        maps.forEach(e -> {
+//            System.out.println(e.get("bidID"));
+//        });
+
+        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
+        bidOrderDao.updateStat2Delivered(5);
 
     }
 }
