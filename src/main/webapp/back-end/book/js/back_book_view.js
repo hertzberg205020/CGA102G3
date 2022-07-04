@@ -52,6 +52,61 @@ function showInfo() {
     // 清理畫面
     tbody.empty();
     for (const book of books) {
+        let tableContentArr = book['tableContent']?.split(/[\n(\r\n)]/g);
+        let summaryArr = book['summary']?.split(/[\n(\r\n)]/g);
+        $('#modal_container').append(`
+            <div class="modal fade" id=Modal${book.bookID}>
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5>${book.title}</h5>
+                                <button class="close" data-dismiss="modal">
+                                    <span>&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>簡介</h5>
+                                <hr/>
+                                <div id=summary${book.bookID}></div>
+                                <h5 class="mt-5">目錄</h5>
+                                <hr/>
+                                <div id=tableContain${book.bookID}></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        `);
+        if (tableContentArr !== undefined && tableContentArr.length !== 1) {
+            for (const line of tableContentArr) {
+                if (line.trim().length !== 0) {
+                    $(`#tableContain${book.bookID}`).append(
+                        `${line}<br/>`
+                    );
+                }
+            }
+        } else {
+            $(`#tableContain${book.bookID}`).append(
+                `尚未填寫任何資訊<br/>`
+            );
+        }
+
+        if (summaryArr !== undefined && summaryArr.length !== 1) {
+            for (const line of summaryArr) {
+                if (line.trim().length !== 0) {
+                    $(`#summary${book.bookID}`).append(
+                        `${line}<br/>`
+                    );
+                }
+            }
+        } else {
+            $(`#summary${book.bookID}`).append(
+                `尚未填寫任何資訊<br/>`
+            );
+        }
+
         tbody.append(`
              <tr>
                 <th scope="row">${book.bookID}</th>
@@ -61,7 +116,7 @@ function showInfo() {
                 <td>${book.title}</td>
                 <td>${book.categoryName}</td>
                 <td>
-                    <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-primary" data-target=#Modal${book.bookID} data-toggle="modal"><i class="far fa-eye"></i></button>
                     <button type="button" class="btn btn-success" 
                         onclick="javascript:location.href='${prefix}/book/update/getOneForUpdate?bookID=${book.bookID}'">
                         <i class="fas fa-edit"></i>

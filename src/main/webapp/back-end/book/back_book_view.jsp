@@ -84,6 +84,7 @@
 <%--                        </tr>--%>
                         </tbody>
                     </table>
+                    <div id="modal_container"></div>
                 </div>
             </div>
 
