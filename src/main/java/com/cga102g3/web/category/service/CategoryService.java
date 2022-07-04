@@ -3,6 +3,7 @@ package com.cga102g3.web.category.service;
 import com.cga102g3.web.category.entity.Category;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -12,4 +13,5 @@ import java.util.List;
  */
 public interface CategoryService {
     List<Category> getAll();
+    List<Map<String, Object>> getALL();
 }

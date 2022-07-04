@@ -6,6 +6,7 @@ import com.cga102g3.web.bid_order.entity.BidOrder;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +18,16 @@ import java.util.Map;
  */
 public interface BidOrderDao extends CoreDao<BidOrder, Integer> {
     List<BidOrder> selectByMbrID(Integer mbrID, Integer page);
+
 //    List<BidOrder> selectByPaySeller(Boolean paySeller, Integer page);
     List<BidOrder> selectAll(Integer page);
     int insert(Connection conn, BidOrder bidOrder) throws SQLException;
     List<Map<String, Object>> selectByMbrID(Integer mbrID);
     int updateStat2Delivered(Integer bidOrderID);
+
+    List<BidOrder> selectByOrderDate(Timestamp startDate, Timestamp endDate);
+    List<BidOrder> selectNewOrder();
+    List<BidOrder> selectShipStat(Integer bidShipStat);
+    int updateShipped(Integer bidOrderID);
+
 }

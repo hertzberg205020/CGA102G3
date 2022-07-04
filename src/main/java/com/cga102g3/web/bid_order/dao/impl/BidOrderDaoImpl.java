@@ -7,10 +7,7 @@ import com.cga102g3.web.bid_order.dao.BidOrderDao;
 import com.cga102g3.web.bid_order.entity.BidOrder;
 import com.cga102g3.web.bid_order.entity.BidOrderStat;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -327,6 +324,115 @@ public class BidOrderDaoImpl implements BidOrderDao {
             default:
                 return BidOrderStat.ERROR;
         }
+    }
+
+    /** Given start date and end date, search bid product order **/
+    @Override
+    public List<BidOrder> selectByOrderDate(Timestamp startDate, Timestamp endDate) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidOrder> list = null;
+
+        final String sql =
+                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
+                        "       bid_ship_stat\n " +
+                        "from bid_order\n " +
+                        "where bid_order_date between ? and ?";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setTimestamp(1, startDate);
+            pstmt.setTimestamp(2, endDate);
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    /** Search new bid product order limit 12 rows **/
+    @Override
+    public List<BidOrder> selectNewOrder() {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidOrder> list = null;
+
+        final String sql =
+                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
+                        "       bid_ship_stat\n " +
+                        "from bid_order\n " +
+                        "order by bid_order_id desc limit 12";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+
+    /** Search by bid product ship state **/
+    @Override
+    public List<BidOrder> selectShipStat(Integer bidShipStat) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidOrder> list = null;
+
+        final String sql =
+                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
+                        "       bid_ship_stat\n " +
+                        " from bid_order\n " +
+                        " where bid_ship_stat = ?";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidShipStat);
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+
+    /** Update bid product status -> shipped **/
+    @Override
+    public int updateShipped(Integer bidOrderID) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        final String sql = "UPDATE bid_order SET bid_ship_stat =1 \r\n"
+                + "WHERE bid_order_id = ?";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidOrderID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return 0;
     }
 
     public static void main(String[] args) {

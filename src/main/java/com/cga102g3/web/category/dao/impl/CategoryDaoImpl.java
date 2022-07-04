@@ -10,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -168,6 +170,36 @@ public class CategoryDaoImpl implements CategoryDao {
             categories.add(category);
         }
         return categories;
+    }
+
+    @Override
+    public List<Map<String, Object>> findAll() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        String sql =
+                "select category_ID, category_name\n" +
+                        "from category\n" +
+                        "order by category_ID;";
+
+        try{
+            conn = JDBCUtil.getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("categoryID", rs.getInt("category_ID"));
+                map.put("categoryName", rs.getString("category_name"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        }finally {
+            JDBCUtil.close(conn,ps,rs);
+        }
+        return list;
     }
 
     public static void main(String[] args) {

@@ -24,4 +24,14 @@
     <listener>
         <listener-class>com.cga102g3.core.linstener.ResourceListener</listener-class>
     </listener>
+
+    <filter>
+        <filter-name>loginFilter</filter-name>
+        <filter-class>com.cga102g3.core.filter.loginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginFilter</filter-name>
+        <url-pattern>/front-end/mem/memlist.jsp</url-pattern>
+    </filter-mapping>
+
 </web-app>

@@ -63,4 +63,12 @@ public class BidService {
 	public int delete(Integer bidID) {
 		return dao.deleteById(bidID);
 	}
+
+	public int updateRevoke(Integer bidID) {
+		return dao.updateRevoke(bidID);
+	}
+
+	public List<BidProd> showTitle(String bookTitle) {
+		return dao.selectTitle(bookTitle);
+	}
 }

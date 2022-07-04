@@ -1,0 +1,30 @@
+.card-img-top {
+    width: 80px;
+    height: 100px;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    width: 960px;
+    margin: auto;
+}
+
+.flex>div {
+    margin: 10px;
+}
+
+a>img {
+    padding: 10px;
+}
+
+.card {
+    width: 16rem;
+}
+h5.card-title{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

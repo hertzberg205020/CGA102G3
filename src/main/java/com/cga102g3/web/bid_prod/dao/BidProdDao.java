@@ -26,4 +26,6 @@ public interface BidProdDao extends CoreDao<BidProd, Integer> {
     int updateStat2NoTender(Integer bidID);
     int updateStat2Abandon(Integer bidID);
     List<BidProd> selectEnableLaunchProducts(Connection conn) throws SQLException;
+    int updateRevoke(Integer bidProdID);
+    List<BidProd> selectTitle(String bookTitle);
 }

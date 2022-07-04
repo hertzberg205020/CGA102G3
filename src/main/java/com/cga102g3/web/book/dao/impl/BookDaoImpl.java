@@ -148,12 +148,34 @@ public class BookDaoImpl implements BookDao {
     }
 
     /**
-     * 未實現
+     *
      * @return
      */
     @Override
     public List<Book> selectAll() {
-        return null;
+        final String GET_ALL_STMT =
+                "select book_ID, ISBN, edition, category_name, title,\n" +
+                        "       author, translator, publisher, pubdate, pages,\n" +
+                        "       summary, table_content\n" +
+                        "from book;";
+
+        List<Book> bookList = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(GET_ALL_STMT);
+            rs = pstmt.executeQuery();
+            bookList = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+
+        return bookList;
     }
 
     /**

@@ -7,6 +7,7 @@ import com.cga102g3.web.category.service.CategoryService;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description
@@ -24,5 +25,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getAll() {
         return dao.selectAll();
+    }
+
+    @Override
+    public List<Map<String, Object>> getALL() {
+        return dao.findAll();
     }
 }

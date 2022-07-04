@@ -95,8 +95,13 @@ public class BidActivitiesWebSocket {
         }
 
         // 推播消息
-        if (userSession != null && userSession.isOpen() && res != null) {
-            userSession.getAsyncRemote().sendText(gson.toJson(res));
+//        if (userSession != null && userSession.isOpen() && res != null) {
+//            userSession.getAsyncRemote().sendText(gson.toJson(res));
+//        }
+        for (Session session : connectedSessions) {
+            if (session.isOpen() && userSession != null && res != null) {
+                session.getAsyncRemote().sendText(gson.toJson(res));
+            }
         }
 
     }

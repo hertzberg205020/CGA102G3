@@ -477,6 +477,58 @@ public class BidProdDaoImpl implements BidProdDao {
         return list;
     }
 
+    @Override
+    public List<BidProd> selectTitle(String bookTitle) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidProd> list = null;
+        final String sql =
+                "SELECT bi.bid_ID, bo.book_ID, bo.title, bi.start_price, \r\n"
+                        + "bi.bid_direct_price, bi.bid_cur_price, bi.bid_prod_stat, \r\n"
+                        + "bi.bid_start, bi.bid_end\r\n"
+                        + "FROM bid_prod bi\r\n"
+                        + "LEFT JOIN book bo\r\n"
+                        + "ON bi.book_ID = bo.book_ID\r\n"
+                        + "WHERE bo.title LIKE ?";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + bookTitle + "%");
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public int updateRevoke(Integer bidProdID) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        final String sql =
+                "update bid_prod\n" +
+                        " set bid_prod_stat = 5\n" +
+                        " where bid_id = ?;";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bidProdID);
+            return pstmt.executeUpdate();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         BidProdDao bidProdDao = new BidProdDaoImpl();
         

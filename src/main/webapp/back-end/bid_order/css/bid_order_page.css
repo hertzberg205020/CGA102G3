@@ -1,0 +1,11 @@
+        .table {
+            background-color: whitesmoke;
+            border-radius: 8px 8px 8px 8px; 
+            width:945px;
+        }        
+        .table th {
+            border-top: transparent;
+        }
+        .table td {
+            border-top: transparent;
+        }
