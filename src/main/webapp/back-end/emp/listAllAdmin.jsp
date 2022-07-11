@@ -65,6 +65,13 @@ th, td {
 /* 	padding: 5px; */
 	text-align: center;
 	vertical-align: middle;
+	
+}
+
+td {
+	text-align: center;
+	vertical-align: middle;
+	
 }
 
 div {
@@ -98,6 +105,9 @@ float:right;
 	</header>
 
 	<%@include file="/static/template/back_layout_aside.jsp"%>
+	
+
+
 	<main class="main">
 <br>
 	<div class="search">
@@ -139,15 +149,15 @@ float:right;
 				<c:forEach var="AdminVO" items="${list}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
 					<tr>
-						<td>${AdminVO.adminID}</td>
-						<td>${AdminVO.adminAccount}</td>
-						<td>${AdminVO.adminPassword}</td>
-						<td>${AdminVO.adminName}</td>
-						<td>${AdminVO.adminPhone}</td>
+						<td  style="vertical-align:middle">${AdminVO.adminID}</td>
+						<td  style="vertical-align:middle">${AdminVO.adminAccount}</td>
+						<td  style="vertical-align:middle">${AdminVO.adminPassword}</td>
+						<td  style="vertical-align:middle">${AdminVO.adminName}</td>
+						<td  style="vertical-align:middle">${AdminVO.adminPhone}</td>
 						<td><img
 							src="${pageContext.request.contextPath}/static/images/emp/${AdminVO.adminID}.png"
 							width="80" height="80"></td>
-						<td>
+						<td  style="vertical-align:middle">
 							<FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/back-end/emp/emp.do"
 								style="margin-bottom: 0px;">
@@ -156,7 +166,7 @@ float:right;
 								<input type="hidden" name="action" value="getOne_For_Update">
 							</FORM>
 						</td>
-						<td>
+						<td  style="vertical-align:middle">
 							<FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/back-end/emp/emp.do"
 								style="margin-bottom: 0px;">
@@ -178,7 +188,7 @@ float:right;
 		</div>
 	</main>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 var imgs=document.images;
 for (var i=0;i<imgs.length;i++){
 imgs[i].onerror=function(){this.src="${pageContext.request.contextPath}/static/images/nopic.png"}
@@ -203,6 +213,8 @@ imgs[i].onerror=function(){this.src="${pageContext.request.contextPath}/static/i
 	<script
 		src="${pageContext.request.contextPath}/back-end/book/js/back_book_add.js"></script>
 </body>
+
+
 <script>
 	var ID = document.querySelector('.delete_ID');
 	function showalert() {

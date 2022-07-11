@@ -37,4 +37,8 @@ public class BidOrderService {
 	public int updateShipped(Integer bidOrderID) {
 		return dao.updateShipped(bidOrderID);
 	}
+
+	public List<BidOrder> showMbrName(String mbrName) {
+		return dao.selectMbrName(mbrName);
+	}
 }

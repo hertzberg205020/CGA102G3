@@ -31,10 +31,13 @@ public class BidActivitiesSchedulingListener implements ServletContextListener {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                // 安排上架
-                service.launchProducts();
-                // 安排下架
-                service.discontinuedProducts();
+                // 避免排程器補做事情
+                if (!(scheduledExecutionTime() < System.currentTimeMillis())) {
+                    // 安排上架
+                    service.launchProducts();
+                    // 安排下架
+                    service.discontinuedProducts();
+                }
             }
         };
 
@@ -46,7 +49,7 @@ public class BidActivitiesSchedulingListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         /* This method is called when the servlet Context is undeployed or Application Server shuts down. */
         // 關閉競拍活動排程器
-        if (timer != null) {
+        while (timer != null) {
             timer.cancel();
             timer = null;
         }

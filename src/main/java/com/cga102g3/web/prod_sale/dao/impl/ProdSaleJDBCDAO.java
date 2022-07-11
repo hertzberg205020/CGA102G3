@@ -324,6 +324,7 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 			}
 		}
 	}
+
 	/**
 	 * @description: 利用saleID返回單一ProdSaleVO
 	 * @param: [saleID]
@@ -332,24 +333,30 @@ public class ProdSaleJDBCDAO implements ProdSaleDAO_interface{
 	 * @date: 2022/07/01 10:57:45
 	 */
 	@Override
-	public List<ProdSaleVO> getBySaleID(Integer saleID) {
+	public List<Map<String,Object>> getBySaleID(Integer saleID) {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<ProdSaleVO> list = new ArrayList<>();
-		final String sql = "SELECT * FROM bookstore.prod_sale where sale_ID=?;";
+		List<Map<String,Object>> list = new ArrayList<>();
+		final String sql = "select p.prod_ID,ps.sale_price,b.title\n" +
+				"from product p\n" +
+				"\tjoin prod_sale ps\n" +
+				"\ton ps.prod_ID = p.prod_ID\n" +
+				"    join book b\n" +
+				"    on p.book_ID = b.book_ID\n" +
+				"where ps.sale_ID = ?";
 		try {
 			con = JDBCUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1,saleID);
 			rs = ps.executeQuery();
 			while (rs.next()){
-				ProdSaleVO prodSaleVO = new ProdSaleVO();
-				prodSaleVO.setSaleID(rs.getInt("sale_ID"));
-				prodSaleVO.setProdID(rs.getInt("prod_ID"));
-				prodSaleVO.setSalePrice(rs.getInt("sale_price"));
-				list.add(prodSaleVO);
+				Map<String,Object> map = new HashMap<>();
+				map.put("prodID",rs.getInt("prod_ID"));
+				map.put("salePrice",rs.getInt("sale_price"));
+				map.put("title",rs.getString("title"));
+				list.add(map);
 			}
 		}catch (SQLException e){
 			e.printStackTrace();

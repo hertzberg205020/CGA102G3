@@ -19,7 +19,7 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 
-<title>首頁>留言新增</title>
+<title>首頁 / 討論留言新增</title>
 
 </head>
 <%@include file="/static/template/front_layout_header.jsp"%>
@@ -27,10 +27,10 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 
 <main class="main">
 <div class="container">
-<h1>首頁>留言板>我要留言</h1>			
+<h4><b><br>首頁 / 討論留言板 / 我要留言</b></h4>		
 
 
-
+<br>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -45,27 +45,32 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <table>
 	<tr>
 		<td>會員編號　</td>
-		<td><input type="TEXT" name="mbr_ID" size="45" 
+		<td><input type="TEXT" name="mbr_ID" size="11" 
 			 value="<%= (noteVO==null)? "1" : noteVO.getMbr_ID()%>" /></td>
 	</tr>
-<!-- 	<tr> -->
-<!-- 		<td>通知類型　</td> -->
+	<tr>
+		<td>選擇主題　</td>
 <!-- 		<td><input type="TEXT" name="note_content_type" size="45"  -->
 <%-- 			 value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" /></td> --%>
-<!-- 	</tr> -->
-	<tr>
+
 	<td>
 	<select name="note_content_type">
-	<option value="<%= (noteVO==null)? "0" : noteVO.getNote_content_type()%>" >Java</option>
-	<option value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" >MySQL</option>
-	<option value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" >MySQL</option>
-	</select>
+	<option value="<%= (noteVO==null)? "0" : noteVO.getNote_content_type()%>" >--</option>
+	<option value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" >Java</option>
+	<option value="<%= (noteVO==null)? "2" : noteVO.getNote_content_type()%>" >MySQL</option>
+	<option value="<%= (noteVO==null)? "3" : noteVO.getNote_content_type()%>" >C#</option>
+	<option value="<%= (noteVO==null)? "4" : noteVO.getNote_content_type()%>" >HTML</option>
+	<option value="<%= (noteVO==null)? "5" : noteVO.getNote_content_type()%>" >JavaScript</option>
+	<option value="<%= (noteVO==null)? "6" : noteVO.getNote_content_type()%>" >Android</option>
+	<option value="<%= (noteVO==null)? "7" : noteVO.getNote_content_type()%>" >資安</option>
 
+	
+	</select>
 	</td>
 	</tr>
 	<tr>
 		<td>留言內容　</td>
-		<td><input type="TEXT" name="note_content" size="60" autofocus
+		<td><input type="TEXT" name="note_content" size="100" autofocus
 			 value="<%= (noteVO==null)? "" : noteVO.getNote_content()%>" /></td>
 	</tr>
 	
@@ -76,14 +81,15 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 					<td>
 						<button type="button" class="btn btn-danger"
 							onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/note/listAllNote.jsp'">
-							取消提問</button>
+							取消留言</button>
 					</td>
 				<tr>
 					<td><input type="hidden" name="action" value="insert">
-						<input type="submit" class="btn btn-success" value="確定提問"></td>
+						<input type="submit" class="btn btn-warning" value="送出留言"></td>
 				</tr>
 </FORM>
 </div>
+<br><br><br><br><br><br>
 </main>
 </body>
 <%@include file="/static/template/front_layout_footer.jsp"%>

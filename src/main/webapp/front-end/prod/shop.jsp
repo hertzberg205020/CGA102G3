@@ -44,6 +44,8 @@
     $("#cart_btn").click(function () {
         location.href = '${pageContext.request.contextPath}/front-end/prod/car.jsp';
     });
+
+
 </script>
 </body>
 </html>

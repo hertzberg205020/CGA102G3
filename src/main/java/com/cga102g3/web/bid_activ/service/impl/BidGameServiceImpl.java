@@ -84,7 +84,7 @@ public class BidGameServiceImpl implements BidGameService {
         BidActiv bidActivity = bidActivDao.getBidActivity(bidID);
         Member member = memberDao.selectByIDWithTCoinBal(bidder.getMbrID());
         // 錢包裡的錢 必須 大於或等於 自己的出價
-        if (bidder.getPrice() > member.gettCoinBal()) {
+        if (member == null || bidder.getPrice() > member.gettCoinBal()) {
             return BidErrStat.UnAffordable;
         }
         // 不可以超過直購價
@@ -125,7 +125,7 @@ public class BidGameServiceImpl implements BidGameService {
 
                 // 扣款
                 memberDao.prepaid4Bid(conn, bidder.getMbrID(), bidder.getPrice());
-                System.out.println(bidder);
+//                System.out.println(bidder);
                 walletRecDao.prepaid4Bid(conn, bidder.getMbrID(), bidder.getPrice());
 
                 // redis沒有rollback機制
@@ -169,7 +169,7 @@ public class BidGameServiceImpl implements BidGameService {
         // 競標結束處理
         if (stat == BidActivityStat.ENDGAME) {
             BidActiv bidActivity = getBidActivity(bidID);
-            System.out.println("bidActivity: "+ bidActivity);
+//            System.out.println("bidActivity: "+ bidActivity);
             persistActivRes(bidActivity);
             // 下架競標商品
             bidActivDao.delete(bidActivity.getBidActivID());
@@ -253,6 +253,9 @@ public class BidGameServiceImpl implements BidGameService {
     }
 
 
+    public List<Bidder> getAllBidders(Integer bidID) {
+        return bidActivDao.getAllBidders(bidID);
+    }
     public static void main(String[] args) {
         BidGameService bidGameService = new BidGameServiceImpl();
         Bidder bidder1 = new Bidder(1, 210);

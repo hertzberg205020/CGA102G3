@@ -83,11 +83,11 @@
 	</tr>
 	</thead>
 	<tr>
-		<td>${AdminVO.adminID}</td>
-		<td>${AdminVO.adminAccount}</td>
-		<td>${AdminVO.adminPassword}</td>
-		<td>${AdminVO.adminName}</td>
-		<td>${AdminVO.adminPhone}</td>
+		<td  style="vertical-align:middle">${AdminVO.adminID}</td>
+		<td  style="vertical-align:middle">${AdminVO.adminAccount}</td>
+		<td  style="vertical-align:middle">${AdminVO.adminPassword}</td>
+		<td  style="vertical-align:middle">${AdminVO.adminName}</td>
+		<td  style="vertical-align:middle">${AdminVO.adminPhone}</td>
 		<td><img src = "${pageContext.request.contextPath}/static/images/emp/${AdminVO.adminID}.png" width="80" height="80"></td>
 	</tr>
 </table>

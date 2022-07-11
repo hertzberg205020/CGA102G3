@@ -1,5 +1,7 @@
 package com.cga102g3.web.order.entity;
 
+import com.cga102g3.web.order_Item.entity.OrderItemVO;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -17,6 +19,8 @@ public class OrderVO implements Serializable {
     private Integer shipStatus;
     private Integer payStatus;
     private Integer payMethod;
+    //Alan
+    private OrderItemVO orderItemVO;
 
     public Integer getOrderID() {
         return orderID;
@@ -66,5 +70,12 @@ public class OrderVO implements Serializable {
     public void setPayMethod(Integer payMethod) {
         this.payMethod = payMethod;
     }
-    
+
+    public OrderItemVO getOrderItemVO() {
+        return orderItemVO;
+    }
+
+    public void setOrderItemVO(OrderItemVO orderItemVO) {
+        this.orderItemVO = orderItemVO;
+    }
 }

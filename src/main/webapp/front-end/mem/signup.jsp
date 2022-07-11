@@ -18,6 +18,7 @@ response.setDateHeader("Expires", 0);
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="0">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 <script
@@ -192,7 +193,7 @@ hight: 20px
 						<tr>
 							<td class="td_left"><label for="gender">性別</label></td>
 							<td class="td_right"><input type="radio" name="gender"
-								value=0> 男 <input type="radio" name="gender" value=1>
+								value=0 checked> 男 <input type="radio" name="gender" value=1>
 								女</td>
 						</tr>
 						<tr>
@@ -220,13 +221,19 @@ hight: 20px
 						<tr>
 							<input type="hidden" name="action" value="signup">
 							<td colspan="2" align="center"><input type="submit" id="submit"
-								value="註冊" class="submitbtn" data-disable-with="註冊帳號" /></td>
+								value="註冊" class="submitbtn" data-disable-with="註冊帳號" onclick="test()" /></td>
 						</tr>
 					</table>
 				</form>
 			</div>
 		</div>
+		
+		<script>		
+			function test(){Swal.fire('請收驗證信')}		
+		</script>
 
+		
+	
 		<script>
 
         function validate() {       

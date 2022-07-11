@@ -38,7 +38,9 @@ public class ReviewServlet extends HttpServlet{
 					}
 					
 					BookReviewVO bookReviewVO = new BookReviewVO();
-					bookReviewVO.setMbrID(1);
+					Integer mbrID = Integer.valueOf(req.getParameter("mbrID").trim());
+//					Integer bookID = Integer.valueOf(req.getParameter("bookID").trim());
+					bookReviewVO.setMbrID(mbrID);
 					bookReviewVO.setBookID(1);
 					bookReviewVO.setReviewContent(reviewContent);
 					bookReviewVO.setReviewTime(new Timestamp(System.currentTimeMillis()));

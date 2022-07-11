@@ -9,24 +9,17 @@
 <head>
 <meta charset="UTF-8">
 <!-- font-awesome -->
-<link rel="stylesheet"
-	  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <!-- bootstrap -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-	integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 <!-- bootstrap-icon -->
-<link rel="stylesheet"
-	  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<!-- 側邊攔CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
+<!-- 競標商品管理CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_page.css">
 
 <title>管理後臺 | 競標商品管理</title>
-<!-- 側邊攔CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
-<!-- 競標商品管理CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_page.css">
 
 </head>
 <body>
@@ -37,22 +30,23 @@
 			競標商品管理
 		</h1>
 	</header>
-
+	
+<!-- aside template -->
 	<%@include file="/static/template/back_layout_aside.jsp"%>
 
 	<main class="main">
-		<div class="container">
+		<div class="container ml-1">
 			<br>
 			<div class="m-2 p-1" style="background-color:steelblue; width:80px; border-radius: 5px;">
-				<a class="text-light" style="text-decoration: none;" href="${pageContext.request.contextPath}/back-end/bid/bidprod_back_page.jsp"> &lt; 上一頁</a>
+				<a class="text-light" style="text-decoration: none;" href="${pageContext.request.contextPath}/back-end/bid/bidprod_back_page.jsp"> <i class="bi bi-caret-left-fill"></i> 上一頁</a>
 			</div>
 			
-			<div style="font-size: 22px;">查詢結果</div>
+			<div style="font-size: 22px;" class="mb-2 mt-3">查詢結果</div>
 			
-			<table class="table table-sm table-hover" style="font-size: 14px;">
+			<table class="table table-sm">
 				<thead>
 					<tr>
-						<th style="border-radius: 8px 0 0 0; height: 20px;">競標商品編號</th>
+						<th style="border-radius: 8px 0 0 0">競標商品編號</th>
 						<th>書籍名稱</th>
 						<th>圖片</th>
 						<th>競標底價</th>
@@ -66,12 +60,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th class="header-row" scope="row">${bidProd.bidID} <!--競標商品編號-->
-							<a href="${pageContext.request.contextPath}/template/bid_front_layout.html"
-							   target="_blank" data-toggle="tooltip" data-placement="right"
-							   title="查看商品詳情"><i class="bi bi-book"></i>
-						    </a>
-					    </th>
+						<th class="header-row" scope="row">${bidProd.bidID} <!--競標商品編號--></th>
 						<td>${bidProd.book.title}</td>      <!--書籍名稱-->
 						<td>
 						<img src="${pageContext.request.contextPath}/static/images/books/${bidProd.bookID}.jpg" height="80px">							
@@ -83,11 +72,13 @@
 						<td>${bidProd.bidStart}</td>   <!-- 起標時間 -->
 						<td>${bidProd.bidEnd}</td>     <!-- 結標時間 -->
 						<td class="last-col">
-							<a class="text-light"
-							   href="${pageContext.request.contextPath}/bid/bidprod_back_update_page.jsp"
-							   target="_blank"> <i class="bi bi-pencil-fill"></i>
-						   </a>
-					   </td>
+							<form method="post" action="bid.do">
+							<button class="btn btn-sm btn-outline-secondary" type="submit">
+								<i class="bi bi-pencil-fill"></i>
+							</button>
+							<input type="hidden" name="bidID" value="${bidProd.bidID}">
+							<input type="hidden" name="action" value="get_update">
+							</form></td>
 					</tr>
 				</tbody>
 			</table>
@@ -114,15 +105,16 @@
 	}
 </script>
 
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-
-<script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
-<script src="${pageContext.request.contextPath}/back-end/bid/js/bidprod_back_page.js"></script>
+<!-- JQuery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- popper -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!-- bootstrap JS -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<!-- Back Layout JS	 -->
+	<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
+<!-- 競標商品管理 JS -->
+	<script src="${pageContext.request.contextPath}/back-end/bid/js/bidprod_back_page.js"></script>
 
 </body>
 </html>

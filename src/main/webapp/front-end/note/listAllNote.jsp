@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cga102g3.web.note.model.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 NoteService noteSvc = new NoteService();
@@ -15,6 +16,7 @@ NoteService noteSvc = new NoteService();
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="0">
+<Meta http-equiv="ReFresh" Content="10">
 
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
@@ -25,34 +27,53 @@ NoteService noteSvc = new NoteService();
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 
-<title>首頁>留言板</title>
+<title>首頁 / 討論留言板</title>
 
 </head>
 <%@include file="/static/template/front_layout_header.jsp"%>
 <body>
-	<main class="main">
-		<div class="container">
+<main class="main">
+<div class="container">
 <table id="table-1">
-	<tr>
-	<td>
-		 <h1>首頁>留言板　　　　　　　　　　　　　　　　　 　 　</h1>
-	</td>
-						<th>
-						<button type="button" class="btn btn-warning"
-							onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/note/addNote.jsp'">
-							<b> 我要留言 </b></button>
-					</th>
-	</tr>
-</table>
+<tr>	
+<th><h4><b><br>　首頁 / 討論留言板　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</b></h4></th>
 
-<div>
+<th><button type="button" class="btn btn-warning"
+		onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/note/addNote.jsp'">
+		<b> 我要留言 </b></button></th>
+</tr>
+</table><br>
+
 	<c:forEach var="noteVO" items="${list}" >
 	<div class="container">
   <div class="card bg-light JQellipsis border-warning" >
-    <div class="card-body">
-      <h5 class="card-title">【${noteVO.note_content_type==0?"Java":"MySQL"}】${noteVO.note_content}</h5>
-<%--       <p class="card-text">會員 ${noteVO.mbr_ID}：${noteVO.note_content}</p> --%>
-      <span class="text-secondary font-weight-bold">會員 ${noteVO.mbr_ID} 發表於 ${noteVO.note_time}</span>
+
+    <div class="card-body ">
+    <div>
+    		<a>${noteVO.note_ID}樓</a>
+<span class="badge badge-pill badge-warning">
+<c:set var="note_content_type" value="${noteVO.note_content_type}"/>
+<c:choose>
+    <c:when test="${note_content_type == 0}">--</c:when>
+    <c:when test="${note_content_type == 1}">Java</c:when>
+    <c:when test="${note_content_type == 2}">MySQL</c:when>
+    <c:when test="${note_content_type == 3}">C#</c:when>
+    <c:when test="${note_content_type == 4}">HTML</c:when>
+    <c:when test="${note_content_type == 5}">JavaScript</c:when>
+    <c:when test="${note_content_type == 6}">Android</c:when>
+    <c:when test="${note_content_type == 7}">資安</c:when>
+
+    <c:otherwise>--</c:otherwise>
+</c:choose>
+</span>
+<font size="5" class="card-title"> ${noteVO.note_content}</font>
+    </div>
+    
+
+ <div class="text-right">
+
+      <h6 class="text-right text-secondary font-weight-bold">會員 ${noteVO.mbr_ID} 發表於 <fmt:formatDate type="both" value="${noteVO.note_time}" /></h6>
+    </div>
     </div>
   </div>
 </div>
@@ -60,27 +81,12 @@ NoteService noteSvc = new NoteService();
 	</c:forEach>
 	</div>
 
-<table class="table table-bordered text-center table-hover table-striped table-borderless table-sm">
-	<tr class="table-success">
-		<th scope="col" class="col-1">留言<br>編號</th>
-		<th scope="col" class="col-1">會員<br>編號</th>
-		<th scope="col" class="col-2">主題類型</th>
-		<th scope="col" class="col-6">留言內容</th>
-		<th scope="col" class="col-3">留言時間</th>
+<table class="table">
 
-		
-	</tr>
 	<%@ include file="page1.file" %> 
 	<c:forEach var="noteVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		
 		<tr>
-			<td>${noteVO.note_ID}</td>
-			<td>${noteVO.mbr_ID}</td>
-<%-- 		<td>${noteVO.note_content_type}</td> --%>
-			<td class="JQellipsis">${noteVO.note_content_type==0?"Java":"MySQL"}</td>
-			<td>${noteVO.note_content}</td>
-			<td>${noteVO.note_time}</td>
-		
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/note/note.do" style="margin-bottom: 0px;">
 			     <input type="submit" class="btn btn-success" value="留言">
@@ -100,7 +106,7 @@ NoteService noteSvc = new NoteService();
 
 <%@ include file="page2.file" %>
 
-</div>
+
 </main>
 </body>
 <%@include file="/static/template/front_layout_footer.jsp"%>

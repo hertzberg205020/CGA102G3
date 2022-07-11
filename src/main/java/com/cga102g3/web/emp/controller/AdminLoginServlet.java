@@ -2,6 +2,7 @@ package com.cga102g3.web.emp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cga102g3.web.emp.model.AdminAuthService;
+import com.cga102g3.web.emp.model.AdminAuthVO;
 import com.cga102g3.web.emp.model.AdminService;
 import com.cga102g3.web.emp.model.AdminVO;
 
@@ -64,8 +67,14 @@ public class AdminLoginServlet extends HttpServlet{
 	      out.println("</BODY></HTML>");
 	    }else {                                       //【帳號 , 密碼有效時, 才做以下工作】
 	      HttpSession session = req.getSession();
-	      session.setAttribute("account", account);   //*工作1: 才在session內做已經登入過的標識
+	      Integer adminID = adminVO.getAdminID();
+	      AdminAuthService adminAuthService = new   AdminAuthService();
+	      List <AdminAuthVO> adminAuthVO = adminAuthService.getAdminAuth(adminID);
 	      
+	      
+	      session.setAttribute("account", account);   //*工作1: 才在session內做已經登入過的標識
+	      session.setAttribute("AdminVO", adminVO);
+	      session.setAttribute("AdminAuthVO", adminAuthVO);
 	       try {                                                        
 	         String location = (String) session.getAttribute("location");
 	         if (location != null) {

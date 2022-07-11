@@ -2,6 +2,9 @@ package com.cga102g3.web.bid_order.entity;
 
 import java.sql.Timestamp;
 
+import com.cga102g3.web.mem.model.MemService;
+import com.cga102g3.web.mem.model.MemVO;
+
 /**
  * @Description
  * @Author Robert
@@ -86,5 +89,11 @@ public class BidOrder {
                 ", bidOrderDate=" + bidOrderDate +
                 ", bidShipStat=" + bidShipStat +
                 '}';
+    }
+
+    public MemVO getMem() {
+        MemService ms = new MemService();
+        MemVO memVO = ms.getOneMem(mbrID);
+        return memVO;
     }
 }

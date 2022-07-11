@@ -71,4 +71,5 @@ public class BidService {
 	public List<BidProd> showTitle(String bookTitle) {
 		return dao.selectTitle(bookTitle);
 	}
+
 }

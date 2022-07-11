@@ -4,38 +4,57 @@ window.onload = function () {
         .then(response => response.json())
         .then(function (myjson) {
             if (myjson.length == 0) {
-                $('tbody').append('           <tr>\n' +
-                    '                <th colspan="6" class="text-center table-danger">無選取產品</th>\n' +
-                    '           </tr>')
+                $('tbody').append(`<tr>
+                    <th colspan="6" class="text-center table-danger">無選取產品</th>
+                    </tr>`)
+                $('main').append('<button type="button" class="btn btn-warning back" style="margin-left: 46%; margin-top: 20px;">返回商城</button>')
             } else {
                 for (let i = 0; i < myjson.length; i++) {
                     let json = myjson[i];
-                    $('tbody').append('<tr>\n' +
-                        '<td scope="row">\n' +
-                        '<div class="form-check" id="prod' + json.prodID + '">\n' +
-                        '<input class="form-check-input item-btn" type="checkbox" value="' + json.prodID + '" id="btn' + (i + 1) + '">\n' +
-                        '<label class="form-check-label" for="btn' + (i + 1) + '">\n' +
-                        '' + json.book.title + '\n' +
-                        '</label>\n' +
-                        '</div>\n' +
-                        '</td>\n' +
-                        '<td><img src="'+path+'/static/images/books/' + json.prodID + '.jpg" alt="" height="100px" width="80px"></td>\n' +
-                        '<td>\n' +
-                        '<div>$' + json.price + '</div>\n' +
-                        '</td>\n' +
-                        '<td><select class="quantity" >\n' +
-                        '</select>\n' +
-                        '</td>\n' +
-                        '<td>\n' +
-                        '<div class="total">$' + json.price + '</div>\n' +
-                        '</td>\n' +
-                        '<td>\n' +
-                        '<button type="button" class="btn btn-outline-danger cancel">取消</button>\n' +
-                        '</td>\n' +
-                        '</tr>')
+                    let discount = json.discount;
+                    let amount = 0;
+                    amount = json.amount;
+                    let price = 0;
+                    if (discount === 'N'){
+                        price = json.price;
+                    }else if (discount === 'Y'){
+                        price = json.salePrice;
+                    }
+                    $('tbody').append(`<tr>
+                        <td scope="row">
+                        <div class="form-check" id="prod${json.prodID}">
+                        <input class="form-check-input item-btn" type="checkbox" value="${json.prodID}" id="btn${i + 1}">
+                        <label class="form-check-label" for="btn${i + 1}">
+                        ${json.title}
+                        </label>
+                        </div>
+                        </td>
+                        <td><img src="${path}/static/images/books/${json.prodID}.jpg" alt="" height="100px" width="80px"></td>
+                        <td>
+                        <div>$${price}</div>
+                        </td>
+                        <td><select class="quantity" >
+                        </select>
+                        </td>
+                        <td>
+                        <div class="total">$${price * amount}</div>
+                        </td>
+                        <td>
+                        <button type="button" class="btn btn-outline-danger cancel">取消</button>
+                        </td>
+                        </tr>`)
+                    //生成select數量選單
+                    let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15,16,17,18,19,20];
+                    let select = $(`#prod${json.prodID}`).parents('tr').find('select');
+                    for (n in array) {
+                        let option = $("<option>").val(array[n]).text(array[n]);
+                        select.append(option);
+                    };
+                    select.val(`${json.amount}`)
                 }
                 $('main').append('<button type="button" class="btn btn-warning" onclick="checkout()" style="margin-left: 50%;">結帳</button>')
             }
+
             //全選功能
             $('#all').click(function () {
                 if ($(this).prop('checked')) {
@@ -54,17 +73,15 @@ window.onload = function () {
                 }
             })
 
-            //生成select數量選單
-            let quantityarry = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-            for (n in quantityarry) {
-                let option = $("<option>").val(quantityarry[n]).text(quantityarry[n]);
-                $('.quantity').append(option);
-            }
-            ;
-
             //改變數量顯示價格
             $('.quantity').on('change', function () {
                 let a = $(this).val();
+                let prodID = $(this).parents('tr').find('div').attr('id').substr(4)
+                fetch(`${path}/ProdServlet.do?action=change&amount=${a}&prodID=${prodID}`)
+                    .then(response => response.text())
+                    .then(function (myjson){
+                        console.log(myjson)
+                    })
                 let b = parseInt($(this).parent().prev().children().text().substr(1));
                 $(this).parent().next().children().text(`$${a * b}`);
             })
@@ -79,12 +96,17 @@ window.onload = function () {
                     .then(function (myjson) {
                         console.log(myjson);
                         if (myjson === "empty"){
-                            $('tbody').append('           <tr>\n' +
-                                '                <th colspan="6" class="text-center table-danger">無選取產品</th>\n' +
-                                '           </tr>')
+                            $('tbody').append(`<tr>
+                                <th colspan="6" class="text-center table-danger">無選取產品</th>
+                                </tr>`)
                             $('button').remove();
+                            $('main').append('<button type="button" class="btn btn-warning back" style="margin-left: 46%; margin-top: 20px;">返回商城</button>')
+
                         }
                     })
+            })
+            $('.back').click(function (){
+                location.href = `${path}/front-end/prod/shop.jsp`;
             })
         })
 }

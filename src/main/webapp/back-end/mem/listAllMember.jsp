@@ -43,51 +43,7 @@ div {
 	width: 950px;
 	text-align: center;
 }
-/* h4 { */
-/* 	color: red; */
-/* 	font-size: 15px; */
-/* 	margin-bottom: 1px; */
-/* 	margin-left: 10px; */
-/* 	margin-top:10px; */
-/* 	color: blue; */
-/* } */
 
-/* div.page1 { */
-/* 	margin-left: 10px; */
-/* } */
-
-/* table#table-2 { */
-/* 	width: 950px; */
-/* 	margin-left: 10px; */
-/* } */
-
-/* table#table-2 { */
-/* 	border: 1px solid #6699CC; */
-/* 	border-radius: 5px; */
-/* } */
-
-/* th, td { */
-/* 	padding: 5px; */
-/* 	text-align: center; */
-/* } */
-
-/* div { */
-/* 	width: 950px; */
-/* 	text-align: center; */
-/* } */
-
-/* table#table-2 tbody tr:nth-child(odd) { */
-/* 	background-color: #eee */
-/* } */
-
-/* table thead { */
-/* 	background-color: #6699CC; */
-/* 	color: white; */
-/* } */
-
-/* div.search{ */
-/* text-align: right; */
-/* } */
 main.main{
 	
 }
@@ -100,10 +56,10 @@ width:60px;
 /*   padding-top: 20%; */
 }
 #detail {
-  background-color: #FFB80C;
+  background-color: lightgreen;
 /*   text-decoration: none; */
-  color: #1e1e1e;
-  padding: 6px 12px;
+  color: white;
+  padding: 9px 12px;
   border-radius: 5px;
 }
 
@@ -126,22 +82,28 @@ width:60px;
   top: 50%;
   left: 50%;
   box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.5);
-  border-radius: 3px;
+  border-radius: 10px;
   background: #fff;
   text-align: center;
 }
 h2 {
-  font-size: 48px;
+  font-size: 40px;
   color: #1a1a1a;
 }
 
 h3 {
-  font-size: 32px;
+
+  font-size: 28px;
   color: #888;
   text-align: left;
   margin-left: 40px;
 }
-
+h4 {
+  font-size: 28px;
+  color: #888;
+/*   text-align: left; */
+/*   margin-left: 40px; */
+}
 .close-btn {
   width: 50px;
   height: 50px;
@@ -173,7 +135,16 @@ h3 {
   -webkit-transform: translate(-50%, -50%) scale(0.5);
   transform: translate(-50%, -50%) scale(0.5);
 }
+h3.shipState{
+float:left;
+}
 
+h3.shipState, h4.shipState{
+
+}
+h4.shipState{
+
+}
 
 </style>
 
@@ -218,7 +189,7 @@ h3 {
 <!-- 					<th scope="col" class="col-4">會員生日</th> -->
 					<th scope="col" class="col-4">會員mail</th>
 <!-- 					<th>加入時間</th> -->
-					<th scope="col" class="col-4">Tcoin幣</th>
+					<th scope="col" class="col-4">Tcoin</th>
 					<th>查看</th>
 					<th>刪除</th>
 				</tr>
@@ -250,7 +221,7 @@ h3 {
 <!-- 									<input type="hidden" name="action" value="getOne_For_Update"> -->
 <!-- 							</FORM> -->
 <div class="wrap">
-  <a id = "detail" class="btn popup-btn " href="#letmeopen${MemVO.mbrID}">詳情</a>
+  <a id = "detail" class="btn popup-btn " href="#letmeopen${MemVO.mbrID}"><i class="fas fa-eye"></i></a>
 </div>
 <div class="popup-wrap " id="letmeopen${MemVO.mbrID}">
   <div class="popup-box transform-out">
@@ -260,15 +231,20 @@ h3 {
 					width="200" height="200">
     <h3>
     會員編號：${MemVO.mbrID}<br>
-    會員帳號：${MemVO.mbrAccount}<br>
-    會員狀態：${MemVO.mbrStatus}<br>
-    會員姓名：${MemVO.mbrName}<br>
-    會員性別：${MemVO.mbrGender}<br>
-    會員生日：${MemVO.mbrBirth}<br>
-    E_mail：${MemVO.mbrEmail}<br>
-    加入時間：${MemVO.mbrJointime}<br>
-    Tcoin幣：${MemVO.tcoinBal}
     </h3>
+    <h3>
+    會員帳號：${MemVO.mbrAccount}<br></h3>
+    <h3 class="shipState">會員狀態：</h3><h4 class="shipState">${MemVO.mbrStatus}</h4>
+    <h3 >
+    會員姓名：${MemVO.mbrName}<br></h3>
+    <h3 >
+    會員性別：${MemVO.mbrGender eq 0?"男":"女"}<br></h3>
+    <h3>
+    會員生日：${MemVO.mbrBirth}<br></h3>
+    <h3>E_mail：${MemVO.mbrEmail}<br></h3>
+    <h3>加入時間：${MemVO.mbrJointime}<br></h3>
+    <h3>Tcoin幣：${MemVO.tcoinBal}</h3>
+   
     <a class="close-btn popup-close" href="#">x</a>
   </div>
 </div>
@@ -303,6 +279,14 @@ h3 {
 		
 		
 	</main>
+	
+	<script type="text/javascript">
+var imgs=document.images;
+for (var i=0;i<imgs.length;i++){
+imgs[i].onerror=function(){this.src="${pageContext.request.contextPath}/static/images/nopic.png"}
+}
+</script>
+	
 
 	<!-- Jquery -->
 	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -323,6 +307,20 @@ h3 {
 
 </body>
 
+
+<script>
+let td = document.getElementsByClassName('shipState');
+for (d of td) {   
+ if (d.innerHTML == 0){
+  d.textContent='未開通';
+ } else if (d.innerHTML == 1) {
+  d.textContent='已開通';
+ } else if (d.innerHTML == 2) {
+  d.textContent='停權';
+ }
+}
+
+</script>
 
 <!-- 彈出視窗 -->
 <script>

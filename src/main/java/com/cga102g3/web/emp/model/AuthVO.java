@@ -1,6 +1,6 @@
 package com.cga102g3.web.emp.model;
 
-public class AuthVO {
+public class AuthVO implements java.io.Serializable{
 	private Integer authID;
 	private String authName;
 	public Integer getAuthID() {

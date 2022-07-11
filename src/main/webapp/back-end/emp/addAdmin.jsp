@@ -84,7 +84,7 @@ input.addemp {
 /*             margin-bottom: 10px; */
             background:#678F74;
             color: white;
-            padding: 14px 20px;
+            padding: 7px 10px;
             border: none;
             cursor: pointer;
             width: 100px;
@@ -107,6 +107,9 @@ margin-left: 10px;
 padding-bottom: 10px;
 }
 
+div.errmsg{
+margin-left: 10px;
+}
 </style>
 
 </head>
@@ -125,7 +128,7 @@ padding-bottom: 10px;
 
 
 	<%-- 錯誤表列 --%>
-	
+	<div class="errmsg">
 	<c:if test="${not empty errorMsgs}">
 		<font style="color: red">請修正以下錯誤:</font>
 		<ul>
@@ -134,7 +137,7 @@ padding-bottom: 10px;
 			</c:forEach>
 		</ul>
 	</c:if>
-	
+	</div>
 	<FORM METHOD="post" ACTION="${pageContext.request.contextPath}/back-end/emp/emp.do" name="form1">
 		<table id="table-2">
 			<tr>

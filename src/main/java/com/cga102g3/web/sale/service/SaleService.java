@@ -98,4 +98,5 @@ public class SaleService {
 		return dao.judge2(start,end);
 	}
 
+
 }

@@ -24,4 +24,9 @@ public class OrderItemService {
     }
 
     public List<Map<String,Object>> getByOrderID(Integer orderID){return dao.getByOrderID(orderID);}
+
+    //Alan
+    public List<Map<String, Object>> getALL(int orderID) {
+        return dao.findAll(orderID);
+    }
 }

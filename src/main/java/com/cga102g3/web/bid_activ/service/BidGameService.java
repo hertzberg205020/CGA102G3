@@ -6,6 +6,7 @@ import com.cga102g3.web.bid_activ.entity.BidErrStat;
 import com.cga102g3.web.bid_activ.entity.Bidder;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,4 +51,6 @@ public interface BidGameService {
     void persistActivRes(BidActiv activity);
 
     Map<String, Object> getBooksByKeyword(String keyword, int page);
+
+    List<Bidder> getAllBidders(Integer bidID);
 }

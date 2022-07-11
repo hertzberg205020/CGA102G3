@@ -1,5 +1,6 @@
 package com.cga102g3.web.prod.dao;
 
+import com.cga102g3.web.prod.entity.CarObj;
 import com.cga102g3.web.prod.entity.ProdVO;
 
 import java.util.List;
@@ -49,4 +50,28 @@ import java.util.Map;
      * @date: 2022/06/29 10:30:05
      */
     public List<Map<String,Integer>> useCategory(String category);
+
+    /** Find products by price range **/
+    public List<Map<String,Object>> findPrice(int price);
+
+    //前台首頁搜尋
+    public List<Map<String,Object>> selectTitle(String bookTitle);
+
+    /**
+     * @description: 購物車
+     * @param:
+     * @return:
+     * @auther: Luke
+     * @date: 2022/07/06 14:05:51
+     */
+    public CarObj getForCar(int prodID);
+
+    /**
+     * @description: 商品明細確認是否特價
+     * @param:
+     * @return:
+     * @auther: Luke
+     * @date: 2022/07/10 12:48:27
+     */
+    public Integer checkSale(int prodID);
 }

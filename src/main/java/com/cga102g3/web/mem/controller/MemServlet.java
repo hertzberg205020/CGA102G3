@@ -2,6 +2,7 @@ package com.cga102g3.web.mem.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.servlet.http.Part;
 
 import com.cga102g3.web.emp.model.AdminService;
 import com.cga102g3.web.emp.model.AdminVO;
+import com.cga102g3.web.mem.model.MailService;
 import com.cga102g3.web.mem.model.MemService;
 import com.cga102g3.web.mem.model.MemVO;
 
@@ -35,36 +37,50 @@ public class MemServlet extends HttpServlet{
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+
 		
 if ("signup".equals(action)) { // 來自signup.jsp的請求
 			
-			Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+//			Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 		
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				
+							
 				
 				String mbrAccount = req.getParameter("username");
 				String enameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{4,10}$";
 				if (mbrAccount == null || mbrAccount.trim().length() == 0) {
-					errorMsgs.put("帳號: ","請勿空白");
+					errorMsgs.add("帳號請勿空白");
 				} else if(!mbrAccount.trim().matches(enameReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.put("帳號: ","只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
+					errorMsgs.add("帳號只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
+	            }
+				
+				MemService memsv = new MemService();
+	            List<MemVO> memVOs = memsv.getAll();
+	            for (MemVO memVO : memVOs) {
+	                if (mbrAccount.equals(memVO.getMbrAccount())) {
+	                    errorMsgs.add("帳號已被註冊過");
+	                }
+
 	            }
 				
 				String mbrPassword = req.getParameter("password");
 				String passwordReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{4,10}$";
 				if (mbrPassword == null || mbrPassword.trim().length() == 0) {
-					errorMsgs.put("密碼: ","請勿空白");
+					errorMsgs.add("密碼請勿空白");
 				} else if(!mbrPassword.trim().matches(passwordReg)) { //以下練習正則(規)表示式(regular-expression)
-					errorMsgs.put("密碼: ","只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
+					errorMsgs.add("密碼只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
 	            }
 				
 				String mbrName = req.getParameter("name");
 				Integer mbrGender = Integer.valueOf(req.getParameter("gender").trim());
-				String mbrMobile = req.getParameter("phone");
+				if (mbrGender == null) {
+					errorMsgs.add("請選擇性別");
+				}
 				
-				
+				String mbrMobile = req.getParameter("phone");				
 				String city = req.getParameter("city");
 				String town = req.getParameter("town");
 				String Addr = req.getParameter("address");
@@ -72,12 +88,22 @@ if ("signup".equals(action)) { // 來自signup.jsp的請求
 				
 				
 				String mbrEmail = req.getParameter("email");
+				MemService memmail = new MemService();
+	            List<MemVO> memVOmail = memmail.getAll();
+				for (MemVO memVO : memVOmail) {
+	                if (mbrEmail.equals(memVO.getMbrEmail())) {
+	                    errorMsgs.add("信箱已被註冊過");
+	                }
+
+	            }
+				
+				
 				
 				java.sql.Date hiredate = null;
 				try {
 					hiredate = java.sql.Date.valueOf(req.getParameter("date").trim());
 				} catch (IllegalArgumentException e) {
-					errorMsgs.put("date","請輸入日期");
+					errorMsgs.add("請輸入日期");
 				}
 				
 				MemVO memVO = new MemVO();
@@ -86,7 +112,7 @@ if ("signup".equals(action)) { // 來自signup.jsp的請求
 				memVO.setMbrName(mbrName);
 				memVO.setMbrGender(mbrGender);
 				memVO.setMbrMobile(mbrMobile);
-				memVO.setMbrAddr(mbrAddr);
+				memVO.setMbrAddr(Addr);
 				memVO.setMbrEmail(mbrEmail);
 				
 				
@@ -102,13 +128,31 @@ if ("signup".equals(action)) { // 來自signup.jsp的請求
 				/***************************2.開始新增資料*****************************************/
 				MemService memSvc = new MemService();
 				memSvc.signup(mbrAccount, mbrPassword, mbrName, mbrGender, mbrMobile, mbrAddr, mbrEmail, hiredate);
-				
-				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				MemVO memVO2 = memSvc.signupStatus(memVO);	//從mail與取出mbrID
+				/***************************3.寄送驗證信*****************************************/
+				MailService mailService = new MailService();
+				mailService.sendMail(mbrEmail, "Tibani書城_會員認證信", req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/back-end/mem/mem.do?mbrID="+ memVO2.getMbrID()+"&action=verifyStatus");			
+				/***************************4.修改完成,準備轉交(Send the Success view)*************/
 //				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/front-end/mem/index.jsp";
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 		}
+
+
+//改變會員狀態為已開通
+if ("verifyStatus".equals(action)) {
+	/*************************** 1.接收請求參數 ****************************************/
+	Integer mbrID = Integer.valueOf(req.getParameter("mbrID"));
+	/*************************** 2.開始更改資料 ****************************************/
+	MemService memSvc = new MemService();
+	memSvc.updateStatus(mbrID);
+	String url = "/index.jsp";
+	System.out.println(url);
+	RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交index.jsp
+	successView.forward(req, res);
+	
+}
 
 
 if ("getOne_For_Update".equals(action)) { // / 來自memlist.jsp的請求
@@ -133,7 +177,7 @@ if ("getOne_For_Update".equals(action)) { // / 來自memlist.jsp的請求
 }
 
 
-if ("update".equals(action)) {// 來自signup.jsp的請求
+if ("update".equals(action)) {// 來自getOne_For_Update的請求
 	
 	List<String> errorMsgs = new LinkedList<String>();
 	req.setAttribute("errorMsgs", errorMsgs);

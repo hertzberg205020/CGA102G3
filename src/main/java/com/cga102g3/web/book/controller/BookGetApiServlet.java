@@ -40,7 +40,8 @@ public class BookGetApiServlet extends BaseGetAPIServlet {
     public void getEditionsByISBN(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String ISBN = request.getParameter("ISBN");
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
         if (ISBN == null) {
             ErrMsg errMsg = new ErrMsg();
@@ -61,7 +62,8 @@ public class BookGetApiServlet extends BaseGetAPIServlet {
      */
     public void getCategories(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         writePojo2Json(response, categoryService.getAll());
     }
 
@@ -81,7 +83,8 @@ public class BookGetApiServlet extends BaseGetAPIServlet {
             bookID = Integer.valueOf(strBookId);
         }
 
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
         if (ISBN == null || bookID == null) {
             ErrMsg errMsg = new ErrMsg();
@@ -105,7 +108,8 @@ public class BookGetApiServlet extends BaseGetAPIServlet {
         String keyword = request.getParameter("keyword");
         keyword = keyword.trim();
         int page = Integer.parseInt(request.getParameter("page"));
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         writePojo2Json(response, service.getBooksByKeyword(keyword, page));
     }
 }

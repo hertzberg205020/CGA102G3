@@ -129,7 +129,6 @@ public class BidOrderServlet extends HttpServlet {
 		
 /************************ Update Shipped Status  *******************************/
 		if("shipped".equals(action)) {
-			System.out.println(123);
 			Integer bidOrderID = Integer.valueOf(req.getParameter("bidOrderID").trim());
 			BidOrderService bs = new BidOrderService();
 			bs.updateShipped(bidOrderID);
@@ -137,5 +136,40 @@ public class BidOrderServlet extends HttpServlet {
 			RequestDispatcher success = req.getRequestDispatcher("/back-end/bid_order/bid_order_show_ship.jsp");
 			success.forward(req, res);
 		}
+		
+/************************ Search by Member Name  *******************************/
+		if("showMbrName".equals(action)) {
+			List<String> errMsgsMbr = new LinkedList<>();
+			req.setAttribute("errMsgsMbr", errMsgsMbr);
+
+			String mbrName = req.getParameter("mbrName");
+			if (mbrName == null || (mbrName.trim()).length() == 0) {
+				errMsgsMbr.add("請輸入會員名稱");
+			}
+
+			if (!errMsgsMbr.isEmpty()) {
+				RequestDispatcher fail = req.getRequestDispatcher("/back-end/bid_order/bid_order_page.jsp");
+				fail.forward(req, res);
+				return;
+			}
+
+			BidOrderService bs = new BidOrderService();
+			List<BidOrder> bidOrder = bs.showMbrName(mbrName);
+			
+			if (bidOrder.size() == 0) {
+				errMsgsMbr.add("查無資料");
+			}
+			
+			if (!errMsgsMbr.isEmpty()) {
+				RequestDispatcher fail = req.getRequestDispatcher("/back-end/bid_order/bid_order_page.jsp");
+				fail.forward(req, res);
+				return;
+			}
+
+			req.setAttribute("mbrName", mbrName);
+			RequestDispatcher success = req.getRequestDispatcher("/back-end/bid_order/bid_order_show_mbr.jsp");
+			success.forward(req, res);
+		}
+
 	}
 }

@@ -25,7 +25,7 @@ FaqVO faqVO = (FaqVO) request.getAttribute("faqVO");
 </head>
 <body>
 	<header class="header">
-		<h1>客服管理>FAQ管理>FAQ新增</h1>
+		<h1>客服管理 / FAQ管理 / FAQ新增</h1>
 	</header>
 	<%@include file="/static/template/back_layout_aside.jsp"%>
 	<main class="main">

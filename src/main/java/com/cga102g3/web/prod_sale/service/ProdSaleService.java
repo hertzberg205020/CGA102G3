@@ -2,6 +2,7 @@ package com.cga102g3.web.prod_sale.service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.cga102g3.web.prod_sale.dao.ProdSaleDAO_interface;
 import com.cga102g3.web.prod_sale.dao.impl.ProdSaleJDBCDAO;
@@ -45,5 +46,5 @@ public class ProdSaleService {
 		return dao.getAll();
 	}
 
-	public List<ProdSaleVO> getBySaleID(Integer saleID){return dao.getBySaleID(saleID);}
+	public List<Map<String, Object>>  getBySaleID(Integer saleID){return dao.getBySaleID(saleID);}
 }

@@ -17,23 +17,20 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
 
     
-<title>金流管理>查詢錢包使用紀錄</title>
+<title>金流管理 / 查詢錢包使用紀錄</title>
 
 </head>
 
 <body>
 
 <header class="header">
-    <h1>金流管理>查詢錢包使用紀錄</h1>
+    <h1>金流管理 / 查詢錢包使用紀錄</h1>
 </header>
 
 <%@include file="/static/template/back_layout_aside.jsp"%>
 
     <main class="main">
-        <!--FAQ start-->
-    
-      
-      
+<div class="container">
       <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font style="color:red">請修正以下錯誤:</font>
@@ -44,31 +41,31 @@
 	</ul>
 </c:if>
 
-  <a href='listAllWalletrecord.jsp'>查看所有會員錢包紀錄</a>　　
+  <h4><a href='listAllWalletrecord.jsp'>查看所有會員錢包紀錄</a></h4>
   
 
       
-    <FORM METHOD="post" ACTION="mem.do" >
-        <b>搜尋會員編號</b>
-        <input type="text" name="mbr_ID">
+    <FORM METHOD="post" ACTION="walletrecord.do" >
+        <b>查詢會員編號</b>
+        <input required autofocus type="text" pattern="[0-9]" name="mbrID">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="送出">
+        <input type="submit" class="btn btn-info" value="送出">
     </FORM>
   
-  <jsp:useBean id="walletrecordSvc" scope="page" class="com.cga102g3.web.walletrecord.model.WalletrecordService" />
+  <jsp:useBean id="memSvc" scope="page" class="com.cga102g3.web.mem.model.MemService" />
   
-     <FORM METHOD="post" ACTION="mem.do" >
-       <b>查詢會員錢包使用紀錄</b>
-       <select size="1" name="mbr_ID">
-       		<option value="">欲查詢之會員編號</option>
+     <FORM METHOD="post" ACTION="walletrecord.do" >
+       <b>選擇會員編號</b>
+       <select size="1" name="mbrID">
+       		<option value="">請選擇</option>
          <c:forEach var="memVO" items="${memSvc.all}" > 
-          <option value="${memVO.mbr_ID}">${memVO.mbr_ID}
+          <option value="${memVO.mbrID}">${memVO.mbrID}</option>
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="送出">
+       <input type="submit" class="btn btn-info" value="送出">
     </FORM>
-
+</div>
     </main>
 <script>
            $(".label").find("span").click(function(){

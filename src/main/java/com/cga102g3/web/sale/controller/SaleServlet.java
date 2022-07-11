@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "SaleServlet", value = "/SaleServlet.do")
 public class SaleServlet extends HttpServlet {
@@ -64,7 +65,7 @@ public class SaleServlet extends HttpServlet {
             String saleID = request.getParameter("saleID");
             if (saleID != null || saleID.trim().length() != 0){
                 ProdSaleService svc = new ProdSaleService();
-                List<ProdSaleVO> list = svc.getBySaleID(Integer.valueOf(saleID));
+                List<Map<String, Object>>  list = svc.getBySaleID(Integer.valueOf(saleID));
                 Gson gson = new Gson();
                 response.setContentType("application/json; charset=UTF-8");
                 PrintWriter out = response.getWriter();

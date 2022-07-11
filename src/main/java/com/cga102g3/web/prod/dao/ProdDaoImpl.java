@@ -2,6 +2,7 @@ package com.cga102g3.web.prod.dao;
 
 import com.cga102g3.core.util.JDBCUtil;
 import com.cga102g3.web.book.entity.Book;
+import com.cga102g3.web.prod.entity.CarObj;
 import com.cga102g3.web.prod.entity.ProdVO;
 
 import java.sql.*;
@@ -171,11 +172,11 @@ public class ProdDaoImpl implements ProdDao{
                 "select\r\n"
                         + " p.prod_ID, p.price AS price1,b.title,\r\n"
                         + "    case\r\n"
-                        + "  when '2022-01-01 00:00:00' between s.sale_start and s.sale_end then ps.sale_price\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\r\n"
                         + "        else p.price\r\n"
                         + " end as price2,\r\n"
                         + "    case\r\n"
-                        + "  when '2022-01-01 00:00:00' between s.sale_start and s.sale_end then 'Y'\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\r\n"
                         + "        else 'N'\r\n"
                         + " end as discount\r\n"
                         + "from\r\n"
@@ -229,11 +230,11 @@ public class ProdDaoImpl implements ProdDao{
                 "SELECT\r\n"
                         + " p.prod_ID, p.price AS price1,b.title,\r\n"
                         + "    CASE\r\n"
-                        + "  WHEN '2022-01-01 00:00:00' BETWEEN s.sale_start AND s.sale_end THEN ps.sale_price\r\n"
+                        + "  WHEN NOW() BETWEEN s.sale_start AND s.sale_end THEN ps.sale_price\r\n"
                         + "        ELSE p.price\r\n"
                         + " END AS price2,\r\n"
                         + "    CASE\r\n"
-                        + "  WHEN '2022-01-01 00:00:00' BETWEEN s.sale_start AND s.sale_end THEN 'Y'\r\n"
+                        + "  WHEN NOW() BETWEEN s.sale_start AND s.sale_end THEN 'Y'\r\n"
                         + "        ELSE 'N'\r\n"
                         + " END AS discount\r\n"
                         + "FROM\r\n"
@@ -309,5 +310,202 @@ public class ProdDaoImpl implements ProdDao{
             JDBCUtil.close(con,ps,rs);
         }
         return list;
+    }
+
+    /** Find products by price range **/
+    @Override
+    public List<Map<String, Object>> findPrice(int price) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        final String GET_PRICE =
+                "select\r\n"
+                        + " p.prod_ID, p.price AS price1, b.title,\r\n"
+                        + "    case\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\r\n"
+                        + "        else p.price\r\n"
+                        + " end as price2,\r\n"
+                        + "    case\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\r\n"
+                        + "        else 'N'\r\n"
+                        + " end as discount\r\n"
+                        + "from\r\n"
+                        + " product p\r\n"
+                        + " left join prod_sale ps\r\n"
+                        + "  on p.prod_ID = ps.prod_ID\r\n"
+                        + " left join sale s\r\n"
+                        + "  on ps.sale_ID = s.sale_ID\r\n"
+                        + " left join book b\r\n"
+                        + "  on p.book_ID = b.book_ID\r\n"
+                        + "where\r\n"
+                        + " p.status = 1 and p.price < ?";
+
+        try{
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(GET_PRICE);
+            ps.setInt(1, price);
+            rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("title", rs.getString("title"));
+                map.put("price1", rs.getInt("price1"));
+                map.put("price2", rs.getInt("price2"));
+                map.put("discount", rs.getString("discount"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        } finally {
+            JDBCUtil.close(con,ps,rs);
+        }
+        return list;
+    }
+
+    //前台首頁搜尋
+    public List<Map<String, Object>> selectTitle(String bookTitle) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> list = null;
+        final String sql =
+                " select b.book_ID, p.prod_ID, p.price AS price1, b.title,\n"
+                        + "    case\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\n"
+                        + "        else p.price\n"
+                        + " end as price2,\n"
+                        + "    case\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\n"
+                        + "        else 'N'\n"
+                        + " end as discount\n"
+                        + " from product p\n"
+                        + " left join prod_sale ps\n"
+                        + "  on p.prod_ID = ps.prod_ID\n"
+                        + " left join sale s\n"
+                        + "  on ps.sale_ID = s.sale_ID\n"
+                        + " left join book b\n"
+                        + "  on p.book_ID = b.book_ID\n"
+                        + "where\n"
+                        + " p.status = 1 and b.title like ?";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + bookTitle + "%");
+            rs = pstmt.executeQuery();
+            list = retrieve2(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    private List<Map<String, Object>> retrieve2(ResultSet rs) throws SQLException {
+
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        while (rs.next()) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("bookID", rs.getInt("book_ID"));
+            map.put("prodID", rs.getInt("prod_ID"));
+            map.put("price1", rs.getInt("price1"));
+            map.put("title", rs.getString("title"));
+            map.put("price2", rs.getInt("price2"));
+            map.put("discount", rs.getString("discount"));
+            list.add(map);
+        }
+        return list;
+    }
+
+    /**
+     * @description: 購物車專用
+     * @param: [prodID]
+     * @return: com.cga102g3.web.prod.entity.CarObj
+     * @auther: Luke
+     * @date: 2022/07/10 12:47:15
+     */
+    @Override
+    public CarObj getForCar(int prodID) {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        CarObj obj = null;
+        final String sql = "select\n" +
+                "\tp.prod_ID, p.price AS price1,b.title,\n" +
+                "    case\n" +
+                "\t\twhen now() between s.sale_start and s.sale_end then ps.sale_price\n" +
+                "        else p.price\n" +
+                "\tend as price2,\n" +
+                "    case\n" +
+                "\t\twhen now() between s.sale_start and s.sale_end then 'Y'\n" +
+                "        else 'N'\n" +
+                "\tend as discount\n" +
+                "from\n" +
+                "\tproduct p\n" +
+                "    left join prod_sale ps\n" +
+                "\t\ton p.prod_ID = ps.prod_ID\n" +
+                "\tleft join sale s\n" +
+                "\t\ton ps.sale_ID = s.sale_ID\n" +
+                "\tleft join book b\n" +
+                "\t\ton p.book_ID = b.book_ID\n" +
+                "where\n" +
+                "\tp.prod_ID = ?\n";
+        try {
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,prodID);
+            rs = ps.executeQuery();
+
+            if (rs.next()){
+                obj = new CarObj();
+                obj.setProdID(rs.getInt("prod_ID"));
+                obj.setPrice(rs.getInt("price1"));
+                obj.setSalePrice(rs.getInt("price2"));
+                obj.setTitle(rs.getString("title"));
+                obj.setDiscount(rs.getString("discount"));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            JDBCUtil.close(con,ps,rs);
+        }
+        return obj;
+    }
+
+    /**
+     * @description: 商品明細頁面確認是否特價
+     * @param: [prodID]
+     * @return: java.lang.Integer
+     * @auther: Luke
+     * @date: 2022/07/10 12:47:47
+     */
+    @Override
+    public Integer checkSale(int prodID) {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Integer salePrice = null;
+        final String sql = "select sale_price,prod_ID \n" +
+                "from prod_sale ps\n" +
+                "join sale s\n" +
+                "on ps.sale_ID = s.sale_ID\n" +
+                "where now() between s.sale_start and s.sale_end and prod_ID = ?";
+        try {
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,prodID);
+            rs = ps.executeQuery();
+
+            if (rs.next()){
+                salePrice = rs.getInt("sale_price");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return salePrice;
     }
 }

@@ -22,14 +22,19 @@ FaqService faqSvc = new FaqService();
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap4/css/bootstrap.css">
     <!--    基礎版面樣式  -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
-
-<title>客服管理>FAQ管理</title>
+<style>
+.pageForm {
+	font-size: 20px;
+	display: inline;
+}
+</style>
+<title>客服管理 / FAQ管理</title>
 
 </head>
 <body>
 
 <header class="header">
-    <h1>客服管理>FAQ管理</h1>
+    <h1>客服管理 / FAQ管理</h1>
 </header>
 
 <%@include file="/static/template/back_layout_aside.jsp"%>
@@ -40,14 +45,11 @@ FaqService faqSvc = new FaqService();
 
 <table id="table-1">
 	<tr>
-	<th><h1>FAQ管理　　　　</h1><th>
-
-
-
+	<th><h2>FAQ管理　　　　　　　　　　　</h2><th>
 	<th>
 	    <FORM METHOD="post" ACTION="faq.do" >
-        <b>　　　　　　　　　　　　搜尋 FAQ編號</b>
-        <input type="text" name="FAQ_ID">
+        <b>　　搜尋 FAQ編號</b>
+        <input required type="text" name="FAQ_ID">
         <input type="hidden" name="action" value="getOne_For_Display">
         <input type="submit" class="btn btn-info" value="搜尋">
     	</FORM>
@@ -58,7 +60,6 @@ FaqService faqSvc = new FaqService();
                  新增FAQ
          </button>
     </th>
-
 	</tr>
 </table>
 
@@ -96,11 +97,11 @@ FaqService faqSvc = new FaqService();
 		</tr>
 	</c:forEach>
 </table>
+</div>
 
-
-
+<div class="text-center">
 <%@ include file="page2.file" %>
-<div>
+</div>
 </main>
 </body>
 <!-- sweetalert -->

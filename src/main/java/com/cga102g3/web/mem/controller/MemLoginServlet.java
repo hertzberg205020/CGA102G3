@@ -73,7 +73,7 @@ public class MemLoginServlet extends HttpServlet{
 	         }
 	       }catch (Exception ignored) { }
 
-	      res.sendRedirect(req.getContextPath()+"/front-end/mem/index.jsp");  //*工作3: (-->如無來源網頁:則重導至login_success.jsp)
+	      res.sendRedirect(req.getContextPath()+"/index.jsp");  //*工作3: (-->如無來源網頁:則重導至login_success.jsp)
 	    }
 	  }
 }

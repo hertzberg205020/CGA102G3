@@ -15,14 +15,14 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
 
     
-<title>客服管理>FAQ管理</title>
+<title>客服管理 / FAQ管理</title>
 
 </head>
 
 <body>
 
 <header class="header">
-    <h1>客服管理>FAQ管理</h1>
+    <h1>客服管理 / FAQ管理</h1>
 </header>
 
 <%@include file="/static/template/back_layout_aside.jsp"%>

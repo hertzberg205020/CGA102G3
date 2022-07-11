@@ -16,8 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.cga102g3.web.emp.model.AdminAuthService;
+import com.cga102g3.web.emp.model.AdminAuthVO;
 import com.cga102g3.web.emp.model.AdminService;
 import com.cga102g3.web.emp.model.AdminVO;
+import com.cga102g3.web.emp.model.AuthDAO_interface;
+import com.cga102g3.web.mem.model.MemService;
+import com.cga102g3.web.mem.model.MemVO;
 
 @WebServlet("/back-end/emp/emp.do")
 @MultipartConfig
@@ -72,11 +77,11 @@ public class AdminServlet extends HttpServlet {
 				errorMsgs.add("�d�L���");
 			}
 			// Send the use back to the form, if there were errors
-			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/emp/select_page.jsp");
-				failureView.forward(req, res);
-				return;// 程式中斷_
-			}
+//			if (!errorMsgs.isEmpty()) {
+//				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/emp/select_page.jsp");
+//				failureView.forward(req, res);
+//				return;// 程式中斷_
+//			}
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("AdminVO", adminVO); // 資料庫取出的empVO物件,存入req
@@ -93,10 +98,23 @@ public class AdminServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			/*********************** 1.�����ШD�Ѽ� - ��J�榡�����~�B�z *************************/
+			
+			
+			
 			String account = req.getParameter("account").trim();
 			if (account == null || account.trim().length() == 0) {
 				errorMsgs.add("請輸入帳號");
 			}
+			AdminService adminsv = new AdminService();
+            List<AdminVO> adminVOs = adminsv.getAll();
+            for (AdminVO adminVO : adminVOs) {
+                if (account.equals(adminVO.getAdminAccount())) {
+                    errorMsgs.add("帳號已被使用");
+                }
+
+            }
+			
+			
 			String password = req.getParameter("password").trim();
 			if (password == null || password.trim().length() == 0) {
 				errorMsgs.add("請輸入密碼");
@@ -106,7 +124,7 @@ public class AdminServlet extends HttpServlet {
 			if (name == null || name.trim().length() == 0) {
 				errorMsgs.add("請輸入姓名");
 			} else if (!name.trim().matches(nameReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
-				errorMsgs.add("���u�m�W: �u��O���B�^��r���B�Ʀr�M_ , �B���ץ��ݦb2��10����");
+				errorMsgs.add("姓名只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 			}
 
 			String phone = req.getParameter("phone").trim();
@@ -182,7 +200,7 @@ public class AdminServlet extends HttpServlet {
 			if (name == null || name.trim().length() == 0) {
 				errorMsgs.add("請輸入姓名");
 			} else if (!name.trim().matches(nameReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
-				errorMsgs.add("���u�m�W: �u��O���B�^��r���B�Ʀr�M_ , �B���ץ��ݦb2��10����");
+				errorMsgs.add("姓名只能是中、英文字母、數字和_ , 且長度必需在2到10之間");
 			}
 
 			String phone = req.getParameter("phone").trim();
@@ -240,6 +258,71 @@ public class AdminServlet extends HttpServlet {
 			RequestDispatcher successView = req.getRequestDispatcher(url);// �R�����\��,���^�e�X�R�����ӷ�����
 			successView.forward(req, res);
 		}
+		
+		
+		if ("getOne_For_UpdateAuth".equals(action)) { // / 來自listAllAdmin.jsp的請求
+
+			/*************************** 1.接收請求參數 ****************************************/
+			Integer adminID = Integer.valueOf(req.getParameter("adminID"));
+
+			/*************************** 2.開始查詢資料 ****************************************/
+			AdminService adminSvc = new AdminService();
+			AdminVO adminVO = adminSvc.getOneEmp(adminID);
+			AdminAuthService adminAuthService = new AdminAuthService();
+			List<AdminAuthVO> adminAuthVO =  adminAuthService.getAdminAuth(adminID);
+
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+			req.setAttribute("adminVO", adminVO); // // 資料庫取出的empVO物件,存入req
+			req.setAttribute("adminAuthVO", adminAuthVO);
+			String url = "/back-end/emp/update_admin_auth.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_admin.input.jsp
+			successView.forward(req, res);
+		}
+
+		if ("updateAuth".equals(action)) { // �ק���u��� �Ӧ�update_emp_input.jsp���ШD
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			/*************************** 1.�����ШD�Ѽ� - ��J�榡�����~�B�z **********************/
+			Integer adminID = Integer.valueOf(req.getParameter("adminID").trim());			
+			AdminVO adminVO = new AdminVO();
+			adminVO.setAdminID(adminID);
+			
+			String[] auth =req.getParameterValues("auth");
+			if (auth == null || auth.length == 0) {
+				errorMsgs.add("請選擇權限");
+			}
+			
+			
+			// Send the use back to the form, if there were errors
+			if (!errorMsgs.isEmpty()) {
+				req.setAttribute("adminVO", adminVO); // �t����J�榡���~��empVO����,�]�s�Jreq
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/emp/update_admin_auth.jsp");
+				failureView.forward(req, res);
+				return;
+			}
+
+			/*************************** 2.�}�l�ק��� ***************************************/
+			AdminAuthService adminAuthSvc = new AdminAuthService();
+			adminAuthSvc.delete(adminID);
+			for(int i=0;i < auth.length; i++) {
+				adminAuthSvc.insert(adminID, Integer.valueOf(auth[i]));
+			}
+			List <AdminAuthVO> adminAuthVO = adminAuthSvc.getAdminAuth(adminID);
+			
+			/*************************** 3.�ק粒��,�ǳ����(Send the Success view) ***********/
+			req.setAttribute("adminVO", adminVO);
+//			req.setAttribute("AdminAuthVO", adminAuthVO);
+			String url = "/back-end/emp/listAdminAuth.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // �s�W���\�����listAllEmp.jsp
+			successView.forward(req, res);
+		}
+		
+		
+		
 		
 		// test upfile
 //		if ("upfile".equals(action)) {

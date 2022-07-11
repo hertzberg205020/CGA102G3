@@ -54,7 +54,7 @@ async function loadInf() {
         return response.json();
     }).then((jsonData) => {
         // 相當於success
-        const {stat, data} = {...jsonData};
+        const {stat, data} = jsonData;
         if (stat === 'successful') {
             showInfo(data);
         }

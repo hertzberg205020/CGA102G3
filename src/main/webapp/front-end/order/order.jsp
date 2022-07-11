@@ -13,10 +13,26 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script src="${pageContext.request.contextPath}/front-end/order/js/order1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+    crossorigin="anonymous"></script>
+    <script src="${pageContext.request.contextPath}/front-end/order/js/order2.js"></script>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
-
+    <style>
+        .mytable tr td {
+            /* for IE */
+            text-overflow: ellipsis;
+            /* for Firefox,mozilla */
+            -moz-text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: left
+        }
+    </style>
 </head>
 <body>
 <%@include file="/static/template/front_layout_header.jsp" %>
@@ -67,8 +83,39 @@
 
         </tbody>
     </table>
+    <div class="modal fade" id="edit" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">產品明細</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table width='100%' cellspacing='0' cellpadding='0' class='mytable table' style='table-layout: fixed'>
+                        <thead>
+                        <tr class="table-warning font-weight-bold">
+                            <td>書名</td>
+                            <td>照片</td>
+                            <td>數量</td>
+                            <td>單價</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
-<script src="${pageContext.request.contextPath}/front-end/order/js/order.js"></script>
 <%@include file="/static/template/front_layout_footer.jsp" %>
+<a href=""></a>
 </body>
 </html>

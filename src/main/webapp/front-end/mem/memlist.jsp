@@ -56,7 +56,7 @@ main.main {
 table.list {
 box-shadow: 5px 5px 5px #cccccc;
 	width: 500px;
-	height: 426px;
+	height: 472px;
 	margin: 5% auto;
 	border: 5px solid #7bc5ae;
 	border-collapse: separate;
@@ -73,6 +73,10 @@ td.left {
 	text-align: left;
 }
 
+td.shipState{
+text-align: left;
+}
+
 div.div1, div.pic {
 /* background-color: #d1ede1; */
 border-radius: 10px;
@@ -83,7 +87,7 @@ box-shadow:5px 5px 5px  #cccccc;
 padding-top:10px;
 	margin-top: 25px;
 	width: 180px;
-	height: 426px;
+	height: 472px;
 	text-align: center;
 	border: 5px solid #7bc5ae;
 	border-radius: 10px;
@@ -172,6 +176,10 @@ border: 4px solid #7bc5ae;
 						<td class="left">${memVO.mbrName}</td>
 					</tr>
 					<tr>
+						<td class="right">會員狀態</td>
+						<td class="shipState" id="shipState">${memVO.mbrStatus}</td>
+					</tr>
+					<tr>
 						<td class="right">會員手機</td>
 						<td class="left">${memVO.mbrMobile}</td>
 					</tr>
@@ -212,6 +220,21 @@ border: 4px solid #7bc5ae;
 			</div>
 		</div>
 	</main>
+
+<script>
+let td = document.getElementsByClassName('shipState');
+for (d of td) {   
+ if (d.innerHTML == 0){
+  d.textContent='未開通';
+ } else if (d.innerHTML == 1) {
+  d.textContent='已開通';
+ } else if (d.innerHTML == 2) {
+  d.textContent='停權';
+ }
+}
+</script>
+
+
 
 <script type="text/javascript">
 var imgs=document.images;

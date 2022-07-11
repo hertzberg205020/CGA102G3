@@ -100,4 +100,57 @@ public class OrderItemDaoImpl implements OrderItemDao{
         }
         return list;
     }
+
+    /**
+     * @description: 針對後台 orderitem 的查看
+     * @author: Alan
+     * @date: 2022/7/4
+     **/
+    @Override
+    public List<Map<String,Object>> findAll(int orderID) {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+
+        final String sql = "select order_ID, prod_ID, amount, sale_price\n" +
+                "from order_item\n" +
+                "where order_ID = ?";
+
+        final String[] columns = {"order_ID"};
+
+        try{
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(sql,columns);
+            //關閉自動交易
+            con.setAutoCommit(false);
+            ps.setInt(1, orderID);
+
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("orderID", rs.getInt("order_id"));
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("amount", rs.getInt("amount"));
+                map.put("sale", rs.getInt("sale_price"));
+                list.add(map);
+            }
+            rs.close();
+        }catch (SQLException e) {
+            if (con != null) {
+                try {
+                    System.err.print("Transaction is being ");
+                    System.err.println("rolled back-dept");
+                    con.rollback();
+                } catch (SQLException excep) {
+                    throw new RuntimeException("rollback error occured. "
+                            + excep.getMessage());
+                }
+            }
+            throw new RuntimeException("A database error occured. "
+                    + e.getMessage());
+        }
+        return list;
+    }
 }

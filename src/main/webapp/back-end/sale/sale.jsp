@@ -27,9 +27,16 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="${pageContext.request.contextPath}/back-end/sale/js/sale.js"></script>
     <style>
-        .detail{
-            display: block;
-        }
+        .mytable tr td {
+             /* for IE */
+             text-overflow: ellipsis;
+             /* for Firefox,mozilla */
+             -moz-text-overflow: ellipsis;
+             overflow: hidden;
+             white-space: nowrap;
+             text-align: center;
+             border: 1px yellowgreen solid;
+         }
     </style>
 </head>
 
@@ -79,7 +86,8 @@
                 <th>促銷專案編號</th>
                 <th>開始時間</th>
                 <th>結束時間</th>
-                <th class="text-left">明細</th>
+                <th>明細</th>
+                <th>取消</th>
             </tr>
             </thead>
             <tbody>
@@ -87,6 +95,36 @@
             </tbody>
         </table>
         </div>
+    <div class="modal fade" id="edit" data-backdrop="static" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">促銷專案明細</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table width='100%' cellspacing='0' cellpadding='0' class='mytable' style='table-layout: fixed'>
+                        <thead>
+                        <tr class="table-warning font-weight-bold">
+                            <td class="text-center">書名</td>
+                            <td class="text-center">照片</td>
+                            <td class="text-center">特價</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"

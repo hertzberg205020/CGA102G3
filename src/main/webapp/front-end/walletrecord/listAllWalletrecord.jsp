@@ -2,12 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cga102g3.web.walletrecord.model.*"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	WalletrecordService walletrecordSvc = new WalletrecordService();
-    List<WalletrecordVO> list = walletrecordSvc.getOneWalletrecord2(7);
+    List<WalletrecordVO> list = walletrecordSvc.getOneWalletrecord2(1);
     pageContext.setAttribute("list",list);
 %>
 
@@ -27,7 +26,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
    
 
-<title>會員專區>錢包管理</title>
+<title>會員專區 / 錢包管理</title>
 
 </head>
 <body>
@@ -39,10 +38,13 @@
 
 <main class="main">
 		<div class="container">
+		
+
 <table id="table-1">
 
 	<tr>
-<h2>會員專區>錢包管理</h2>
+<h3>會員專區 / 錢包管理</h3>
+				 
 <!-- 	<td> -->
 <!-- 	    <FORM METHOD="post" ACTION="walletrecord.do" > -->
 <!--         <b>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　搜尋FAQ編號</b> -->
@@ -55,16 +57,16 @@
 	
 </table>
 
+  
 
-
-<table class="table table-bordered text-center table-hover">
+<table class="table table-striped text-center table-hover">
 
 	<tr class="table-success">
 <!-- 		<th scope="col" class="col-2">錢包使用紀錄編號</th> -->
-		<th scope="col" class="col-2">會員編號</th>
-		<th scope="col" class="col-2">錢包使用備註</th>
+		<th scope="col" class="col-1">會員編號</th>
+		<th scope="col" class="col-3">錢包使用備註</th>
 		<th scope="col" class="col-2">金額(元)</th>
-		<th scope="col" class="col-4">紀錄時間</th>	
+		<th scope="col" class="col-3">紀錄時間</th>	
 	</tr>
 	<%@ include file="page1.file" %> 
 	<c:forEach var="walletrecordVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">		
@@ -75,26 +77,26 @@
 <c:set var="note" value="${walletrecordVO.note}"/>
 			<c:choose>
     <c:when test="${note == 0}">
-       會員儲值
+       <b><font color=green>會員儲值(+)</font></b>
     </c:when>
     <c:when test="${note == 1}">
-       支出
+       <b><font color=red>支出(-)</font></b>
     </c:when>
     <c:when test="${note == 2}">
-       收入(平台支付二手賣家)
+       <b><font color=green>收入(平台支付二手賣家)(+)</font></b>
     </c:when>
     <c:when test="${note == 3}">
-       競標預扣除金額
+       <b><font color=red>競標預扣除金額(-)</font></b>
     </c:when>
     <c:when test="${note == 4}">
-       競標金額退回
+       <b><font color=green>競標金額退回(+)</font></b>
     </c:when> 
     <c:otherwise>
-        .
+        --
     </c:otherwise>
 </c:choose>
 </td>
-			<td>${walletrecordVO.amount}</td>
+			<td><b>${walletrecordVO.amount}</b></td>
 <td><fmt:formatDate type="both" value="${walletrecordVO.rec_time}" /></td>
 			
 <%-- 			<td><fmt:formatDate value="${walletrecordVO.rec_time}" pattern="yyyy-MM-dd"/></td>		 --%>
@@ -115,16 +117,16 @@
 	</c:forEach>
 	
 	
-</table>
-	<td>
-		 <button type="button" class="btn btn-success"
-                 onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/walletrecord/addWalletrecord.jsp'">
-                 我要儲值
-         </button>
-         
-         <input type="hidden" name="action" value="7">
-	</td>
+</table>  
+
+<div class="text-center">	
 	<%@ include file="page2.file" %>
+	
+	<button type="button" class="btn btn-success"
+onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/walletrecord/addWalletrecord.jsp'">
+我要儲值
+</button>   
+<input type="hidden" name="action" value="7"></div>
 	</div>
 </main>
 </body>

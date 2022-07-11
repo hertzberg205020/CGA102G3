@@ -186,7 +186,7 @@ Integer note_content_type = Integer.valueOf(req.getParameter("note_content_type"
 				
 String note_content = req.getParameter("note_content").trim();
 				if (note_content == null || note_content.trim().length() == 0) {
-					errorMsgs.add("通知內容 請勿空白");
+					errorMsgs.add("留言內容 請勿空白");
 				}
 				
 				
@@ -232,7 +232,7 @@ req.setAttribute("noteVO", noteVO); // 含有輸入格式錯誤的noteVO物件,�
 				noteSvc.deleteNote(note_ID);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/front-end/note/listAllNote.jsp";
+				String url = "/back-end/note/listAllNote.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 		}

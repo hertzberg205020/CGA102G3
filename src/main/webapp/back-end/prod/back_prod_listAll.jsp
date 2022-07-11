@@ -47,24 +47,33 @@ response.setDateHeader("Expires", 0);
 		<h1>一般商品管理</h1>
 	</header>
 	<%@include file="/static/template/back_layout_aside.jsp"%>
+	
 	<main class="main">
 		<div class="table_container">
 			<input type="hidden" value="${pageContext.request.contextPath}" id="prefix">
 			<div class="container">
 				<br>
-				<div class="row justify-content-between">
+				<div class="row">
+				
 					<div class="input-group col-6 mb-3">
 						<button type="button" class="btn btn-outline-success ml-2" id="add_prod_btn" onclick=
 						"javascript:location.href='${pageContext.request.contextPath}/back-end/prod/back_prod_add.jsp'">
 						商品新增</button>
 					</div>
+					
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/prod/prod.do" >
 					<div class="input-group col-6 mb-3">
-						<input type="search" id="keyword_input" class="form-control rounded" placeholder="Search"
-						aria-label="Search" aria-describedby="search-addon"/>
-							<button type="button" class="btn btn-outline-info ml-2" id="search_btn">商品搜尋</button>
+						<input type="text" id="keyword_input" name="keyword_input" class="form-control"
+						aria-label="Search" style="margin-right:-350px"/>
+						<button type="submit" class="btn btn-outline-info ml-2" id="search_btn"
+						style="position:absolute; width:100px; left:360px;">商品搜尋</button>
+						<input type="hidden" name="action"	value="search">
 					</div>
+					</FORM>
+					
 				</div>
 
+		<%@ include file="page1.file" %> 
 			<div class="row">
 				<div class="col-12">
 					<table class="table table-bordered text-center table-hover">
@@ -79,7 +88,7 @@ response.setDateHeader("Expires", 0);
 						</tr>
 					</thead>
 							
-				<c:forEach var="prodVO" items="${list}">
+				<c:forEach var="prodVO" items="${list}"  begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<tbody>
 						<tr>
 						<th scope="row" style="vertical-align:middle">${prodVO.prodID}</th>
@@ -90,7 +99,7 @@ response.setDateHeader("Expires", 0);
 							<td style="vertical-align:middle">${prodVO.price}</td>
 							<td style="vertical-align:middle">${prodVO.status == 1 ? '上架' : '下架'}</td>
 							<td style="vertical-align:middle">
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/prod/prod.do" > 
+						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/prod/prod.do"> 
 								<button type="submit" class="btn btn-success" id="submit_btn">
 									<i class="fas fa-edit"></i>
 								</button>
@@ -104,11 +113,8 @@ response.setDateHeader("Expires", 0);
 				</table>
 			</div>
 		</div>
+	<%@ include file="page2.file" %>
 
-				<div class="row justify-content-around mt-2">
-					<button type="button" class="btn btn-outline-secondary" id="prePageBtn" hidden>上一頁</button>
-					<button type="button" class="btn btn-outline-secondary" id="nextPageBtn">下一頁</button>
-				</div>
 				<br>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
-<%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
+<%@ page pageEncoding="UTF-8"%>
 <%@ page import="com.cga102g3.web.order.service.*"%>
 
 <%
@@ -67,7 +67,7 @@ response.setDateHeader("Expires", 0);
 						<thead class="table-success">								
 						<tr>
 							<th scope="col" class="col-1">訂單編號</th>
-							<th scope="col" class="col-1">訂單日期</th>
+							<th scope="col" class="col-2">訂單日期</th>
 							<th scope="col" class="col-1">訂單狀態</th>
 							<th scope="col" class="col-1">物流狀態</th>
 							<th scope="col" class="col-1">付款狀態</th>
@@ -77,7 +77,7 @@ response.setDateHeader("Expires", 0);
 							<th scope="col" class="col-1">取消訂單</th>
 						</tr>
 					</thead>
-                <jsp:useBean id="memSvc" scope="page" class="com.cga102g3.web.member.model.MemService" />							
+                <jsp:useBean id="memSvc" scope="page" class="com.cga102g3.web.mem.model.MemService"/>						
 				<c:forEach var="orderVO" items="${list}">
 					<tbody>
 						<tr>
@@ -97,6 +97,7 @@ response.setDateHeader("Expires", 0);
 							${orderVO.shipStatus == 0 ? '<h5><span class="badge badge-primary">檢貨中</span><h5>':''}
 							${orderVO.shipStatus == 1 ? '<h5><span class="badge badge-info">配送中</span><h5>':''}
 							${orderVO.shipStatus == 2 ? '<h5><span class="badge badge-success">已送達</span><h5>':''}
+							${orderVO.shipStatus == 3 ? '<h5><span class="badge badge-secondary">訂單取消</span><h5>':''}
 							</td>
 							
 							<td style="vertical-align:middle">
@@ -106,30 +107,26 @@ response.setDateHeader("Expires", 0);
 							</td>
 							
 							<td style="vertical-align:middle">${memSvc.findByPrimaryKey(orderVO.mbrID).mbrName}</td>
-							<td style="vertical-align:middle">$${orderVO.totalPrice}</td>
+							<td style="vertical-align:middle">NT$${orderVO.totalPrice}</td>
 							
 							<td style="vertical-align:middle">
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/order/order.do" > 
+							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/order/order.do" > 
 								<button type="submit" class="btn btn-success" id="submit_btn">
 									<i class="fas fa-eye"></i>
 								</button>
 							  	<input type="hidden" name="orderID" value="${orderVO.orderID}">
 							  	<input type="hidden" name="action"	value="getOne_For_Display">
-						</FORM>
+							</FORM>
 							</td>
 							
 							<td style="vertical-align:middle">
-						<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/order/order.do" > 
-								<button type="submit" class="btn btn-danger" id="cancel_btn">
-									<i class="fas fa-ban"></i>
-								</button>
-							  	<input type="hidden" name="orderID" value="${orderVO.orderID}">
-							  	<input type="hidden" name="action"	value="delete">
-						</FORM>
+								<button  class="btn btn-danger" onClick="cancel(${orderVO.orderID})">
+									<i class="fas fa-ban"></i>					
+							  	</button>
 							</td>
 						</tr>
-				</c:forEach>
 					</tbody>
+				</c:forEach>
 				</table>
 			</div>
 		</div>
@@ -150,5 +147,44 @@ response.setDateHeader("Expires", 0);
 	<script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
 	<script src="${pageContext.request.contextPath}/back-end/book/js/back_book_update.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+	
+					<script>
+ 						 function cancel(data) {
+ 							 Swal.fire({
+ 		 				   		 title: '你確定要取消該筆訂單?',
+ 		 						 text: "訂單取消後便無法復原",
+ 		 		 				 icon: 'warning',
+ 		 					 	 showCancelButton: true,
+ 		 						 confirmButtonColor: '#3085d6',
+ 		 						 cancelButtonColor: '#d33',
+ 		 		 				 confirmButtonText: '確定',
+ 		 		 				 cancelButtonText: '取消'
+ 								 }).then((result) => {
+ 		 						if (result.isConfirmed) {
+ 							 
+						      	$.ajax({
+	 						         url: "/CGA102G3/order/api/getOrderInfo",             
+	 						         dataType: "Json",
+	 						         async: false,
+	 						         data: {
+	 						        	'orderID':data
+	 						         },
+	 						        success: function(res){	
+	 						        	Swal.fire(
+		  		   						 '取消訂單!',
+		  		   		  				 '該筆訂單已取消',
+		  		   				         'success'
+		  		   						).then((result) => {
+		 	  		   					 location.reload();
+		 	  		   					})
+	 						        },
+	 						      
+	 						     })
+	 	  						}
+	 	  					  })
+	 	  					 }
+					</script>
+ 						
 </body>
 </html>

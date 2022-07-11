@@ -58,6 +58,24 @@ table, th, td {
 th, td {
 	padding: 1px;
 }
+
+div.errmsg{
+margin-left: 10px;
+}
+input.updateEmp{
+display:block ;
+/*             margin-top: 10px; */
+			margin-left: 10px;
+            background:#678F74;
+            color: white;
+            padding: 7px 10px;
+            border: none;
+            cursor: pointer;
+            width: 100px;
+            border-radius: 5px
+
+}
+
 </style>
 
 </head>
@@ -71,16 +89,17 @@ th, td {
 <main class="main">
 
 		 <h4><a href="select_page.jsp">回首頁</a></h4><br>
-
+	<div class="errmsg">
 	<%-- 錯誤表列 --%>
 	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
+		<font style="color: red">請修正以下錯誤：</font>
 		<ul>
 			<c:forEach var="message" items="${errorMsgs}">
 				<li style="color: red">${message}</li>
 			</c:forEach>
 		</ul>
 	</c:if>
+	</div>
 
 	<FORM METHOD="post" ACTION="${pageContext.request.contextPath}/back-end/emp/emp.do" name="form1" enctype="multipart/form-data">
 		<table>
@@ -122,7 +141,7 @@ th, td {
 		</table>
 		<br> <input type="hidden" name="action" value="update"> 
 		<input type="hidden" name="adminID" value="<%=adminVO.getAdminID()%>">
-		<input type="submit" value="送出修改">
+		<input class = "updateEmp" type="submit" value="送出修改">
 	</FORM>
 	
 	</main>

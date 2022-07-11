@@ -4,6 +4,7 @@ const offerPriceBtn = document.getElementById('offerPriceBtn');
 const directGetBtn = document.getElementById('directGetBtn');
 const bidPriceDOM = document.getElementById('bidPrice');
 const directGetWarn = document.getElementById('directGetWarn');
+const {body} = document;
 
 
 // ============================上線後要拿掉============================
@@ -323,6 +324,9 @@ function init() {
 
     });
 
+    body.addEventListener('unload', () => {
+        webSocket.clone();
+    })
 
     // ==================================直購==================================
 }

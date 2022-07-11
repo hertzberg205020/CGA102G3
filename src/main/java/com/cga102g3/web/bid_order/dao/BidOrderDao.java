@@ -30,4 +30,5 @@ public interface BidOrderDao extends CoreDao<BidOrder, Integer> {
     List<BidOrder> selectShipStat(Integer bidShipStat);
     int updateShipped(Integer bidOrderID);
 
+    List<BidOrder> selectMbrName(String mbrName);
 }

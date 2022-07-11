@@ -22,7 +22,7 @@ request.setAttribute("list", list);
 div.comment {
 	width: 500px;
 	background-color: whitesmoke;
-	border-radius: 10px;
+	border-radius: 0 0 10px 10px;
 	display: flex;
 	justify-content: space-between;
     margin-left: 380px;
@@ -39,22 +39,25 @@ div.edit {
     <title>商城首頁</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 </head>
-
 <body>
-<%@include file="/static/template/front_layout_header.jsp" %>
-<img class="god" src="${pageContext.request.contextPath}/static/images/Godbless.png" height="500px;" width="500px;"><br>
-
 <div>
-	<c:forEach var="bookreviewVO" items="${list}" varStatus="s" >
+<%-- <c:if test="${book.bookID == bookreviewVO.bookID}"> --%>
+	<c:forEach var="bookreviewVO" items="${list}" varStatus="s">
+		<div style="background:linear-gradient(to left, white 0%, #678F74 100%);
+		width:500px; height:35px; margin-left: 380px">
+			<p style="padding-left:10px; padding-top:5px; font-weight:700; color:white" >
+			${bookreviewVO.memVO.mbrName}</p>
+		</div>
 		<div class="comment">
-			<div>
-				<p>[${bookreviewVO.memVO.mbrName}]</p>
-				<p>${bookreviewVO.reviewContent}</p>				
+			<div style="padding-top: 10px; padding-left: 10px;">
+				<p>${bookreviewVO.reviewContent}</p>
+				<p></p>
 				<p><fmt:formatDate value="${bookreviewVO.reviewTime}" pattern="yyyy-MM-dd HH:mm:ss" /></p>
 			</div>
+			<c:if test="${memVO.mbrID == bookreviewVO.mbrID}">
 			<div class="edit">
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/review/review.do">
-					<input type="submit" value="修改" id="edit${s.index}">
+					<input class="btn btn-outline-secondary btn-sm" style="margin-top: 10px; margin-right: 10px" type="submit" value="修改" id="edit${s.index}">
 					<input type="hidden" name="reviewID" value="${bookreviewVO.reviewID}"> 			
 					<input type="hidden" name="mbrID" value="${bookreviewVO.mbrID}">				
 					<input type="hidden" name="bookID" value="${bookreviewVO.bookID}">				
@@ -64,22 +67,23 @@ div.edit {
 
 				<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/review/review.do">
 					<!--上面的 ACTION 是要傳送到的網址 -->
-					<input type="submit" value="刪除"> 
+					<input class="btn btn-outline-danger btn-sm" style="margin-top: 10px; margin-right: 10px" type="submit" value="刪除"> 
 					<input type="hidden" name="reviewID" value="${bookreviewVO.reviewID}"> 
 					<input type="hidden" name="action" value="delete">
 				</FORM>
 			</div>
+			</c:if>
 		</div>
 		<hr>
 <!--以下為編輯留言之語法-->
 	<script>
 	$('#edit${s.index}').click(function () {
-    let value = $(this).parent().parent().prev().children().eq(1).text();
-	$(this).parent().parent().prev().children().eq(1).remove();
+    let value = $(this).parent().parent().prev().children().eq(0).text();
+	$(this).parent().parent().prev().children().eq(0).remove();
 	
 	  $('<br>'
-	  + '<FORM METHOD="post" ACTION="review.do">'
-	  + '<input type="text" name="reviewContent" value="' + value + '">'
+	  + '<FORM METHOD="post" ACTION="review.do" style="margin-top:-23px">'
+	  + '<input type="text" style="width:350px; height:30px" name="reviewContent" value="' + value + '">'
 
 	  	+ '<input type="hidden" name="reviewID" value="' + ${bookreviewVO.reviewID} + '">'
 	  	+ '<input type="hidden" name="mbrID" value="' + ${bookreviewVO.mbrID} + '">'
@@ -87,7 +91,7 @@ div.edit {
 	  	+ '<input type="hidden" name="reviewStatus" value="' + ${bookreviewVO.reviewStatus} + '">'
 	  
 	  + '<input type="hidden" name="action" value="update">'
-	  + '<input type="submit" value="確認修改" >'
+	  + '<input type="submit" class="btn btn-outline-secondary btn-sm" style="margin:0 0 5px 0" value="確認修改" >'
 	  + '</FORM>')
 	.appendTo($(this).parent().parent().prev().children().eq(0));
 	
@@ -95,29 +99,27 @@ div.edit {
 	})
 	</script>		
 	</c:forEach>
+<%-- 	</c:if> --%>
 </div>
 
 <%-- 新增留言區 --%>
 <c:if test="${not empty errorMsgs}">
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
-			<li style="color: red">${message}</li>
+			<li style="color: red; margin-left: 380px">${message}</li>
 		</c:forEach>
 	</ul>
 </c:if>
 <FORM METHOD="post" ACTION="review.do">
 	<tr class="input">
 		<div class="justify-content-center row">
-			<td><input type="TEXT" name="reviewContent" size="40"/></td>
+			<td><input type="TEXT" name="reviewContent" size="50"/></td>
 			<input type="hidden" name="action" value="insert"> 
-			<input type="submit" value="送出留言">
+			<input class="btn btn-outline-dark" type="submit" value="送出留言">
 		</div>
 	</tr>
+	<input type="hidden" name="mbrID" value="${memVO.mbrID}">
 </FORM>
-
-<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
-<%@include file="/static/template/front_layout_footer.jsp" %>
-
 </body>
 </html>
 

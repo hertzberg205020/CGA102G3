@@ -21,25 +21,20 @@
 <head>
 <meta charset="UTF-8">
 <!-- font-awesome -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <!-- bootstrap -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-	integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 <!-- bootstrap-icon -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-<title>管理後臺 | 競標商品管理</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <!-- 側邊攔CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
 <!-- 競標商品管理CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_page.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_page.css">
+
+<title>管理後臺 | 競標商品管理</title>
 	
 </head>
+
 <body>
 	<header class="header">
 		<h1 class="text-center"
@@ -49,32 +44,17 @@
 	<%@include file="/static/template/back_layout_aside.jsp"%>
 
 	<main class="main">
-		<div class="container">
+		<div class="container ml-1">
 		<br>
-<!-- 			<div class="d-flex mt-4"> -->
-				<div class="m-2 p-1" style="background-color:steelblue; width:80px; border-radius: 5px;">
-					<a class="text-light" style="text-decoration: none;" href="bidprod_back_page.jsp"> &lt; 上一頁</a>
-				</div>
-				<div style="font-size: 22px;">查詢結果</div>
-<!-- 				<div class="ml-auto"> -->
-<!-- 					<ul class="pagination pagination-sm justify-content-end"> -->
-<!-- 						<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 							href="#">上一頁</a></li> -->
-<!-- 						<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 							href="#">1</a></li> -->
-<!-- 						<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 							href="#">2</a></li> -->
-<!-- 						<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 							href="#">3</a></li> -->
-<!-- 						<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 							href="#">下一頁</a></li> -->
-<!-- 					</ul> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-			<table class="table table-sm table-hover" style="font-size: 14px;">
+			<div class="m-2 p-1" style="background-color:steelblue; width:80px; border-radius: 5px;">
+				<a class="text-light" style="text-decoration: none;" href="${pageContext.request.contextPath}/back-end/bid/bidprod_back_page.jsp"> <i class="bi bi-caret-left-fill"></i> 上一頁</a>
+			</div>
+			
+			<div style="font-size: 22px;" class="mb-2 mt-3">查詢結果</div>
+			<table class="table table-sm">
 				<thead>
-					<tr>
-						<th style="border-radius: 8px 0 0 0; height: 20px;">競標商品編號</th>
+					<tr class="listHeader">
+						<th style="border-radius: 8px 0 0 0">競標商品編號</th>
 						<th>書目編號</th>
 						<th>圖片</th>
 						<th>競標底價</th>
@@ -89,8 +69,7 @@
 				<%@ include file="page1.file" %> 		
 				<tbody>
 					<c:forEach var="bidProd" items="${list}" begin="<%=pageIndex %>" end="<%=pageIndex+rowsPerPage-1 %>">
-<%-- 					<c:forEach var="bidProd" items="${list}"> --%>
-					<tr>
+					<tr class="prodList">
 						<th class="header-row" scope="row">${bidProd.bidID} <a
 							href="${pageContext.request.contextPath}/template/bid_front_layout.html"
 							target="_blank" data-toggle="tooltip" data-placement="right"
@@ -116,59 +95,45 @@
 					
 				</tbody>
 			</table>
+			
 			<div class="text-right mb-2 mt-2" style="font-size: 14px;">
 			<%@ include file="page2.file" %>
 			</div>
-			
-<!-- 			<div> -->
-<!-- 				<ul class="pagination justify-content-end mb-5"> -->
-<!-- 					<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 						href="#">上一頁</a></li> -->
-<!-- 					<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 						href="#">1</a></li> -->
-<!-- 					<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 						href="#">2</a></li> -->
-<!-- 					<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 						href="#">3</a></li> -->
-<!-- 					<li class="page-item"><a class="page-link text-secondary" -->
-<!-- 						href="#">下一頁</a></li> -->
-<!-- 				</ul> -->
-<!-- 			</div> -->
 		</div>
 <br>
 <br>
 	</main>
 	
 <script>
-	let td = document.getElementsByClassName('prodState');
-	for (d of td) {			
-		if (d.innerHTML == 0){
+ 	const td = document.getElementsByClassName('prodState');
+	
+ 	for (d of td) {			
+ 		if (d.innerHTML == 0){
 			d.textContent='安排競標';
-		} else if (d.innerHTML == 1) {
-			d.textContent='待上架';
-		} else if (d.innerHTML == 2) {
-			d.textContent='標案進行中';
-		} else if (d.innerHTML == 3) {
-			d.textContent='結標售出'; 
-		} else if (d.innerHTML == 4) {
-			d.textContent='流標';
-		} else if (d.innerHTML == 5) {
-			d.textContent='撤消';
+ 		} else if (d.innerHTML == 1) {
+ 			d.textContent='待上架';
+ 		} else if (d.innerHTML == 2) {
+ 			d.textContent='標案進行中';
+ 		} else if (d.innerHTML == 3) {
+ 			d.textContent='結標售出';
+ 		} else if (d.innerHTML == 4) {
+ 			d.textContent='流標';
+ 		} else if (d.innerHTML == 5) {
+ 			d.textContent='撤消';
 		}
-	}
+ 	}
 
-</script>	
+</script>
+
+<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-		integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-		crossorigin="anonymous"></script>
+<!-- popper -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!-- bootstrap JS -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<!-- Back Layout JS	 -->
 	<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/back-end/bid/js/bidprod_back_page.js"></script>
+<!-- 競標商品管理 JS -->
+	<script src="${pageContext.request.contextPath}/back-end/bid/js/bidprod_back_page.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.cga102g3.web.prod_sale.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cga102g3.web.prod_sale.entity.ProdSaleVO;
 
@@ -24,13 +25,14 @@ public interface ProdSaleDAO_interface {
      * @date: 2022/06/29 10:53:30
      */
     public void insert2(ProdSaleVO prodSaleVO, java.sql.Connection con);
+
     /**
-     * @description: 使用saleID返回ProdSaleVO
+     * @description: 使用saleID查詢明細
      * @param:
      * @return:
      * @auther: Luke
      * @date: 2022/07/01 10:50:36
      */
-    public List<ProdSaleVO> getBySaleID(Integer saleID);
+    public List<Map<String,Object>> getBySaleID(Integer saleID);
 
 }

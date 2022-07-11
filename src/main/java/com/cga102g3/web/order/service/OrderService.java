@@ -30,6 +30,18 @@ public class OrderService {
      * @author: Alan
      * @date: 2022/6/29
      **/
+
+    public List<OrderVO> getByMember(Integer mbrID){return dao.getAll(mbrID);}
+
+    public boolean cancel(Integer orderID){return dao.cancel(orderID);}
+
+    public boolean finish(Integer orderID){return dao.finish(orderID);}
+
+    /**
+     * @description: 新增 getAll 查看用
+     * @author: Alan
+     * @date: 2022/6/29
+     **/
     public List<Map<String, Object>> getALL() {
         return dao.findAll();
     }
@@ -38,5 +50,7 @@ public class OrderService {
         return dao.findOneOrder(orderID);
     }
 
-    public List<OrderVO> getByMember(Integer mbrID){return dao.getAll(mbrID);}
+    public boolean cancelOrder(int orderID) {
+        return dao.cancelOrder(orderID) == 1;
+    }
 }

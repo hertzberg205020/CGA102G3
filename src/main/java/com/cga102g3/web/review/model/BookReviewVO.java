@@ -64,9 +64,9 @@ public class BookReviewVO implements Serializable {
 	}
 	
     // for join mbrname from mbrID
-    public com.cga102g3.web.member.model.MemVO getMemVO() {
-    	com.cga102g3.web.member.model.MemService mbrSvc = new com.cga102g3.web.member.model.MemService();
-    	com.cga102g3.web.member.model.MemVO memVO = mbrSvc.findByPrimaryKey(mbrID);
+    public com.cga102g3.web.mem.model.MemVO getMemVO() {
+    	com.cga102g3.web.mem.model.MemService mbrSvc = new com.cga102g3.web.mem.model.MemService();
+    	com.cga102g3.web.mem.model.MemVO memVO = mbrSvc.getOneMem(mbrID);
 	    return memVO;
     }
     

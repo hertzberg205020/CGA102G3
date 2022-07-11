@@ -14,7 +14,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <!-- datetimepicker樣式 -->
-    <link   rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/datetimepicker/jquery.datetimepicker.css" />
+    <link   rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/datetimepicker/jquery.datetimepicker.css" />
     <!-- Bootstrap4.6 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap4/css/bootstrap.css">
     <!--    基礎版面樣式  -->

@@ -21,4 +21,7 @@ public interface OrderItemDao {
 
     /**會員訂單功能**/
     public List<Map<String,Object>> getByOrderID(Integer orderID);
+
+    //Alan
+    public List<Map<String,Object>> findAll(int orderID);
 }

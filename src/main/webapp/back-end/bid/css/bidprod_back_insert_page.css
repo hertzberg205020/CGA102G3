@@ -3,6 +3,7 @@ input.bid-input {
 }
 
 div.err {
-	color: coral;
+	color: orangered;
+	font-size: 14px;
 }
 

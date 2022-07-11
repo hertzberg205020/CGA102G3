@@ -108,7 +108,8 @@ public class BidActivitiesWebSocket {
 
     @OnClose
     public void onClose(Session userSession, CloseReason reason) {
-        // 連線關閉時執行，相當於servlet中的destory
+        // 連線關閉時執行，相當於servlet中的destroy
+        System.out.println("close");
         connectedSessions.remove(userSession);
     }
 

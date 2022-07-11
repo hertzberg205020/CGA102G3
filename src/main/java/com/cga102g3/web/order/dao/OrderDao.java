@@ -29,4 +29,11 @@ public interface OrderDao {
     public List<Map<String,Object>> findAll();
     
     public OrderVO findOneOrder(int orderID);
+
+    /**會員取消訂單**/
+    public boolean cancel(Integer orderID);
+    /**會員完成訂單**/
+    public boolean finish(Integer orderID);
+
+    public int cancelOrder(int orderID);
 }

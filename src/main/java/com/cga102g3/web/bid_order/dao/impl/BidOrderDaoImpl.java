@@ -102,7 +102,10 @@ public class BidOrderDaoImpl implements BidOrderDao {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
-            bidOrder = retrieve(rs).get(0);
+            if(retrieve(rs).size() != 0) {
+                bidOrder = retrieve(rs).get(0);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -117,7 +120,27 @@ public class BidOrderDaoImpl implements BidOrderDao {
      */
     @Override
     public List<BidOrder> selectAll() {
-        return null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidOrder> list = null;
+
+        final String sql =
+                "select bid_order_ID, bid_ID, mbr_ID, bid_price, bid_order_date,\n" +
+                "       bid_ship_stat\n" +
+                "from bid_order\n";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
     }
 
     /**
@@ -433,6 +456,35 @@ public class BidOrderDaoImpl implements BidOrderDao {
             JDBCUtil.close(conn, pstmt, rs);
         }
         return 0;
+    }
+
+    /** Search orders by Member Name **/
+    @Override
+    public List<BidOrder> selectMbrName(String mbrName) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<BidOrder> list = null;
+
+
+        final String sql = "select b.bid_order_ID, b.bid_ID, b.mbr_ID, b.bid_price, b.bid_order_date, b.bid_ship_stat\r\n"
+                            + "From bid_order b\r\n"
+                            + "Left Join member m\r\n"
+                            + "on b.mbr_ID = m.mbr_ID\r\n"
+                            + "where mbr_name like ?";
+
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + mbrName + "%");
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
     }
 
     public static void main(String[] args) {

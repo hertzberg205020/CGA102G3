@@ -21,11 +21,11 @@
     <!--    基礎版面樣式  -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
 
-    <title>客服管理>FAQ管理>FAQ查詢</title>
+    <title>客服管理>FAQ管理 / FAQ查詢</title>
 </head>
 <body>
 <header class="header">
-    <h1>客服管理>FAQ管理>FAQ查詢</h1>
+    <h1>客服管理>FAQ管理 / FAQ查詢</h1>
 </header>
 
 <%@include file="/static/template/back_layout_aside.jsp"%>

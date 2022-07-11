@@ -78,4 +78,37 @@ public class MemService {
 		return dao.findMemAccountAndPassword(mbrAccount, mbrPassword);		
 	}
 	
+	
+	public MemVO findByEmail(String Email) {
+		return dao.findNamePassWordByEmail(Email);
+	};
+	
+	
+	public void sendMail(String Email) {
+		
+		MemVO memVO = dao.findNamePassWordByEmail(Email);
+			
+		
+		  String to = Email;
+		  String subject = "Tibani書城_密碼通知";
+
+		  String ch_name = memVO.getMbrName();
+		  String passRandom = memVO.getMbrPassword();
+		  String messageText = "Hello!! " + ch_name + " 請謹記此密碼： " + passRandom + "\n" + "，謝謝";
+		  
+		  
+		  MailService mailService = new MailService();
+		  mailService.sendMail(to, subject, messageText);
+		 }
+
+	
+		
+		public void updateStatus(Integer mbrID) {		
+			dao.updateStatus(mbrID);	
+		 }
+		
+		public MemVO signupStatus(MemVO memVO) {
+			return dao.signupStatus(memVO);
+		}
+		
 }

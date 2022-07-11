@@ -36,7 +36,7 @@ response.setDateHeader("Expires", 0);
 
 <style>
 div.main {
-  border: 5px solid #f1f1f1;
+  border: 8px solid #f1f1f1;
   width:450px;
 
   margin: 3% auto;
@@ -155,11 +155,13 @@ span.psw {
       
           <div class="login2" style="background-color:#f1f1f1">
             <button type="button"  class="cancelbtn"  onclick="location.href='${pageContext.request.contextPath}/front-end/mem/signup.jsp'" >Sign up</button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
+            <span class="psw">Forgot <a href="${pageContext.request.contextPath}/front-end/mem/forgotPassword.jsp">password?</a></span>
           </div>
  		
 		</div>
-		
+
+
+<!-- 記住我帳號		 -->
 <script>
       const rmCheck = document.getElementById("rememberMe"),
     emailInput = document.getElementById("username");

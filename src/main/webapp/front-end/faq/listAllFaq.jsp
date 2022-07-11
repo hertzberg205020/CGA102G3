@@ -26,7 +26,7 @@ pageContext.setAttribute("list", list);
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 
-<title>首頁>常見問題FAQ</title>
+<title>首頁 / 常見問題FAQ</title>
 
 </head>
 <%@include file="/static/template/front_layout_header.jsp"%>
@@ -35,7 +35,7 @@ pageContext.setAttribute("list", list);
 		<div class="container">
 			<table id="table-1">
 				<tr>
-					<th><h1>首頁>常見問題FAQ</h1>
+					<th><h2>首頁 / <a href='listAllFaq.jsp'>常見問題FAQ</a></h2>
 					<th>
 <!-- 					<th> -->
 <!-- 						<button type="button" class="btn btn-success" -->
@@ -90,9 +90,9 @@ pageContext.setAttribute("list", list);
 					
 				</c:forEach>
 			</table>
-			<a>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</a>
-  <a type="button" class="btn btn-success" href='listAllFaq.jsp'>回到頁面頂端<br>Back To Top</a>
-
+<div class="text-right">
+  <a type="button" class="btn btn-success" href='listAllFaq.jsp'>▲<br>TOP</a>
+</div>
 			<%@ include file="page2.file"%>
 			</div>
 	</main>

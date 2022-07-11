@@ -20,23 +20,17 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 
-<title>會員專區>錢包管理>錢包儲值</title>
+<title>會員專區 / 錢包管理 / 錢包儲值</title>
 
 </head>
 	<%@include file="/static/template/front_layout_header.jsp"%>
 <body>
 
-
-
-
-
 	<main class="main">
 		<div class="container">
 
-				<h2>會員專區>錢包管理>錢包儲值</h2>
+				<h3>會員專區 / 錢包管理 / 錢包儲值</h3>
 <h3>　</h3>
-
-
 
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -52,7 +46,7 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 			<table>
 				<tr>
 					<!-- 		<td><b>會員編號</b></td> -->
-					<td><input type="hidden" name="mbr_ID" size="60" value="7" />
+					<td><input type="hidden" name="mbr_ID" size="60" value="1" />
 					</td>
 				</tr>
 				<tr>

@@ -55,10 +55,11 @@
     margin: auto;
 }
 .title {
-    height: 60px;
+    height: 30px;
     /* border: 1px solid royalblue; */
     overflow: hidden;
-    white-space: wrap;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .title a:hover {
     color:rosybrown;

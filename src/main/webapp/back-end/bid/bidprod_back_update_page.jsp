@@ -14,24 +14,19 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 <head>
 <meta charset="UTF-8">
 <!-- font-awesome -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-<!-- bootstrap -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-	integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-	crossorigin="anonymous">
-<!-- bootstrap icon -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+<!-- Bootstrap Icon -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <title>管理後臺 | 競標商品管理</title>
 <!-- 側邊攔CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
+<!-- 新增頁面CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_insert_page.css">
 
-<!-- 新增與修改頁面CSS -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/back-end/bid/css/bidprod_back_insert_page.css">
+<title>管理後臺 | 競標商品管理</title>
+
 </head>
 <body>
 	<%@include file="/static/template/back_layout_aside.jsp"%>
@@ -43,11 +38,9 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 	<main class="main">
 		<div class="container p-5">
 			<div class="row align-items-center">
-				<div class="mb-2  p-1 col-1"
-					style="background-color: steelblue; width: 60px; border-radius: 5px;">
-					<a class="text-light text-center" style="text-decoration: none;"
-						href="bidprod_back_page.jsp"> &lt; 上一頁</a>
-				</div>
+			<div class="m-2 p-1" style="background-color:steelblue; width:80px; border-radius: 5px;">
+				<a class="text-light" style="text-decoration: none;" href="${pageContext.request.contextPath}/back-end/bid/bidprod_back_page.jsp"> <i class="bi bi-caret-left-fill"></i> 上一頁</a>
+			</div>
 				<div class="col-4 font-weight-bold"
 					style="font-size: 1.3rem; color: palevioletred">${passMsgs.success}${passMsgs.state}</div>
 			</div>
@@ -57,11 +50,10 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					<div class="col-3 mb-1" style="font-size: 22px; font-weight: 600;">修改競標商品</div>
 					<div class="col-4 offset-2 text-right">
 						商品狀態: <span id="prodState" class="font-weight-bold"
-							style="color: slateblue;">${param.bidProdStat}</span>
+							style="color: slateblue;">${bidProd.bidProdStat}</span>
 					</div>
 					<div class="col-2">
-						<input type="hidden" name="bidID" value="${param.bidID}">
-						<!-- 					<input type="hidden" name="action" value="cancel"> -->
+						<input type="hidden" name="bidID" value="${bidProd.bidID}">
 						<button class="btn btn-danger btn-sm" type="button"
 							data-toggle="modal" data-target="#Modal1">
 							<i class="bi bi-x-circle-fill"></i> 取消競標商品
@@ -100,8 +92,8 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 			<form method="post" action="bid.do" name="form1">
 				<div class="row mt-2 mb-3 align-items-center">
 					<div class="col-2">競標商品編號:</div>
-					<div class="col-4">${param.bidID}</div>
-					<input type="hidden" name="bidID" value="${param.bidID}">
+					<div class="col-4">${bidProd.bidID}</div>
+					<input type="hidden" name="bidID" value="${bidProd.bidID}">
 				</div>
 
 
@@ -115,10 +107,9 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 						<select size=1 name="bookID" class="form-control">
 							<c:forEach var="book" items="${bookSc.all}">
 								<option value="${book.bookID}"
-									${(param.bookID==book.bookID)? 'selected':'' }>${book.title}
+									${(bidProd.bookID==book.bookID)? 'selected':'' }>${book.title}
 							</c:forEach>
 						</select>
-						<%-- 							<input class="bid-input form-control" type="text" name="bookID" value="${param.bookID}"> --%>
 					</div>
 					<div class="col-4 err">${errorMsgs.bookID}</div>
 				</div>
@@ -130,7 +121,7 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					</div>
 					<div class="col-4">
 						<input class="bid-input form-control" type="text"
-							name="startPrice" value="${param.startPrice}">
+							name="startPrice" value="${bidProd.startPrice}">
 					</div>
 					<div class="col-4 err">${errorMsgs.startPrice}</div>
 				</div>
@@ -141,7 +132,7 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					</div>
 					<div class="col-4">
 						<input class="bid-input form-control" type="text"
-							name="bidDirectPrice" value="${param.bidDirectPrice}">
+							name="bidDirectPrice" value="${bidProd.bidDirectPrice}">
 					</div>
 					<div class="col-4 err">${errorMsgs.bidDirectPrice}</div>
 				</div>
@@ -152,8 +143,8 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 				<div class="row mb-3 align-items-center">
 					<div class="col-2">起標時間:</div>
 					<div class="col-4">
-						<input class="bid-input form-control" type="text" name="bidStart"
-							value="${param.bidStart}" id="date1">
+						<input class="bid-input form-control" type="text" name="bidStart" 
+							value="<fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:ss"/>" id="date1"> 
 					</div>
 					<div class="col-4 err">${errorMsgs.bidStart}</div>
 				</div>
@@ -161,15 +152,13 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					<div class="col-2">結標時間:</div>
 					<div class="col-4">
 						<input class="bid-input form-control" type="text" name="bidEnd"
-							value="${param.bidEnd}" id="date2">
+							value="<fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:ss"/>" id="date2">
 					</div>
 					<div class="col-4 err">${errorMsgs.bidEnd}</div>
 				</div>
 
 				<br>
 
-				<!-- 					<input type="hidden" name="action" value="update"> -->
-				<!-- 					<input id="result" class="bid-input form-control" type="submit" value="送出修改" style="margin-left: 300px; width: 120px; background-color: wheat;"> -->
 				<button class="p-2" type="button"
 					style="border: transparent; margin-left: 360px; background-color: wheat; border-radius: 6px;"
 					data-toggle="modal" data-target="#Modal2">送出修改</button>
@@ -223,15 +212,12 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 
 	</script>
 
+<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-		integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-		crossorigin="anonymous"></script>
+<!-- popper -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<!-- bootstrap JS -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
 </body>
 
@@ -254,13 +240,10 @@ try {
 %>
 
 
-
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.css" />
-<script
-	src="<%=request.getContextPath()%>/static/datetimepicker/jquery.js"></script>
-<script
-	src="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.full.js"></script>
+<!-- date time picker -->
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.css" />
+<script src="<%=request.getContextPath()%>/static/datetimepicker/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.full.js"></script>
 
 <style>
 .xdsoft_datetimepicker .xdsoft_datepicker {

@@ -55,7 +55,7 @@ div#div-1 {
 	align-items: center;
 }
 
-ul{
+ul.ss1{
 list-style-type:none;
 padding-top:20px;
 }
@@ -86,7 +86,7 @@ input.out {
 <%@include file="/static/template/back_layout_aside.jsp"%>
 <main class="main">
 
-	<ul>
+	<ul class="ss1">
 		<li><a href='listAllAdmin.jsp' style="text-decoration: none;">查看全部員工</a>
 			<br> <br></li>
 

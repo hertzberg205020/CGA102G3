@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 import static com.cga102g3.core.util.CommonUtil.writePojo2Json;
@@ -40,7 +41,8 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
      */
     public void getIdentify(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         HttpSession session = request.getSession();
         Integer mbrID = (Integer) session.getAttribute("mbrID");
         ErrMsg errMsg = new ErrMsg();
@@ -62,7 +64,8 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
      */
     public void getMbrID(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         Integer mbrID = null;
         try {
             mbrID = Integer.parseInt(request.getParameter("mbrID"));
@@ -87,7 +90,8 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
      */
     public void isValid4Bid(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         HttpSession session = request.getSession();
         int birPrice = -1;
         int bidID = -1;
@@ -191,7 +195,8 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
      */
     public void isValid4TakeBid(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         HttpSession session = request.getSession();
         int bidID = -1;
         ErrMsg errMsg = new ErrMsg();
@@ -223,11 +228,40 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
         String keyword = request.getParameter("keyword");
         keyword = keyword.trim();
         int page = Integer.parseInt(request.getParameter("page"));
-        response.setCharacterEncoding("utf-8");
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
         Map<String, Object> res = bidGameService.getBooksByKeyword(keyword, page);
 //        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        System.out.println(res.get("data"));
+//        System.out.println(res.get("data"));
         writePojo2Json(response, res);
+    }
+
+    /**
+     * /bid/api/getAllBiddersByBidId?bidID={int}
+     * 依據bidID回傳競標者出價金額，競標者出價資訊不重複
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void getAllBiddersByBidId(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+//        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/json; charset=UTF-8");
+        ErrMsg errMsg = new ErrMsg();
+        Integer bidID = null;
+        try {
+            bidID = Integer.parseInt(request.getParameter("bidID"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            errMsg.setMsg("參數格式傳遞錯誤");
+            writePojo2Json(response, errMsg);
+            return;
+        }
+        List<Bidder> allBidders = null;
+        allBidders = bidGameService.getAllBidders(bidID);
+        writePojo2Json(response, allBidders);
+
     }
 
 }

@@ -46,7 +46,6 @@
 
 .picture {
     height: 200px;
-    /* border: 1px solid orange; */
     margin: auto;
     text-align: center;
 }
@@ -56,22 +55,17 @@
 }
 .title {
     height: 60px;
-/*     border: 1px solid royalblue; */
     overflow: hidden;
     white-space: wrap;
 }
 .title a:hover {
     color:rosybrown;
 }
-/* .price {
-    border: 1px solid seagreen;
-} */
 .vLine {
     border-left: 1px solid lightgray;
     height: 500px;
     margin-left: 5%;
 }
-
- .flex-item {
+.flex-item {
      width: 200px;
  }

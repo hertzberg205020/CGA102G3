@@ -73,7 +73,6 @@ public class BidProdServlet extends HttpServlet {
 				fail.forward(req, res);
 				return;
 			}
-			System.out.println(bidProd);
 
 			/* Show the success search */
 			req.setAttribute("bidProd", bidProd);
@@ -108,7 +107,6 @@ public class BidProdServlet extends HttpServlet {
 			try {
 				bidProdStat = Integer.valueOf(str);
 
-//				System.out.println(bidProdStat);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				errorMsgs.add("請選擇商品狀態");
@@ -118,12 +116,10 @@ public class BidProdServlet extends HttpServlet {
 				fail.forward(req, res);
 				return;
 			}
-			System.out.println(bidProdStat);
 
 			/* Check if input exist in DB */
 			BidService bs = new BidService();
 			List<BidProd> bidProd = bs.showOneStat(bidProdStat);
-			System.out.println(bidProd);
 			if (bidProd == null) {
 				errorMsgs.add("查無資料");
 			}
@@ -153,7 +149,6 @@ public class BidProdServlet extends HttpServlet {
 
 			/* Check null */
 			String bidProdTitle = req.getParameter("book_title");
-			System.out.println(bidProdTitle);
 			if (bidProdTitle == null || (bidProdTitle.trim()).length() == 0) {
 				errorMsgs.add("請輸入書籍商品名稱");
 			}
@@ -162,13 +157,10 @@ public class BidProdServlet extends HttpServlet {
 				fail.forward(req, res);
 				return;
 			}
-
-
 			
 			/* Check if input exist in DB */
 			BidService bs = new BidService();
 			List<BidProd> bidProd = bs.showTitle(bidProdTitle);
-			System.out.println(bidProd);
 			if (bidProd == null) {
 				errorMsgs.add("查無資料");
 			}
@@ -184,8 +176,6 @@ public class BidProdServlet extends HttpServlet {
 			String url = "/back-end/bid/bidprod_back_show_page3.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
-
-		
 		
 		}
 		
@@ -216,8 +206,6 @@ public class BidProdServlet extends HttpServlet {
 					errorMsgs.put("bookID", "書籍編號格式不正確");
 				}
 			}
-
-			/* Check if input exist in DB */
 
 			/****** Bid Start Price ******/
 			/* Check if the input is null and the format */
@@ -267,7 +255,6 @@ public class BidProdServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println(bidStart);
 
 			Timestamp bidEnd = null;
 			Integer bidProdStat = 0;
@@ -280,8 +267,6 @@ public class BidProdServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			/* Check input format */
-			/* If input including errors send back to this page */
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher fail = req.getRequestDispatcher("/back-end/bid/bidprod_back_insert_page.jsp");
 				fail.forward(req, res);
@@ -301,10 +286,9 @@ public class BidProdServlet extends HttpServlet {
 
 			/****** Send the success view ******/
 			passMsgs.put("success", "新增成功!");
-
+			System.out.println(passMsgs);
 			RequestDispatcher success = req.getRequestDispatcher("/back-end/bid/bidprod_back_page.jsp");
 			success.forward(req, res);
-
 		}
 
 		/****************************************
@@ -323,16 +307,16 @@ public class BidProdServlet extends HttpServlet {
 			BidProd bidProd = sc.showOneBid(bidID);
 
 			/***** Send the success view *****/
-			String param = "?bidID=" + bidProd.getBidID() + "&bookID=" + bidProd.getBookID() + "&startPrice="
-					+ bidProd.getStartPrice() + "&bidDirectPrice=" + bidProd.getBidDirectPrice() + "&bidProdStat="
-					+ bidProd.getBidProdStat() + "&bidStart=" + bidProd.getBidStart() + "&bidEnd="
-					+ bidProd.getBidEnd();
+			req.getSession().setAttribute("bidProd", bidProd);
 
-			String url = "/back-end/bid/bidprod_back_update_page.jsp" + param;
+			
+			String url = "/back-end/bid/bidprod_back_update_page.jsp";
+
 			RequestDispatcher success = req.getRequestDispatcher(url);
 			success.forward(req, res);
 
 		}
+		
 		/*******************************************
 		 * Update
 		 ***********************************************/
@@ -346,7 +330,6 @@ public class BidProdServlet extends HttpServlet {
 			/***** Error Handling ******/
 			Integer bidID = Integer.valueOf(req.getParameter("bidID").trim());
 
-			System.out.println(bidID);
 			/* Check if the input is null and the format */
 			String bookIDstr = req.getParameter("bookID");
 			Integer bookID = null;
@@ -364,8 +347,6 @@ public class BidProdServlet extends HttpServlet {
 
 			}
 
-			/* Check if input exist in DB */
-
 			/****** Bid Start Price ******/
 			/* Check if the input is null and the format */
 			String startPricestr = req.getParameter("startPrice");
@@ -382,7 +363,6 @@ public class BidProdServlet extends HttpServlet {
 					errorMsgs.put("startPrice", "競標底價格式不正確");
 				}
 			}
-			/* Check the start price */
 
 			/****** Bid Direct Price ******/
 			/* Check if the input is null and the format */
@@ -396,15 +376,16 @@ public class BidProdServlet extends HttpServlet {
 					if (directPrice < 1)
 						errorMsgs.put("bidDirectPrice", "競標直購價不得低於1元");
 					if (startPrice != null) {
-						if (startPrice > directPrice)
-							errorMsgs.put("startPrice", "競標底價不得高於直購價，請重新輸入");
+						if (startPrice >= directPrice) {
+							errorMsgs.put("startPrice", "直購價須高於競標底價，請重新輸入");
+							errorMsgs.put("bidDirectPrice", "直購價須高於競標底價，請重新輸入");
+					  }
 					}
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 					errorMsgs.put("bidDirectPrice", "直購價格式不正確");
 				}
 			}
-			System.out.println(directPrice);
 
 			Timestamp bidStart = null;
 			try {
@@ -412,7 +393,6 @@ public class BidProdServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println(bidStart);
 
 			Timestamp bidEnd = null;
 			Integer bidProdStat = 0;
@@ -425,11 +405,7 @@ public class BidProdServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			/* revoke bid product, adjust the product to */
-//						bidProdStat = Integer.valueOf(req.getParameter("bidProdStat").trim());
 
-			/* Check input format */
-			/* If input including errors send back to this page */
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher fail = req.getRequestDispatcher("/back-end/bid/bidprod_back_update_page.jsp");
 				fail.forward(req, res);
@@ -438,7 +414,6 @@ public class BidProdServlet extends HttpServlet {
 
 			if (bidStart != null && bidEnd != null) {
 				passMsgs.put("state", "競標已排程");
-
 			} else {
 				bidStart = null;
 				bidEnd = null;
@@ -455,6 +430,7 @@ public class BidProdServlet extends HttpServlet {
 			success.forward(req, res);
 		}
 		
+		
 		/*******************************************
 		 * Cancel Bid Product
 		 ***********************************************/
@@ -462,12 +438,35 @@ public class BidProdServlet extends HttpServlet {
 		
 		if ("cancel".equals(action)) {
 			Integer bidID = Integer.valueOf(req.getParameter("bidID").trim());
+			
 			BidService sc = new BidService();
 			sc.updateRevoke(bidID);
 
 			RequestDispatcher success = req.getRequestDispatcher("/back-end/bid/bidprod_back_page.jsp");
 			success.forward(req, res);
 		}
+		
+		/****************************************
+		 * Get_Bid Product
+		 ********************************************/
+
+		if ("get_record".equals(action)) {
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			Integer bidID = Integer.valueOf(req.getParameter("bidID"));
+
+			BidService sc = new BidService();
+			BidProd bidProd = sc.showOneBid(bidID);
+
+			req.getSession().setAttribute("bidProd", bidProd);
+
+			String url = "/back-end/bid/bidprod_back_show_record.jsp";
+
+			RequestDispatcher success = req.getRequestDispatcher(url);
+			success.forward(req, res);
+		}
+
 	}
 
 }

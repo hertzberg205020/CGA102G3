@@ -1,20 +1,31 @@
-//抓取選取的 bookID & 數量存入SessionStorage
+
 function checkout() {
     let obj = {
         prodID: [],
-        quantityarray: []
+        amountArray: []
     }
     let path = $('#path').val();
     $('input[type=checkbox]:checked').each(function () {
-        let quantity = $(this).parents('tr').find('select').val();
+        let amount = $(this).parents('tr').find('select').val();
         if ($(this).val().length !== 0)
             obj.prodID.push($(this).val());
-        if (quantity)
-            obj.quantityarray.push(quantity);
+        if (amount)
+            obj.amountArray.push(amount);
     })
-    sessionStorage.setItem("prodID", JSON.stringify(obj.prodID));
-    sessionStorage.setItem("quantityarray", JSON.stringify(obj.quantityarray));
-    console.log(obj.prodID.length)
+
     if (obj.prodID.length === 0) alert('未選取商品');
-    else location.href = path + '/front-end/prod/checkout.jsp';
+    else {
+        $.ajax({
+            type :"post",
+            url  : `${path}/ProdServlet.do`,
+            data : {
+               'action':'checkout','prodID':JSON.stringify(obj.prodID),'amountArray':JSON.stringify(obj.amountArray)
+            },
+            dataType: "text",
+            success : function(myjson) {
+                console.log('成功');
+                location.href = `${path}/front-end/prod/checkout.jsp`
+            }
+        })
+    }
 }

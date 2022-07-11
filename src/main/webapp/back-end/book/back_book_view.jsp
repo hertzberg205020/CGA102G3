@@ -84,7 +84,7 @@
 <%--                        </tr>--%>
                         </tbody>
                     </table>
-                    <div id="modal_container"></div>
+<%--                    <div id="modal_container"></div>--%>
                 </div>
             </div>
 
@@ -95,6 +95,7 @@
         </div>
     </div>
 </main>
+<div id="modal_container"></div>
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Jquery -->

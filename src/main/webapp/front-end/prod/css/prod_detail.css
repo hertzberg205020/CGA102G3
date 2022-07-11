@@ -88,3 +88,17 @@
         .read-more a:hover {
             color: black;
         }
+        
+        
+        
+        /**style for read more link **/
+         a#readMore {
+        	color: cadetblue;
+        	text-indent: 0;
+        
+        }
+        
+        a#readMore:hover {
+        text-decoration: none;
+        color: goldenrod;
+        }
