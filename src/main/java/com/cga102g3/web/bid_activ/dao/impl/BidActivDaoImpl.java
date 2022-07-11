@@ -198,7 +198,7 @@ public class BidActivDaoImpl implements BidActivDao {
     @Override
     public List<Map<String, Object>> selectAllBidInfo(Integer page) {
         final String sql =
-                    "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end\n" +
+                    "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end, b.book_ID\n" +
                     "FROM bid_prod AS bp\n" +
                     "     join book b on bp.book_id = b.book_ID\n" +
                     "WHERE now() between bid_start AND bid_end\n" +
@@ -225,7 +225,7 @@ public class BidActivDaoImpl implements BidActivDao {
     @Override
     public List<Map<String, Object>> selectBidInfoByISBN(String ISBN, int page) {
         final String sql =
-                "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end\n" +
+                "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end, b.book_ID\n" +
                 "FROM bid_prod AS bp\n" +
                 "         JOIN book AS b\n" +
                 "                ON bp.book_id = b.book_ID\n" +
@@ -269,7 +269,7 @@ public class BidActivDaoImpl implements BidActivDao {
 //                "LIMIT ?, ?;";
 
         final String sql =
-                "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end\n" +
+                "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end, b.book_ID\n" +
                 "FROM bid_prod AS bp\n" +
                 "         JOIN book AS b\n" +
                 "                ON bp.book_id = b.book_ID\n" +
@@ -296,6 +296,29 @@ public class BidActivDaoImpl implements BidActivDao {
         return null;
     }
 
+    @Override
+    public List<Map<String, Object>> selectAllBidInfo() {
+        final String sql =
+                "SELECT bp.bid_id, b.ISBN, b.edition, b.title, bp.bid_end, b.book_ID\n" +
+                "FROM bid_prod AS bp\n" +
+                "     join book b on bp.book_id = b.book_ID\n" +
+                "WHERE now() between bid_start AND bid_end\n" +
+                "     AND bid_prod_stat = 2\n" +
+                "ORDER BY bp.bid_id\n";
+
+        List<Map<String, Object>> bidInfoList = null;
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+            ResultSet rs = pstmt.executeQuery();
+            bidInfoList = retrieve(rs);
+            return bidInfoList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     /**
      * 將查詢結果放入list中，並返回
@@ -312,6 +335,7 @@ public class BidActivDaoImpl implements BidActivDao {
             bidInfo.put("edition", rs.getInt("edition"));
             bidInfo.put("title", rs.getString("title"));
             bidInfo.put("bid_end", rs.getTimestamp("bid_end"));
+            bidInfo.put("book_id", rs.getInt("book_id"));
             bidInfoList.add(bidInfo);
         }
         return bidInfoList;

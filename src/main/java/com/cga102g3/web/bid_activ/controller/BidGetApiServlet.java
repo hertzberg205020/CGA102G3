@@ -264,4 +264,19 @@ public class BidGetApiServlet extends BaseGetAPIServlet {
 
     }
 
+    /**
+     * /bid/api/getAllBidInfo
+     * 獲取正在上架中的競標商品資訊(不含目前競標價格，要知道目前價格請用getAllBiddersByBidId)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void getAllBidInfo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        response.setContentType("application/json; charset=UTF-8");
+        Map<String, Object> allBidInfo = bidGameService.getAllBidInfo();
+        writePojo2Json(response, allBidInfo);
+    }
+
 }

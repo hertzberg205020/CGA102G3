@@ -55,4 +55,5 @@ public interface BidActivDao {
     List<Map<String, Object>> selectAllBidInfo(Integer page);
     List<Map<String, Object>> selectBidInfoByISBN(String ISBN, int page);
     List<Map<String, Object>> selectBidInfoByTitle(String title, int page);
+    List<Map<String, Object>> selectAllBidInfo();
 }

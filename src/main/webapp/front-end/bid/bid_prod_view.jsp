@@ -30,7 +30,7 @@
 <%@include file="/static/template/front_layout_header.jsp" %>
 
 <%--MAIN CONTENT--%>
-<main class="main">
+<main class="main" style="width: 1200px">
     <div class="table_container">
         <input type="hidden" value="${pageContext.request.contextPath}" id="prefix">
         <div class="container">

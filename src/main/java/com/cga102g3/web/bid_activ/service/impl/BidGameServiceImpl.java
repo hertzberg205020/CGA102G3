@@ -256,6 +256,22 @@ public class BidGameServiceImpl implements BidGameService {
     public List<Bidder> getAllBidders(Integer bidID) {
         return bidActivDao.getAllBidders(bidID);
     }
+
+    @Override
+    public Map<String, Object> getAllBidInfo() {
+        List<Map<String, Object>> bidInfoList = null;
+        bidInfoList = bidActivDao.selectAllBidInfo();
+        for (Map<String, Object> bidInfo:
+        bidInfoList) {
+            int bidID = (int) bidInfo.get("bid_id");
+            Bidder curWinner = this.getCurWinner(bidID);
+            bidInfo.put("curWinner", curWinner);
+        }
+        Map<String, Object> res = new HashMap<>();
+        res.put("data", bidInfoList);
+        return res;
+    }
+
     public static void main(String[] args) {
         BidGameService bidGameService = new BidGameServiceImpl();
         Bidder bidder1 = new Bidder(1, 210);

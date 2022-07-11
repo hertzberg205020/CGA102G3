@@ -53,4 +53,6 @@ public interface BidGameService {
     Map<String, Object> getBooksByKeyword(String keyword, int page);
 
     List<Bidder> getAllBidders(Integer bidID);
+
+    Map<String, Object> getAllBidInfo();
 }
