@@ -102,10 +102,15 @@ public class MemService {
 		 }
 
 	
-		
+		//驗證信更新狀態用
 		public void updateStatus(Integer mbrID) {		
 			dao.updateStatus(mbrID);	
 		 }
+		//後臺更新會員狀態用
+		public void updateStatusByEMP(Integer mbrID, Integer mbrStatus) {		
+			dao.updateStatusByEmp(mbrID, mbrStatus);	
+		 }
+		
 		
 		public MemVO signupStatus(MemVO memVO) {
 			return dao.signupStatus(memVO);

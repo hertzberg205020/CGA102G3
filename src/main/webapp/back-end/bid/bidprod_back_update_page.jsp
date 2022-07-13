@@ -144,7 +144,7 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					<div class="col-2">起標時間:</div>
 					<div class="col-4">
 						<input class="bid-input form-control" type="text" name="bidStart" 
-							value="<fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:ss"/>" id="date1"> 
+							value="<fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:00"/>" id="date1"> 
 					</div>
 					<div class="col-4 err">${errorMsgs.bidStart}</div>
 				</div>
@@ -152,7 +152,7 @@ BidProd bidProd = (BidProd) request.getSession().getAttribute("bidProd");
 					<div class="col-2">結標時間:</div>
 					<div class="col-4">
 						<input class="bid-input form-control" type="text" name="bidEnd"
-							value="<fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:ss"/>" id="date2">
+							value="<fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:00"/>" id="date2">
 					</div>
 					<div class="col-4 err">${errorMsgs.bidEnd}</div>
 				</div>
@@ -263,11 +263,13 @@ $.datetimepicker.setLocale('zh'); // kr ko ja en
 $(function(){
 	 $('#date1').datetimepicker({
 	 closeOnWithoutClick :false,
-	  format:'Y-m-d H:00:00',
-	  allowTimes: [
-		  '12:00'
-	  ],
-	  defaultTime: '12:00',
+// 	  format:'Y-m-d H:00:00',
+	  format: 'Y-m-d H:i:00',
+	  step: 5,
+// 	  allowTimes: [
+// 		  '12:00'
+// 	  ],
+// 	  defaultTime: '12:00',
 	  onShow:function(){
 	   this.setOptions({
 	    maxDate:$('#date2').val()?$('#date2').val():false
@@ -279,11 +281,13 @@ $(function(){
 	 
 	 $('#date2').datetimepicker({
 	 closeOnWithoutClick :false,
-	  format:'Y-m-d H:00:00',
-	  allowTimes: [
-		  '22:00'
-	  ],
-	  defaultTime: '22:00',
+// 	  format:'Y-m-d H:00:00',
+	  format: 'Y-m-d H:i:00',
+	  step: 5,
+// 	  allowTimes: [
+// 		  '22:00'
+// 	  ],
+// 	  defaultTime: '22:00',
 	  onShow:function(){
 	   this.setOptions({
 	    minDate:$('#date1').val()?$('#date1').val():false

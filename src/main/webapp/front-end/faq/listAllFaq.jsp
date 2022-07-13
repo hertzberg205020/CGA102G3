@@ -28,11 +28,57 @@ pageContext.setAttribute("list", list);
 
 <title>首頁 / 常見問題FAQ</title>
 
+<style>
+.faq {
+  padding: 0px 0;
+}
+.faq .faq-list {
+  padding: 0;
+  list-style: none;
+}
+.faq .faq-list li {
+    background-color: #678F74;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px 40px;
+}
+.faq .faq-list a {
+    display: black;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+}
+
+.faq .faq-list i {
+  font-size: 16px;
+  position: absolute;
+  left: -25px;
+  top: 6px;
+  transition: 1s;
+}
+
+.faq .faq-list p {
+  padding-top: 5px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: white;
+}
+
+.collapsed i.fas.fa-arrow-up {
+    
+}
+.collapsed i.fas.fa-arrow-up {
+    transform: rotate(180deg);
+}
+</style>
+
 </head>
 <%@include file="/static/template/front_layout_header.jsp"%>
 <body>
 	<main class="main">
-		<div class="container">
+		<div class="container" style="background-color:	#FFF3DE;border: solid 10px;border-radius: 40px 40px 40px 40px;border-color:#FFF3DE ">
 			<table id="table-1">
 				<tr>
 					<th><h2>首頁 / <a href='listAllFaq.jsp'>常見問題FAQ</a></h2>
@@ -57,20 +103,32 @@ pageContext.setAttribute("list", list);
 
 				<tr class="table-success">
 			
-<!-- 					<th scope="col" class="col-1">FAQ編號</th> -->
-					<th scope="col" class="col-4">常見問題 Questions</th>
-					<th scope="col" class="col-7">解答 Answers</th>
-<!-- 					<th scope="col" class="col-3">我要回答</th> -->
-					<!-- 		<th scope="col" class="col-2">刪除</th>	 -->
+<!-- 				<th scope="col" class="col-1">FAQ編號</th> -->
+<!-- 					<th scope="col" class="col-4">常見問題 Questions</th> -->
+<!-- 					<th scope="col" class="col-7">解答 Answers</th> -->
+<!-- 				<th scope="col" class="col-2">刪除</th>	 -->
 				</tr>
-				<%@ include file="page1.file"%>
+<%@ include file="page1.file"%>
 				<c:forEach var="faqVO" items="${list}" begin="<%=pageIndex%>"
 					end="<%=pageIndex+rowsPerPage-1%>">
 				<tr>
 			
-<%-- 						<td>${faqVO.FAQ_ID}</td> --%>
-						<td><b>${faqVO.ques}</b></td>
-						<td>${faqVO.ans}</td>
+<%-- 					<td>${faqVO.FAQ_ID}</td> --%>
+<%-- 					<td><b>${faqVO.ques}</b></td> --%>
+<%-- 					<td>${faqVO.ans}</td> --%>
+
+<section class="faq">
+      <div class="container">
+        <ul class="faq-list">
+          <li data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate">
+            <a data-toggle="collapse" class="collapsed" href="#faq${faqVO.FAQ_ID}" aria-expanded="false">常見問題： ${faqVO.ques} <i class="fas fa-arrow-up"></i></a>
+            <div id="faq${faqVO.FAQ_ID}" class="collapse" data-parent=".faq-list" style="">
+              <p>解答： ${faqVO.ans}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+</section>
 
 <!-- 									<td> -->
 <%-- 									  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/front-end/faq/faq.do" style="margin-bottom: 0px;"> --%>
@@ -86,13 +144,36 @@ pageContext.setAttribute("list", list);
 						<!-- 			     <input type="hidden" name="action" value="delete"> -->
 						<!-- 			     </FORM> -->
 						<!-- 			</td> -->
-					</tr>
+				</tr>
 					
 				</c:forEach>
 			</table>
 <div class="text-right">
-  <a type="button" class="btn btn-success" href='listAllFaq.jsp'>▲<br>TOP</a>
+  <a type="button" style="border-radius:60px" class="btn btn-success" href='listAllFaq.jsp'>▲<br>TOP</a>
 </div>
+
+
+
+
+
+<!-- <section class="faq"> -->
+<!--       <div class="container"> -->
+<!--         <ul class="faq-list"> -->
+<!--           <li data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate"> -->
+<!--             <a data-toggle="collapse" class="collapsed" href="#faq1" aria-expanded="false">aaa <i class="fas fa-arrow-up"></i></a> -->
+<!--             <div id="faq1" class="collapse" data-parent=".faq-list" style=""> -->
+<!--               <p> -->
+<!--                 123 -->
+<!--               </p> -->
+<!--             </div> -->
+<!--           </li> -->
+<!--         </ul> -->
+<!--       </div> -->
+<!-- </section> -->
+
+
+
+
 			<%@ include file="page2.file"%>
 			</div>
 	</main>

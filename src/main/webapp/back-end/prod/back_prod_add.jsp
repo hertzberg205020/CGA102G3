@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.cga102g3.web.prod.model.*"%>
+<%@ page import="com.cga102g3.web.prod.service.*"%>
 <%@ page pageEncoding="UTF-8"%>
 
 <%

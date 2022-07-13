@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cga102g3.web.prod.model.*"%>
+<%@ page import="com.cga102g3.web.prod.service.*"%>
 
 <%
 //ProdService pdSvc = new ProdService(); //每次都拿最新資料

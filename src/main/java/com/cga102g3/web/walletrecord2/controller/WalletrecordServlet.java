@@ -33,6 +33,8 @@ public class WalletrecordServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
+			
+
 		
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 Integer mbr_ID = Integer.valueOf(req.getParameter("mbr_ID").trim());
@@ -42,6 +44,8 @@ Integer note = Integer.valueOf(req.getParameter("note"));
 
 				WalletrecordVO walletrecordVO = new WalletrecordVO();
 				walletrecordVO.setNote(note);
+				
+				
 
 
 				// Send the use back to the form, if there were errors
@@ -58,6 +62,13 @@ Integer note = Integer.valueOf(req.getParameter("note"));
 				walletrecordVO = walletrecordSvc.updateWalletrecord(note, mbr_ID);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				MemVO memVO = new MemVO();//
+				MemService memSvc = new MemService();
+				memVO = memSvc.getOneMem(mbr_ID);
+				HttpSession session = req.getSession();
+				session.setAttribute("memVO", memVO);
+				req.setAttribute("memVO", memVO);
+				
 				req.setAttribute("walletrecordVO", walletrecordVO); // 資料庫update成功後,正確的的walletrecordVO物件,存入req
 				String url = "/back-end/walletrecord/listAllWalletrecord.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllWalletrecord.jsp

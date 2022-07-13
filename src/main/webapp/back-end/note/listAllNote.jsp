@@ -83,7 +83,7 @@ NoteService noteSvc = new NoteService();
 			<span class="badge badge-pill badge-warning">
 <c:set var="note_content_type" value="${noteVO.note_content_type}"/>
 <c:choose>
-    <c:when test="${note_content_type == 0}">--</c:when>
+    <c:when test="${note_content_type == 0}">閒聊</c:when>
     <c:when test="${note_content_type == 1}">Java</c:when>
     <c:when test="${note_content_type == 2}">MySQL</c:when>
     <c:when test="${note_content_type == 3}">C#</c:when>

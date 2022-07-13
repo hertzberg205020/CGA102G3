@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import com.cga102g3.web.prod.entity.ProdVO;
-import com.cga102g3.web.prod.model.*;
+import com.cga102g3.web.prod.service.ProdService;
 
 @MultipartConfig(fileSizeThreshold = 1, maxFileSize = 15 * 1024 * 1024, maxRequestSize = 50 * 1024 * 1024)
 @WebServlet("/back-end/prod/prod.do")

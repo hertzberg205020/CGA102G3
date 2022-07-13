@@ -39,10 +39,8 @@ public class ProdServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
-        JedisPool jedisPool = JedisPoolUtil.getJedisPool();
-        Jedis jedis = jedisPool.getResource();
         Gson gson = new Gson();
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
 //        System.out.println(action);
 
@@ -50,7 +48,7 @@ public class ProdServlet extends HttpServlet {
 
         if ("shop".equals(action)) {
             ProdService service = new ProdService();
-            List<Map<String, Object>> list = service.getALL();
+            List<Map<String, Object>> list = service.getALLSALE(1);
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(list));
@@ -88,10 +86,14 @@ public class ProdServlet extends HttpServlet {
         //=======================添加商品至購物車=====================
 
         if ("add".equals(action)) {
-
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
+            System.out.println("here");
             //取得當前登入用戶ID
-            session.setAttribute("mbrID", "5");
-            String mbrID = (String) session.getAttribute("mbrID");
+//            session.setAttribute("mbrID", "5");
+            System.out.println("mbrID: "+ session.getAttribute("mbrID"));
+            Object mbrID =  session.getAttribute("mbrID");
+
             PrintWriter out = response.getWriter();
 
             if (mbrID != null) {
@@ -115,8 +117,10 @@ public class ProdServlet extends HttpServlet {
         if ("delete".equals(action)) {
 
             PrintWriter out = response.getWriter();
-            session.setAttribute("mbrID", "5");
-            String mbrID = (String) session.getAttribute("mbrID");
+//            session.setAttribute("mbrID", "5");
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
+            Object mbrID =  session.getAttribute("mbrID");
             String prodID = request.getParameter("prodID");
 
             try {
@@ -138,8 +142,10 @@ public class ProdServlet extends HttpServlet {
         if ("car".equals(action)) {
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            session.setAttribute("mbrID", "5");
-            String mbrID = (String) session.getAttribute("mbrID");
+//            session.setAttribute("mbrID", "5");
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
+            Object mbrID = session.getAttribute("mbrID");
 
             List<CarObj> list = new ArrayList<>();
             ProdService service = new ProdService();
@@ -164,8 +170,10 @@ public class ProdServlet extends HttpServlet {
 
             String amount = request.getParameter("amount");
             String prodID = request.getParameter("prodID");
-            session.setAttribute("mbrID", "5");
-            String mbrID = (String) session.getAttribute("mbrID");
+//            session.setAttribute("mbrID", "5");
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
+            Object mbrID = session.getAttribute("mbrID");
 
             try {
                 jedis.hset("mbrID" + mbrID, "prodID" + prodID, amount);
@@ -266,8 +274,10 @@ public class ProdServlet extends HttpServlet {
 
             //========================永續層=======================
 
-            session.setAttribute("mbrID", "5");
-            String mbrID = (String) session.getAttribute("mbrID");
+//            session.setAttribute("mbrID", "5");
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
+            Object mbrID = session.getAttribute("mbrID");
             List<CarObj> carList = (List<CarObj>) session.getAttribute("list");
             List<OrderItemVO> list = new ArrayList<>();
             int total = 0;
@@ -296,7 +306,8 @@ public class ProdServlet extends HttpServlet {
                 jedis.close();
             }
             OrderVO orderVO = new OrderVO();
-            orderVO.setMbrID(Integer.valueOf(mbrID));
+            String mbrIDStr = mbrID + "";
+            orderVO.setMbrID(Integer.valueOf(mbrIDStr));
             orderVO.setTotalPrice(total);
             orderVO.setOrderStatus(0);
             orderVO.setShipStatus(0);
@@ -364,7 +375,7 @@ public class ProdServlet extends HttpServlet {
         /** Display products on sale **/
         if ("get_Sale".equals(action)) {
             ProdService service = new ProdService();
-            List<Map<String, Object>> list = service.getALL();
+            List<Map<String, Object>> list = service.getALLSALE(1);
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
 //            Gson gson = new Gson();
@@ -429,7 +440,7 @@ public class ProdServlet extends HttpServlet {
         }
 
         if ("indexshop".equals(action)) {
-            com.cga102g3.web.prod.model.ProdService service = new com.cga102g3.web.prod.model.ProdService();
+            ProdService service = new ProdService();
             List<Map<String, Object>> list = service.getALLSALE();
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
@@ -439,12 +450,52 @@ public class ProdServlet extends HttpServlet {
         }
 
         if ("indexts".equals(action)) {
-            com.cga102g3.web.prod.model.ProdService service = new com.cga102g3.web.prod.model.ProdService();
+            ProdService service = new ProdService();
             List<Map<String, Object>> list = service.getTOPSALE();
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
             gson = new Gson();
             out.print(gson.toJson(list));
+            return;
+        }
+
+        /** Alan **/
+        if ("indexshop".equals(action)) {
+            ProdService service = new ProdService();
+            List<Map<String, Object>> list = service.getALLSALE();
+            response.setContentType("application/json; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            gson = new Gson();
+            out.print(gson.toJson(list));
+            return;
+        }
+
+        if ("indexts".equals(action)) {
+            ProdService service = new ProdService();
+            List<Map<String, Object>> list = service.getTOPSALE();
+            response.setContentType("application/json; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            gson = new Gson();
+            out.print(gson.toJson(list));
+            return;
+        }
+
+        /** Search by keyword **/
+        if ("search".equals(action)) {
+            /***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+            String bookTitle = null;
+            try {
+                bookTitle = request.getParameter("keyword_input");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            /***************************2.開始新增資料***************************************/
+            request.getSession().setAttribute("bookTitle", bookTitle);
+
+            /***************************3.新增完成,準備轉交(Send the Success view)***********/
+            String url = "/front-end/prod/browse_search.jsp";
+            RequestDispatcher successView = request.getRequestDispatcher(url);
+            successView.forward(request, response);
             return;
         }
     }

@@ -38,8 +38,18 @@ response.setDateHeader("Expires", 0);
 <!--    後台書籍管理添加樣式  -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/back-end/book/css/back_book_update.css">
+	
+	<!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+	<!-- jq -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
-<title>管理後臺-一般商品管理</title>
+<title>管理後臺-一般商品訂單管理</title>
+<style>
+th{
+white-space:nowrap;}
+</style>
 </head>
 <body>
 
@@ -52,19 +62,11 @@ response.setDateHeader("Expires", 0);
 			<input type="hidden" value="${pageContext.request.contextPath}" id="prefix">
 			<div class="container">
 				<br>
-				<div class="row justify-content-between">
-
-					<div class="input-group col-6 mb-3">
-						<input type="search" id="keyword_input" class="form-control rounded" placeholder="Search"
-						aria-label="Search" aria-describedby="search-addon"/>
-							<button type="button" class="btn btn-outline-info ml-2" id="search_btn">商品搜尋</button>
-					</div>
-				</div>
 
 			<div class="row">
 				<div class="col-12">
-					<table class="table table-bordered text-center table-hover">
-						<thead class="table-success">								
+					<table class="display" id="table_id">
+						<thead>								
 						<tr>
 							<th scope="col" class="col-1">訂單編號</th>
 							<th scope="col" class="col-2">訂單日期</th>
@@ -78,8 +80,8 @@ response.setDateHeader("Expires", 0);
 						</tr>
 					</thead>
                 <jsp:useBean id="memSvc" scope="page" class="com.cga102g3.web.mem.model.MemService"/>						
-				<c:forEach var="orderVO" items="${list}">
 					<tbody>
+				<c:forEach var="orderVO" items="${list}" >
 						<tr>
 						<th scope="row" style="vertical-align:middle">${orderVO.orderID}</th>
 							<td style="vertical-align:middle">
@@ -106,8 +108,8 @@ response.setDateHeader("Expires", 0);
 							'<h5><span class="badge badge-secondary">未付款</span><h5>'}
 							</td>
 							
-							<td style="vertical-align:middle">${memSvc.findByPrimaryKey(orderVO.mbrID).mbrName}</td>
-							<td style="vertical-align:middle">NT$${orderVO.totalPrice}</td>
+							<td style="vertical-align:middle">${memSvc.getOneMem(orderVO.mbrID).mbrName}</td>
+							<td style="vertical-align:middle">${orderVO.totalPrice}</td>
 							
 							<td style="vertical-align:middle">
 							<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/back-end/order/order.do" > 
@@ -120,27 +122,20 @@ response.setDateHeader("Expires", 0);
 							</td>
 							
 							<td style="vertical-align:middle">
-								<button  class="btn btn-danger" onClick="cancel(${orderVO.orderID})">
+								<button  class="btn btn-danger" onClick="cancel(${orderVO.orderID}, ${orderVO.orderStatus})">
 									<i class="fas fa-ban"></i>					
 							  	</button>
 							</td>
 						</tr>
-					</tbody>
 				</c:forEach>
+					</tbody>
 				</table>
 			</div>
 		</div>
-
-				<div class="row justify-content-around mt-2">
-					<button type="button" class="btn btn-outline-secondary" id="prePageBtn" hidden>上一頁</button>
-					<button type="button" class="btn btn-outline-secondary" id="nextPageBtn">下一頁</button>
-				</div>
 				<br>
 			</div>
 		</div>
 	</main>
-	<!-- Jquery -->
-	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- date time picker-->
 	<script src="${pageContext.request.contextPath}/static/datetimepicker/jquery.datetimepicker.full.js"></script>
 	<!-- bootstrap JS-->
@@ -149,42 +144,62 @@ response.setDateHeader("Expires", 0);
 	<script src="${pageContext.request.contextPath}/back-end/book/js/back_book_update.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	
-					<script>
- 						 function cancel(data) {
- 							 Swal.fire({
- 		 				   		 title: '你確定要取消該筆訂單?',
- 		 						 text: "訂單取消後便無法復原",
- 		 		 				 icon: 'warning',
- 		 					 	 showCancelButton: true,
- 		 						 confirmButtonColor: '#3085d6',
- 		 						 cancelButtonColor: '#d33',
- 		 		 				 confirmButtonText: '確定',
- 		 		 				 cancelButtonText: '取消'
- 								 }).then((result) => {
- 		 						if (result.isConfirmed) {
- 							 
-						      	$.ajax({
-	 						         url: "/CGA102G3/order/api/getOrderInfo",             
-	 						         dataType: "Json",
-	 						         async: false,
-	 						         data: {
-	 						        	'orderID':data
-	 						         },
-	 						        success: function(res){	
-	 						        	Swal.fire(
-		  		   						 '取消訂單!',
-		  		   		  				 '該筆訂單已取消',
-		  		   				         'success'
-		  		   						).then((result) => {
-		 	  		   					 location.reload();
-		 	  		   					})
-	 						        },
-	 						      
-	 						     })
-	 	  						}
-	 	  					  })
-	 	  					 }
-					</script>
+	<script>
+		 function cancel(data, orderStatus) {
+			 if(orderStatus === 3) {
+				 Swal.fire(
+				 '該筆訂單已取消了喔!',
+  				 '',
+		         'warning'
+				)
+			 } else if(orderStatus === 2) {
+				 Swal.fire(
+						 '該筆訂單已成立了喔!',
+		  				 '已成立訂單無法取消',
+				         'warning'
+						)
+			 } else {
+				Swal.fire({
+ 				   		 title: '你確定要取消該筆訂單?',
+ 						 text: "訂單取消後便無法復原",
+ 		 				 icon: 'warning',
+ 					 	 showCancelButton: true,
+ 						 confirmButtonColor: '#3085d6',
+ 						 cancelButtonColor: '#d33',
+ 		 				 confirmButtonText: '確定',
+ 		 				 cancelButtonText: '取消'
+						 }).then((result) => {
+ 						if (result.isConfirmed) {
+					 
+			      	$.ajax({
+					         url: "/CGA102G3/order/api/getOrderInfo",             
+					         dataType: "Json",
+					         async: false,
+					         data: {
+					        	'orderID':data
+					         },
+					        success: function(res){	
+					        	Swal.fire(
+ 		   						 '取消訂單!',
+ 		   		  				 '該筆訂單已取消',
+ 		   				         'success'
+ 		   						).then((result) => {
+	  		   					 location.reload();
+	  		   					})
+					        },
+					      
+					     })
+  						}
+  					  })
+					 }
+					}
+	</script>
+	
+	<script>
+    $(document).ready( function () {
+        $('#table_id').DataTable(); 
+    } );
+	</script>
  						
 </body>
 </html>

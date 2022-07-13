@@ -1,11 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.cga102g3.web.note.model.*"%>
+<%@ page import="com.cga102g3.web.mem.model.*"%>
 
 <%
 NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
+MemVO memVO = (MemVO)session.getAttribute("memVO"); //這裡不能寫死 抓會員ID
+
 %>
-<%-- <%= noteVO==null %>--${noteVO.getDeptno()}--${noteVO.deptno}-- --%>
+
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -26,7 +29,7 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <body>
 
 <main class="main">
-<div class="container">
+<div class="container" style="background-color:	#FFF3DE;border-radius: 40px 40px 40px 40px;border-color:#FFF3DE ">
 <h4><b><br>首頁 / 討論留言板 / 我要留言</b></h4>		
 
 
@@ -45,8 +48,8 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <table>
 	<tr>
 		<td>會員編號　</td>
-		<td><input type="TEXT" name="mbr_ID" size="11" 
-			 value="<%= (noteVO==null)? "1" : noteVO.getMbr_ID()%>" /></td>
+		<td><input readonly type="TEXT" name="mbr_ID" size="11" 
+			 value="${memVO.mbrID}" /></td> 
 	</tr>
 	<tr>
 		<td>選擇主題　</td>
@@ -54,8 +57,8 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <%-- 			 value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" /></td> --%>
 
 	<td>
-	<select name="note_content_type">
-	<option value="<%= (noteVO==null)? "0" : noteVO.getNote_content_type()%>" >--</option>
+	<select style="width: 120px" name="note_content_type">
+	<option value="<%= (noteVO==null)? "0" : noteVO.getNote_content_type()%>" >閒聊</option>
 	<option value="<%= (noteVO==null)? "1" : noteVO.getNote_content_type()%>" >Java</option>
 	<option value="<%= (noteVO==null)? "2" : noteVO.getNote_content_type()%>" >MySQL</option>
 	<option value="<%= (noteVO==null)? "3" : noteVO.getNote_content_type()%>" >C#</option>
@@ -64,13 +67,18 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 	<option value="<%= (noteVO==null)? "6" : noteVO.getNote_content_type()%>" >Android</option>
 	<option value="<%= (noteVO==null)? "7" : noteVO.getNote_content_type()%>" >資安</option>
 
-	
 	</select>
 	</td>
+	
+	
+
+	
+	
+	
 	</tr>
 	<tr>
 		<td>留言內容　</td>
-		<td><input type="TEXT" name="note_content" size="100" autofocus
+		<td><input required type="TEXT" autocomplete="off" name="note_content" size="100" autofocus
 			 value="<%= (noteVO==null)? "" : noteVO.getNote_content()%>" /></td>
 	</tr>
 	
@@ -88,8 +96,9 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 						<input type="submit" class="btn btn-warning" value="送出留言"></td>
 				</tr>
 </FORM>
+<br>
 </div>
-<br><br><br><br><br><br>
+<br><br><br><br><br>
 </main>
 </body>
 <%@include file="/static/template/front_layout_footer.jsp"%>
@@ -108,14 +117,7 @@ NoteVO noteVO = (NoteVO) request.getAttribute("noteVO");
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
 <script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
 
-<style>
-  .xdsoft_datetimepicker .xdsoft_datepicker {
-           width:  300px;   /* width:  300px; */
-  }
-  .xdsoft_datetimepicker .xdsoft_timepicker .xdsoft_time_box {
-           height: 151px;   /* height:  151px; */
-  }
-</style>
+
 
 <script>
         $.datetimepicker.setLocale('zh');

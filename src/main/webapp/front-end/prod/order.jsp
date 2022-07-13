@@ -58,7 +58,7 @@
             <td colspan="3"></td>
         </tr>
         <tr>
-            <td class="text-left">付款方式 : ${param.method}</td>
+            <td class="text-left">付款方式 : ${ans}</td>
             <td colspan="4"></td>
         </tr>
         <tr>
@@ -83,7 +83,7 @@
 <%@include file="/static/template/front_layout_footer.jsp" %>
 <script>
     $('button').click(function () {
-        location.replace('https://www.google.com.tw/?hl=zh_TW')
+        location.replace('/CGA102G3/index.jsp')
     })
 </script>
 </body>

@@ -21,7 +21,7 @@
     <!--    基礎版面樣式  -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
 
-<title>客服管理>FAQ管理 / FAQ修改</title>
+<title>客服管理 / FAQ管理 / FAQ修改</title>
 
 </head>
 <body>

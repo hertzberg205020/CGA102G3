@@ -22,6 +22,7 @@
     <script src="${pageContext.request.contextPath}/front-end/order/js/order2.js"></script>
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         .mytable tr td {
             /* for IE */
@@ -47,24 +48,6 @@
         </ol>
     </nav>
 
-    <hr>
-
-    <div class="row p-3 mb-3" style="border: 1.5px solid lightgray; background-color: lightgray">
-        <div class="col-2 offset-1 text-center font-weight-bold" style="vertical-align:middle;">查詢條件:</div>
-        <div class="col-6">
-            <input type="radio" id="contactChoice1" name="contact" value="email">
-            <label class="mr-2" for="contactChoice1">一個月內訂單</label>
-
-            <input type="radio" id="contactChoice2" name="contact" value="phone">
-            <label class="mr-2" for="contactChoice2">六個月內訂單</label>
-
-            <input type="radio" id="contactChoice3" name="contact" value="phone">
-            <label class="mr-2" for="contactChoice3">已取消訂單</label>
-        </div>
-        <div class="col-2">
-            <button class="btn btn-sm btn-dark">查詢</button>
-        </div>
-    </div>
     <table id="myTable" class="mt-5 table table-bordered text-center mx-auto">
         <thead class="table-dark">
         <tr>

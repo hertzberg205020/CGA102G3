@@ -28,16 +28,17 @@
             </div>
          </FORM>
       
-      <div class="mall">
+      <div class="mall" style="margin-left:50px">
                 <ul>
-                    <li><button href="#">一般商城</button></li>
-                    <li><button href="#">競標商城</button></li>
+                    <li><button onclick="location.href='${pageContext.request.contextPath}/front-end/prod/browse.jsp'">一般商城</button></li>
+                    <li><button onclick="location.href='${pageContext.request.contextPath}/front-end/bid/bid_prod_view.jsp'">競標商城</button></li>
+                    <li><button onclick="location.href='${pageContext.request.contextPath}/front-end/note/listAllNote.jsp'">討論留言板</button></li>
                 </ul>
       </div>
     </div>
     <div class="right_side">
       <div class="cart">
-        <button id="cart_btn">
+        <button id="cart_btn" onclick="location.href='${pageContext.request.contextPath}/front-end/prod/car.jsp'">
           <img class="cart" src="${pageContext.request.contextPath}/static/images/mall.png" height="25" width="25">
         </button>
       </div>
@@ -55,8 +56,8 @@
               會員專區
             </li>
             <div class="dropdown-content">
-              <a href="#">登入</a>
-              <a href="#">註冊</a>
+              <a href="${pageContext.request.contextPath}/front-end/mem/login.jsp">登入</a>
+              <a href="${pageContext.request.contextPath}/front-end/mem/signup.jsp">註冊</a>
             </div>
           </div>
         </ul>
@@ -69,16 +70,16 @@
               <div class="member">
                 <img src="${pageContext.request.contextPath}/static/images/member.png" height="25" width="25">
               </div>
-              會員專區
+              ${memVO.mbrName}
             </li>
             <div class="dropdown-content">
               <a href="${pageContext.request.contextPath}/front-end/mem/memlist.jsp">會員資料</a>
-              <a href="#">訂單管理</a>
-              <a href="#">錢包管理</a>
-              <a href="#">競標中商品</a>
+              <a href="${pageContext.request.contextPath}/front-end/order/order.jsp">訂單管理</a>
+              <a href="${pageContext.request.contextPath}/front-end/bid/bid_order.jsp">競標訂單</a>
+              <a href="${pageContext.request.contextPath}/front-end/walletrecord/listAllWalletrecord.jsp">錢包管理</a>
               <FORM METHOD="get" ACTION="${pageContext.request.contextPath}/front-end/mem/memlogout">
            <input type="submit" value="登出"
-            style="background-color: rgb(0, 100, 125); color: white; border: none">
+            style="background-color: #e9e9e9; color:  #678F74; border: none; width:100%;">
           </FORM>
             </div>
           </div>

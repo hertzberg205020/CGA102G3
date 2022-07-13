@@ -27,7 +27,7 @@ public class BidActivitiesSchedulingListener implements ServletContextListener {
         BidActivitiesSchedulingService service = new BidActivitiesSchedulingServiceImpl();
         // 建立競拍活動排程器
         this.timer = new Timer();
-        GregorianCalendar cal = new GregorianCalendar(2022, Calendar.JULY, 2, 2, 40, 0);
+        GregorianCalendar cal = new GregorianCalendar(2022, Calendar.JULY, 13, 2, 40, 0);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -42,7 +42,7 @@ public class BidActivitiesSchedulingListener implements ServletContextListener {
         };
 
         // 每5分鐘執行一次
-        timer.scheduleAtFixedRate(task, cal.getTime(), 5 * 60 * 1000);
+        timer.scheduleAtFixedRate(task, cal.getTime(), 1 * 60 * 1000);
     }
 
     @Override

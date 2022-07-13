@@ -32,9 +32,17 @@
     <filter-mapping>
         <filter-name>loginFilter</filter-name>
         <url-pattern>/front-end/mem/memlist.jsp</url-pattern>
-<!--        <url-pattern>/faces/Html/Employee/*</url-pattern>-->
-<!--        <url-pattern>/faces/Html/Admin/*</url-pattern>-->
-<!--        <url-pattern>/faces/Html/Supervisor/*</url-pattern>-->
+        <url-pattern>/front-end/note/addNote.jsp</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>EmpLoginFilter</filter-name>
+        <filter-class>com.cga102g3.core.filter.EmpLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EmpLoginFilter</filter-name>
+        <url-pattern>/backindex.jsp</url-pattern>
+    </filter-mapping>
+
 
 </web-app>

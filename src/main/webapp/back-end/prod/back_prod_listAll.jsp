@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cga102g3.web.prod.model.*"%>
+<%@ page import="com.cga102g3.web.prod.service.*"%>
 
 <%
 ProdService pdSvc = new ProdService(); //每次都拿最新資料
-List <Map<String, Object>> list = pdSvc.getALL(); //資料庫有異動就會呈現出來
+List <Map<String, Object>> list = pdSvc.getALL(1); //資料庫有異動就會呈現出來
 request.setAttribute("list", list);
 %>
 
@@ -38,6 +38,8 @@ response.setDateHeader("Expires", 0);
 <!--    後台書籍管理添加樣式  -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/back-end/book/css/back_book_update.css">
+
+
 
 <title>管理後臺-一般商品管理</title>
 </head>
@@ -113,7 +115,9 @@ response.setDateHeader("Expires", 0);
 				</table>
 			</div>
 		</div>
+
 	<%@ include file="page2.file" %>
+
 
 				<br>
 			</div>
@@ -126,6 +130,6 @@ response.setDateHeader("Expires", 0);
 	<!-- bootstrap JS-->
 	<script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
-	<script src="${pageContext.request.contextPath}/back-end/book/js/back_book_update.js"></script>
+
 </body>
 </html>

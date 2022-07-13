@@ -18,6 +18,13 @@ pageContext.setAttribute("list", list);
 <html>
 <head>
 <meta charset="UTF-8">
+
+<!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<!-- jq -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <!-- datetimepicker樣式 -->
@@ -67,9 +74,8 @@ th, td {
 	vertical-align: middle;
 }
 
-div {
-	width: 950px;
-	text-align: center;
+div.container {
+margin-bottom: 10px;
 }
 
 table#table-2 tbody tr:nth-child(odd) {
@@ -82,10 +88,10 @@ table thead {
 }
 
 div.search{
-display:inline-flex;;
+/* display:inline-flex; */
 }
 div.input-group col-6 mb-3{
-mmargin-right: 10px;
+margin-right: 10px;
 float:right;
 }
 
@@ -108,23 +114,12 @@ float:right;
 	<h4>
 				<a href="select_page.jsp">回首頁</a>
 			</h4>
-		<div class="input-group col-6 mb-3">
-
-			
-			
-<!-- 			<input type="search" id="keyword_input" class="form-control rounded" -->
-<!-- 				placeholder="Search" aria-label="Search" -->
-<!-- 				aria-describedby="search-addon" /> -->
-<!-- 			<button type="button" class="btn btn-outline-info ml-2" -->
-<!-- 				id="search_btn">search</button> -->
-			
-			</div>
 		</div>
-		<div class="page1">
-			<%@ include file="page1.file"%>
-		</div>
+<!-- 		<div class="page1"> -->
+<%-- 			<%@ include file="page1.file"%> --%>
+<!-- 		</div> -->
 		<div class="container">
-		<table class ="table table-bordered text-center table-hover">
+		<table class ="table table-bordered text-center table-hover" id = 'table_id'>
 			<thead class="table-success">
 				<tr>
 					<th>員工編號</th>
@@ -137,8 +132,9 @@ float:right;
 			</thead>
 
 			<tbody>
-				<c:forEach var="AdminVO" items="${list}" begin="<%=pageIndex%>"
-					end="<%=pageIndex+rowsPerPage-1%>">
+				<c:forEach var="AdminVO" items="${list}" >
+<%-- 				begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
+				
 					<tr>
 						<td  style="vertical-align:middle">${AdminVO.adminID}</td>
 						<td  style="vertical-align:middle">${AdminVO.adminAccount}</td>
@@ -162,9 +158,9 @@ float:right;
 			</tbody>
 		</table>
 		</div>
-		<div>
-			<%@ include file="page2.file"%>
-		</div>
+<!-- 		<div> -->
+<%-- 			<%@ include file="page2.file"%> --%>
+<!-- 		</div> -->
 		
 	</main>
 
@@ -175,10 +171,17 @@ imgs[i].onerror=function(){this.src="${pageContext.request.contextPath}/static/i
 }
 </script>
 
+<script>
+    $(document).ready( function () {
+        $('#table_id').DataTable(); 
+    } );
+</script>
+
+
 
 
 	<!-- Jquery -->
-	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- 	<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 	<!-- datetimepicker-->
 	<%--<script src="${pageContext.request.contextPath}/datetimepicker/jquery.js"></script>--%>
 	<script

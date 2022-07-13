@@ -20,8 +20,7 @@
                         </label>
                         <input class="aside" type="checkbox" id="btn-1">
                         <ul>
-                            <li><a id="a"
-                                   href="${pageContext.request.contextPath}/back-end/emp/select_page.jsp">員工帳號管理</a>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/emp/select_page.jsp">員工帳號管理</a>
                             </li>
                             <li><a id="a" href="${pageContext.request.contextPath}/back-end/emp/listAdminAuth.jsp">員工權限管理</a>
                             </li>
@@ -52,7 +51,7 @@
                         <input class="aside" type="checkbox" id="btn-3">
                         <ul>
                             <!-- <li><a id="a" ref ="#">二手商品匯款管理</a></li> -->
-                            <li><a id="a" ref="#">查詢錢包使用紀錄</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/walletrecord/listAllWalletrecord.jsp">查詢錢包使用紀錄</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -64,9 +63,9 @@
                         </label>
                         <input class="aside" type="checkbox" id="btn-5">
                         <ul>
-                            <li><a id="a" ref="#">一般商品管理</a></li>
-                            <li><a id="a" ref="#">特賣專案管理</a></li>
-                            <li><a id="a" ref="#">商品訂單管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/sale/sale.jsp">促銷專案管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/prod/back_prod_listAll.jsp">一般商品管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/order/back_order_listAll.jsp">商品訂單管理</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -78,8 +77,8 @@
                         </label>
                         <input class="aside" type="checkbox" id="btn-7">
                         <ul>
-                            <li><a id="a" ref="#">競標商品管理</a></li>
-                            <li><a id="a" ref="#">競標訂單管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/bid/bidprod_back_page.jsp">競標商品管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/bid_order/bid_order_page.jsp">競標訂單管理</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -91,8 +90,8 @@
                         </label>
                         <input class="aside" type="checkbox" id="btn-8">
                         <ul>
-                            <li><a id="a" ref="#">即時客服系統</a></li>
-                            <li><a id="a" ref="#">FAQ管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/note/listAllNote.jsp">討論留言板管理</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/faq/listAllFaq.jsp">FAQ管理</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -102,6 +101,7 @@
                         <img class="img2" src="${pageContext.request.contextPath}/static/images/book.png" height="20px"
                              width="20px">
                         書目管理
+                        <a href="${pageContext.request.contextPath}/back-end/book/back_book_view.jsp"></a>
                     </li>
                 </c:if>
             </c:forEach>
@@ -115,6 +115,7 @@
             </li>
 
         </ul>
+        <input type="hidden" id="prefix_aside" value="${pageContext.request.contextPath}">
     </nav>
 
 

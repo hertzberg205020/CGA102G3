@@ -46,7 +46,7 @@
 
       
     <FORM METHOD="post" ACTION="walletrecord.do" >
-        <b>查詢會員編號</b>
+        <label><b>查詢會員編號</b></label>
         <input required autofocus type="text" pattern="[0-9]" name="mbrID">
         <input type="hidden" name="action" value="getOne_For_Display">
         <input type="submit" class="btn btn-info" value="送出">
@@ -55,7 +55,7 @@
   <jsp:useBean id="memSvc" scope="page" class="com.cga102g3.web.mem.model.MemService" />
   
      <FORM METHOD="post" ACTION="walletrecord.do" >
-       <b>選擇會員編號</b>
+       <label><b>選擇會員編號</b></label>
        <select size="1" name="mbrID">
        		<option value="">請選擇</option>
          <c:forEach var="memVO" items="${memSvc.all}" > 

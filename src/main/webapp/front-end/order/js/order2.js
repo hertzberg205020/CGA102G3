@@ -76,25 +76,69 @@ window.onload = function () {
             })
             $('.cancel').click(function (){
                 let orderID = $(this).parents('tr').find('th').text();
-                fetch(`${path}/OrderServlet.do?action=cancel&orderID=${orderID}`)
-                    .then(response => response.text())
-                    .then(function (myjson){
-                        console.log(myjson);
-                        $(this).attr('disabled','disabled');
-                    })
-                $(this).parents('tr').find('td.ship-status').text('訂單取消')
-                $(this).parents('tr').find('td.order-status').text('訂單取消')
+                let e = $(this);
+                swal({
+                    title: "確定取消?",
+                    text: "取消後，訂單無法復原!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            fetch(`${path}/OrderServlet.do?action=cancel&orderID=${orderID}`)
+                                .then(response => response.text())
+                                .then(function (res){
+                                    if (res === 'true'){
+                                        swal("成功刪除!", {
+                                            icon: "success",
+                                        });
+                                        e.attr('disabled','disabled');
+                                        e.parents('tr').find('td.ship-status').text('訂單取消')
+                                        e.parents('tr').find('td.order-status').text('訂單取消')
+                                    }else {
+                                        swal("刪除失敗!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                        } else {
+                            swal("保存訂單!");
+                        }
+                    });
             })
 
             $('.finish').click(function (){
                 let orderID = $(this).parents('tr').find('th').text();
-                fetch(`${path}/OrderServlet.do?action=finish&orderID=${orderID}`)
-                    .then(response => response.text())
-                    .then(function (myjson){
-                        console.log(myjson);
-                        $(this).attr('disabled','disabled');
-                    })
-                $(this).parents('tr').find('td.order-status').text('訂單完成')
+                let e = $(this);
+                swal({
+                    title: "確定取消?",
+                    text: "取消後，訂單無法復原!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            fetch(`${path}/OrderServlet.do?action=finish&orderID=${orderID}`)
+                                .then(response => response.text())
+                                .then(function (res){
+                                    if (res === 'true'){
+                                        swal("訂單完成!", {
+                                            icon: "success",
+                                        });
+                                        e.attr('disabled','disabled');
+                                        e.parents('tr').find('td.order-status').text('訂單完成')
+                                    }else {
+                                        swal("訂單完成失敗!", {
+                                            icon: "error",
+                                        });
+                                    }
+                                })
+                        } else {
+                            swal("保存訂單!");
+                        }
+                    });
             })
         })
     $('#edit').on('show.bs.modal', function (e) {

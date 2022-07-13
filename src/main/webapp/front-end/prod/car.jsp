@@ -16,10 +16,14 @@
     <link rel="stylesheet"
           href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
     <title>商城首頁</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         .table {
             width: 960px;
-            margin: auto;
+            margin: 30px auto;
+        }
+        .table tr td{
+            vertical-align: middle;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
@@ -29,21 +33,21 @@
 <body>
 <%@include file="/static/template/front_layout_header.jsp" %>
 <main>
-    <table class="table">
-        <thead>
+    <table class="table table-bordered">
+        <thead class="table-info">
         <tr>
             <th scope="col">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="all">
                     <label class="form-check-label" for="all">
-                        All Select
+                        全選
                     </label>
                 </div>
             </th>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Number</th>
-            <th scope="col">total</th>
+            <th scope="col">產品照片</th>
+            <th scope="col">價格</th>
+            <th scope="col">數量</th>
+            <th style="width: 80px"><div>單項總價</div></th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -52,8 +56,8 @@
     </table>
     <input type="hidden" value="${pageContext.request.contextPath}" id="path">
 </main>
-<img class="god" src="${pageContext.request.contextPath}/static/images/Godbless.png" height="500px;" width="500px;"><br>
-<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
+<%--<img class="god" src="${pageContext.request.contextPath}/static/images/Godbless.png" height="500px;" width="500px;"><br>--%>
+<%--<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">--%>
 <%@include file="/static/template/front_layout_footer.jsp" %>
 <script src="${pageContext.request.contextPath}/front-end/prod/js/car2.js"></script>
 

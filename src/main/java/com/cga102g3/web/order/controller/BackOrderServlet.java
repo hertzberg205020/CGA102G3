@@ -37,7 +37,6 @@ public class BackOrderServlet extends HttpServlet {
 
 					/***************************1.接收請求參數****************************************/
 					Integer orderID = Integer.valueOf(req.getParameter("orderID"));
-					
 					/***************************2.開始查詢資料****************************************/
 					OrderService orderSvc = new OrderService();
 					OrderVO orderVO = orderSvc.getOne(orderID);									

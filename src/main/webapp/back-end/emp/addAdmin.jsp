@@ -75,7 +75,7 @@ table, th, td {
 th, td {
 	padding: 1px;
 }
-input,inp{
+input.inp{
 	display:block ;
 }
 input.addemp {
@@ -94,12 +94,12 @@ input.addemp {
 input.addemp:hover {
             opacity: 0.8;
         }
-div {
+div.sub {
 	margin-left:10px;
 	margin-top:0;
 /* 	text-align: center; */
 }
-form{
+form.insert{
 border: 2px solid #ccc;
 border-radius: 10px;
 width:50%;
@@ -123,8 +123,8 @@ margin-left: 10px;
 <main class="main">
 
 				<h4>
-					<a href="select_page.jsp">回首頁</a><br>
-				</h4>
+					<a href="select_page.jsp">回上頁</a>
+				</h4><br>
 
 
 	<%-- 錯誤表列 --%>
@@ -138,7 +138,7 @@ margin-left: 10px;
 		</ul>
 	</c:if>
 	</div>
-	<FORM METHOD="post" ACTION="${pageContext.request.contextPath}/back-end/emp/emp.do" name="form1">
+	<FORM class="insert" METHOD="post" ACTION="${pageContext.request.contextPath}/back-end/emp/emp.do" name="form1">
 		<table id="table-2">
 			<tr>
 				<td>員工帳號</td>
@@ -162,7 +162,7 @@ margin-left: 10px;
 			</tr>
 		</table>
 		<br> <input type="hidden" name="action" value="insert">
-		<div>
+		<div class="sub">
 		<input class="addemp" type="submit" value="送出新增">
 		</div>	
 	</FORM>

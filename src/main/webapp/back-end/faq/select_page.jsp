@@ -42,16 +42,12 @@
 		</c:forEach>
 	</ul>
 </c:if>
-
-  <a href='listAllFaq.jsp'>查看所有FAQ</a>　　<a href='addFaq.jsp'>新增FAQ</a> 
-  
-
       
     <FORM METHOD="post" ACTION="faq.do" >
         <b>搜尋FAQ編號</b>
         <input type="text" name="FAQ_ID">
         <input type="hidden" name="action" value="getOne_For_Display">
-        <input type="submit" value="送出">
+        <input class="btn btn-info" type="submit" value="搜尋">
     </FORM>
   
   <jsp:useBean id="faqSvc" scope="page" class="com.cga102g3.web.faq.model.FaqService" />
@@ -60,13 +56,15 @@
        <b>查詢FAQ編號</b>
        <select size="1" name="FAQ_ID">
          <c:forEach var="faqVO" items="${faqSvc.all}" > 
-          <option value="${faqVO.FAQ_ID}">${faqVO.FAQ_ID}
+          <option value="${faqVO.FAQ_ID}">${faqVO.FAQ_ID}</option>
          </c:forEach>   
        </select>
        <input type="hidden" name="action" value="getOne_For_Display">
-       <input type="submit" value="送出">
+       <input class="btn btn-info" type="submit" value="搜尋">
     </FORM>
 
+  <a class="btn btn-info" href='listAllFaq.jsp'>查看所有FAQ</a>　<a class="btn btn-info" href='addFaq.jsp'>新增FAQ</a> 
+  
     </main>
     </div>
     </body>

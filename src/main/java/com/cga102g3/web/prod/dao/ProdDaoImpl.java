@@ -46,6 +46,54 @@ public class ProdDaoImpl implements ProdDao{
                    "join book b\n" +
                    "on p.book_ID = b.book_ID";
 
+    private static final String FRONT_SALE_STRING =
+            "select b.book_ID, p.prod_ID, p.price AS price1, b.title,\n"
+                    + "    case\n"
+                    + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\n"
+                    + "        else p.price\n"
+                    + " end as price2,\n"
+                    + "    case\n"
+                    + "  when NOW() between s.sale_start and s.sale_end then 'Y'\n"
+                    + "        else 'N'\n"
+                    + " end as discount\n"
+                    + " from\n"
+                    + " product p\n"
+                    + " left join prod_sale ps\n"
+                    + "  on p.prod_ID = ps.prod_ID\n"
+                    + " left join sale s\n"
+                    + "  on ps.sale_ID = s.sale_ID\n"
+                    + " left join book b\n"
+                    + "  on p.book_ID = b.book_ID\n"
+                    + "where\n"
+                    + " p.status = 1 \n"
+                    + "limit 9";
+
+    private static final String FRONT_TOP_SALE =
+            "select b.book_ID, p.prod_ID, p.price AS price1, b.title, sum(oi.amount),\n"
+                    + "case\n"
+                    + "when NOW() between s.sale_start and s.sale_end then ps.sale_price\n"
+                    + "else p.price\n"
+                    + "  		end as price2,\n"
+                    + "  	 case\n"
+                    + "  		  when NOW() between s.sale_start and s.sale_end then 'Y'\n"
+                    + "  		        else 'N'\n"
+                    + "  		 end as discount\n"
+                    + "  		 from\n"
+                    + "  		 product p\n"
+                    + "  		 left join prod_sale ps\n"
+                    + "  		  on p.prod_ID = ps.prod_ID\n"
+                    + "  		 left join order_item oi\n"
+                    + "  		  on p.prod_ID = oi.prod_ID\n"
+                    + "			left join sale s\n"
+                    + "		 on ps.sale_ID = s.sale_ID\n"
+                    + "  		left join book b\n"
+                    + "on p.book_ID = b.book_ID\n"
+                    + "where\n"
+                    + " p.status = 1\n"
+                    + "group by p.prod_ID,b.book_ID, s.sale_ID,price1, price2, b.title\n"
+                    + "order by sum(oi.amount) desc\n"
+                    + "limit 5;";
+
     @Override
 	public void insert(ProdVO prodVO) {
 		Connection con = null;
@@ -365,43 +413,6 @@ public class ProdDaoImpl implements ProdDao{
         return list;
     }
 
-    //前台首頁搜尋
-    public List<Map<String, Object>> selectTitle(String bookTitle) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        List<Map<String, Object>> list = null;
-        final String sql =
-                " select b.book_ID, p.prod_ID, p.price AS price1, b.title,\n"
-                        + "    case\n"
-                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\n"
-                        + "        else p.price\n"
-                        + " end as price2,\n"
-                        + "    case\n"
-                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\n"
-                        + "        else 'N'\n"
-                        + " end as discount\n"
-                        + " from product p\n"
-                        + " left join prod_sale ps\n"
-                        + "  on p.prod_ID = ps.prod_ID\n"
-                        + " left join sale s\n"
-                        + "  on ps.sale_ID = s.sale_ID\n"
-                        + " left join book b\n"
-                        + "  on p.book_ID = b.book_ID\n"
-                        + "where\n"
-                        + " p.status = 1 and b.title like ?";
-        try {
-            conn = JDBCUtil.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + bookTitle + "%");
-            rs = pstmt.executeQuery();
-            list = retrieve2(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {JDBCUtil.close(conn, pstmt, rs);
-        }
-        return list;
-    }
 
     private List<Map<String, Object>> retrieve2(ResultSet rs) throws SQLException {
 
@@ -507,5 +518,232 @@ public class ProdDaoImpl implements ProdDao{
             e.printStackTrace();
         }
         return salePrice;
+    }
+    //Alan Start from there
+
+
+    @Override
+    public List<Map<String,Object>> findAllSale() {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+
+        try{
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userid, passwd);
+            ps = con.prepareStatement(FRONT_SALE_STRING);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("bookID", rs.getInt("book_ID"));
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("price1", rs.getInt("price1"));
+                map.put("title", rs.getString("title"));
+                map.put("price2", rs.getInt("price2"));
+                map.put("discount", rs.getString("discount"));
+                list.add(map);
+            }
+
+        }catch(ClassNotFoundException e) {
+            throw new RuntimeException("A database error occured. " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String,Object>> findTopSale() {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+
+        try{
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userid, passwd);
+            ps = con.prepareStatement(FRONT_TOP_SALE);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("bookID", rs.getInt("book_ID"));
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("price1", rs.getInt("price1"));
+                map.put("title", rs.getString("title"));
+                map.put("price2", rs.getInt("price2"));
+                map.put("discount", rs.getString("discount"));
+                map.put("amount", rs.getString("sum(oi.amount)"));
+                list.add(map);
+            }
+
+        }catch(ClassNotFoundException e) {
+            throw new RuntimeException("A database error occured. " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<ProdVO> searchTitle(String title) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<ProdVO> list = null;
+        final String sql =
+                "select p.prod_id,p.book_id, p.price, b.title, p.`status`\n"
+                        + "from product p \n"
+                        + "left join book b \n"
+                        + "on p.book_ID = b.book_ID \n"
+                        + "where b.title like ?";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + title + "%");
+            rs = pstmt.executeQuery();
+            list = retrieve(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> findAll(Integer no) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+
+        try{
+            Class.forName(driver);
+            con = DriverManager.getConnection(url, userid, passwd);
+            ps = con.prepareStatement(GET_ALL_STRING);
+
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("bookID", rs.getInt("book_ID"));
+                map.put("price", rs.getInt("price"));
+                map.put("title", rs.getString("title"));
+                map.put("status", rs.getInt("status"));
+                list.add(map);
+            }
+
+        }catch(ClassNotFoundException e) {
+            throw new RuntimeException("A database error occured. " + e.getMessage());
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        }
+        return list;
+    }
+
+
+    //前台首頁搜尋
+    public List<Map<String, Object>> selectTitle(String bookTitle) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> list = null;
+        final String sql =
+                " select b.book_ID, p.prod_ID, p.price AS price1, b.title,\n"
+                        + "    case\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\n"
+                        + "        else p.price\n"
+                        + " end as price2,\n"
+                        + "    case\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\n"
+                        + "        else 'N'\n"
+                        + " end as discount\n"
+                        + " from product p\n"
+                        + " left join prod_sale ps\n"
+                        + "  on p.prod_ID = ps.prod_ID\n"
+                        + " left join sale s\n"
+                        + "  on ps.sale_ID = s.sale_ID\n"
+                        + " left join book b\n"
+                        + "  on p.book_ID = b.book_ID\n"
+                        + "where\n"
+                        + " p.status = 1 and b.title like ?";
+        try {
+            conn = JDBCUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + bookTitle + "%");
+            rs = pstmt.executeQuery();
+            list = retrieve2(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {JDBCUtil.close(conn, pstmt, rs);
+        }
+        return list;
+    }
+
+    private List<ProdVO> retrieve(ResultSet rs) throws SQLException {
+        List<ProdVO> list = new ArrayList<>();
+        while (rs.next()) {
+            ProdVO prodvo = new ProdVO();
+            prodvo.setProdID(rs.getInt("prod_id"));
+            prodvo.setBookID(rs.getInt("book_id"));
+            prodvo.setPrice(rs.getInt("price"));
+            prodvo.setStatus(rs.getInt("status"));
+            list.add(prodvo);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Map<String,Object>> showAll() {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+
+        final String GET_All_STRING =
+                "select\r\n"
+                        + " p.prod_ID, p.price AS price1,b.title,\r\n"
+                        + "    case\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then ps.sale_price\r\n"
+                        + "        else p.price\r\n"
+                        + " end as price2,\r\n"
+                        + "    case\r\n"
+                        + "  when NOW() between s.sale_start and s.sale_end then 'Y'\r\n"
+                        + "        else 'N'\r\n"
+                        + " end as discount\r\n"
+                        + "from\r\n"
+                        + " product p\r\n"
+                        + "    left join prod_sale ps\r\n"
+                        + "  on p.prod_ID = ps.prod_ID\r\n"
+                        + " left join sale s\r\n"
+                        + "  on ps.sale_ID = s.sale_ID\r\n"
+                        + " left join book b\r\n"
+                        + "  on p.book_ID = b.book_ID\r\n"
+                        + "where\r\n"
+                        + " p.status = 1";
+
+
+        try{
+            con = JDBCUtil.getConnection();
+            ps = con.prepareStatement(GET_All_STRING);
+            rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("prodID", rs.getInt("prod_ID"));
+                map.put("title", rs.getString("title"));
+                map.put("price1", rs.getInt("price1"));
+                map.put("price2", rs.getInt("price2"));
+                map.put("discount", rs.getString("discount"));
+                list.add(map);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Couldn't load database driver. "+ e.getMessage());
+        }finally {
+            JDBCUtil.close(con,ps,rs);
+        }
+        return list;
     }
 }

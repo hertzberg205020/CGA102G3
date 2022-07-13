@@ -29,8 +29,12 @@ public class MemLogoutServlet extends HttpServlet{
 		 res.setContentType("text/html; charset=UTF-8");
 		HttpSession session = req.getSession(false);//防止建立Session
 		
+		if(session != null) {
 		session.invalidate();
-		res.sendRedirect(req.getContextPath()+"/front-end/mem/login.jsp");
+		res.sendRedirect(req.getContextPath()+"/front-end/mem/login.jsp");}
+		else {	
+			res.sendRedirect(req.getContextPath()+"/front-end/mem/login.jsp");}	
+		
 	
 }
 }

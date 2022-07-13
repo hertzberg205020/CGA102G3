@@ -220,8 +220,9 @@ hight: 20px
 
 						<tr>
 							<input type="hidden" name="action" value="signup">
-							<td colspan="2" align="center"><input type="submit" id="submit"
-								value="註冊" class="submitbtn" data-disable-with="註冊帳號" onclick="test()" /></td>
+							<td colspan="2" align="center">
+							<input type="submit" id="submit"
+								value="註冊" class="submitbtn" data-disable-with="註冊帳號" onclick="test(this)" /></td>
 						</tr>
 					</table>
 				</form>
@@ -229,11 +230,27 @@ hight: 20px
 		</div>
 		
 		<script>		
-			function test(){Swal.fire('請收驗證信')}		
+			function test(e){
+				console.log(e)
+				let elements = document.getElementsByClassName('error');
+				var username = document.getElementById("username").value;
+				var pwd1 = document.getElementById("password11").value; 
+				var name = document.getElementById("name").value; 
+				var email = document.getElementById("email").value; 
+				
+				if (username != '' &&  pwd1 != ''  &&  name != '' && email != ''){
+					Swal.fire('請收驗證信')	;
+				}else if(elements != null){
+					Swal.fire('請確認錯誤');
+				}
+				else{
+// 					Swal.fire('請收驗證信')	;
+				}	
+			}		
 		</script>
 
 		
-	
+		<!-- 		確認密碼用 -->
 		<script>
 
         function validate() {       
@@ -252,7 +269,7 @@ hight: 20px
         }        
         </script>
 
-
+<!-- 	地址鄉鎮市下拉式選單設定 -->
 		<script>
 			$("#twzipcode").twzipcode({
 				zipcodeIntoDistrict : true, // 郵遞區號自動顯示在區別選單中

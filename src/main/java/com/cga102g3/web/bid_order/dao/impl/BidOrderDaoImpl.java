@@ -102,8 +102,9 @@ public class BidOrderDaoImpl implements BidOrderDao {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
-            if(retrieve(rs).size() != 0) {
-                bidOrder = retrieve(rs).get(0);
+            List<BidOrder> res = retrieve(rs);
+            if(!res.isEmpty()) {
+                bidOrder = res.get(0);
             }
 
         } catch (SQLException e) {
@@ -488,9 +489,9 @@ public class BidOrderDaoImpl implements BidOrderDao {
     }
 
     public static void main(String[] args) {
-//        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
-//        BidOrder bidOrder= bidOrderDao.selectByPrimaryKey(1);
-//        System.out.println(bidOrder);
+        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
+        BidOrder bidOrder= bidOrderDao.selectByPrimaryKey(10);
+        System.out.println(bidOrder);
 
 //        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
 //        List<BidOrder> bidOrders = bidOrderDao.selectAll(1);
@@ -524,8 +525,8 @@ public class BidOrderDaoImpl implements BidOrderDao {
 //            System.out.println(e.get("bidID"));
 //        });
 
-        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
-        bidOrderDao.updateStat2Delivered(5);
+//        BidOrderDao bidOrderDao = new BidOrderDaoImpl();
+//        bidOrderDao.updateStat2Delivered(5);
 
     }
 }

@@ -11,13 +11,11 @@ window.onload = function () {
                 <td>${json.saleEnd}</td>
                 <td><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#edit"
                             data-title="${json.saleID}"><i class="bi bi-card-list"></i></button></td>
-                <td><button class="delete btn btn-danger">取消</button></td>
+                <td><button class="delete btn btn-danger" onclick="deleteOne(this)">取消</button></td>
             </tr>`)
             }
-            $('.delete').on('click', function () {
-                let saleID = $(this).parents('tr').find('td:first').text();
-                console.log(saleID);
-            })
+
+            //明細
             $('#edit').on('show.bs.modal', function (e) {
                 let btn = $(e.relatedTarget); //抓取觸發按鈕的資料
                 let title = btn.data('title');

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.cga102g3.web.category.entity.Category;
 import com.cga102g3.web.prod.service.ProdService;
 import com.cga102g3.web.prod_sale.entity.ProdSaleVO;
 import com.cga102g3.web.sale.dao.SaleDAO_interface;
@@ -98,5 +99,21 @@ public class SaleService {
 		return dao.judge2(start,end);
 	}
 
+	/**
+	 * @description: 刪除 By saleID
+	 * @param:
+	 * @return:
+	 * @auther: Luke
+	 * @date: 2022/07/12 11:05:16
+	 */
+	public boolean delete(Integer saleID){return dao.delete(saleID);}
 
+	/**
+	 * @description: 抓取現有產品的種類
+	 * @param:
+	 * @return:
+	 * @auther: Luke
+	 * @date: 2022/07/13 13:04:30
+	 */
+	public List<Category> getProdCategory(){return dao.getProdCategory();}
 }

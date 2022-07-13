@@ -73,9 +73,9 @@ public class AdminServlet extends HttpServlet {
 			/*************************** 2.開始查詢資料 *****************************************/
 			AdminService empSvc = new AdminService();
 			AdminVO adminVO = empSvc.getOneEmp(adminID);
-			if (adminVO == null) {
-				errorMsgs.add("�d�L���");
-			}
+//			if (adminVO == null) {
+//				errorMsgs.add("查無此資料");
+//			}
 			// Send the use back to the form, if there were errors
 //			if (!errorMsgs.isEmpty()) {
 //				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/emp/select_page.jsp");
@@ -116,9 +116,13 @@ public class AdminServlet extends HttpServlet {
 			
 			
 			String password = req.getParameter("password").trim();
+			String passwordReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{4,10}$";
 			if (password == null || password.trim().length() == 0) {
 				errorMsgs.add("請輸入密碼");
+			}else if (!password.trim().matches(passwordReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
+				errorMsgs.add("密碼只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
 			}
+			
 			String name = req.getParameter("name");
 			String nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 			if (name == null || name.trim().length() == 0) {
@@ -192,9 +196,13 @@ public class AdminServlet extends HttpServlet {
 				errorMsgs.add("請輸入帳號");
 			}
 			String password = req.getParameter("password").trim();
+			String passwordReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{4,10}$";
 			if (password == null || password.trim().length() == 0) {
 				errorMsgs.add("請輸入密碼");
+			}else if (!password.trim().matches(passwordReg)) { // �H�U�m�ߥ��h(�W)��ܦ�(regular-expression)
+				errorMsgs.add("密碼只能是中、英文字母、數字和_ , 且長度必需在4到10之間");
 			}
+			
 			String name = req.getParameter("name");
 			String nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
 			if (name == null || name.trim().length() == 0) {

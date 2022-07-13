@@ -36,4 +36,4 @@
   <b><font color=black>第<%=whichPage%>/<%=pageNumber%>頁</font></b>
 <%}%>
 
-<b>，目前共有 <font color=blue><%=rowNumber%></font> 則問與答。</b>
+<b>，目前共有 <font color=black><%=rowNumber%></font> 則問與答。</b>

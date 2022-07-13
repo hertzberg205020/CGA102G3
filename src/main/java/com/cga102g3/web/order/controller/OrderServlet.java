@@ -33,7 +33,7 @@ public class OrderServlet extends HttpServlet {
         //=================會員查詢訂單==================
 
         if("getByMbrID".equals(action)){
-            request.getSession().setAttribute("mbrID",2);
+//            request.getSession().setAttribute("mbrID",2);
             Integer mbrID = (Integer) request.getSession().getAttribute("mbrID");
             if (mbrID != null ){
                 OrderService orderService = new OrderService();

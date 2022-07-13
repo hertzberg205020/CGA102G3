@@ -2,6 +2,7 @@ package com.cga102g3.web.sale.dao;
 
 import java.util.*;
 
+import com.cga102g3.web.category.entity.Category;
 import com.cga102g3.web.prod_sale.entity.ProdSaleVO;
 import com.cga102g3.web.sale.entity.SaleVO;
 
@@ -9,7 +10,7 @@ public interface SaleDAO_interface {
 
     public void insert(SaleVO saleVO);
     public void update(SaleVO saleVO);
-    public void delete(Integer saleID);
+    public boolean delete(Integer saleID);
     public SaleVO findByPrimaryKey(Integer saleID);
     public List<SaleVO> getAll();
     
@@ -41,4 +42,12 @@ public interface SaleDAO_interface {
      */
     public boolean judge2(java.sql.Date saleStart,java.sql.Date saleEnd);
 
+    /**
+     * @description: 抓取現有產品中有的種類
+     * @param:
+     * @return:
+     * @auther: Luke
+     * @date: 2022/07/13 12:56:36
+     */
+    public List<Category> getProdCategory();
 }

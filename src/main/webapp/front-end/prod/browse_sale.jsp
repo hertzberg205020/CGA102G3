@@ -5,13 +5,30 @@
 <head>
     <meta charset="UTF-8">
 <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <!-- bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 <!-- 前台template CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
 <!-- 瀏覽商城CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/front-end/prod/css/browse.css">
+    
+    
+        <style>
+        .mytable{
+            width: 100%;
+            float: left;
+            table-layout:fixed;
+            width:580px;
+            /*border:1px solid #ccc;*/
+        }
+        .titleH{
+            /*border:1px solid #ccc;*/
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            overflow:hidden;
+        }
+    </style>
     
     <title>一般商城</title>
     
@@ -21,6 +38,7 @@
 <body>
 <!-- header -->
 <%@include file="/static/template/front_layout_header.jsp" %>
+<input id="path" type="hidden" value="${pageContext.request.contextPath}">
 
 <!-- main -->
 <main class="container">
@@ -66,10 +84,10 @@
 							</datalist>
                 <div class="mb-4">
                 	<small class="text-muted">0</small>
-                	<small class="text-muted ml-2">400</small>
-                	<small class="text-muted ml-2">800</small>
-                	<small class="text-muted ml-1">1200</small>
-                	<small class="text-muted ml-1">1600</small>
+                	<small class="text-muted ms-1">400</small>
+                	<small class="text-muted ms-1">800</small>
+                	<small class="text-muted ms-1">1200</small>
+                	<small class="text-muted ms-1">1600</small>
                	</div>
                 	<input type="hidden" name="action" value="get_Price">
                 </div>
@@ -80,7 +98,7 @@
 
 			</div>
         </div>
-        <div class="main-content col-9 ml-5 p-3">
+        <div class="main-content col-9 mx-auto p-3">
 
             <div class="search-result row mb-3">
                 <div class="col-12 mb-3">
@@ -89,13 +107,39 @@
             </div>
 
 <!-- display books  -->
-            <div class="d-flex flex-row flex-wrap mb-4"></div>
+            <div class="d-flex flex-row flex-wrap mb-4 justify-content-around"></div>
         </div>
 
     </div>
 
     <!-- <img class="god" src="images/Godbless.png" height="500px;" width="500px;"></img><br> -->
-    <img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
+
+<button class="cs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" data-title="test" aria-controls="offcanvasExample"
+            style="height:60px; width:60px;border-radius:50px; background-color:black">
+        <img src="${pageContext.request.contextPath}/static/images/mall.png" ></img>
+    </button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 600px">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">已選購產品</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <table class="table mytable">
+                <thead>
+                <tr class="table-warning font-weight-bold">
+                    <td>書名</td>
+                    <td>照片</td>
+                    <td>數量</td>
+                    <td>單價</td>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </main>
 
 <!-- footer -->
@@ -105,12 +149,19 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- 瀏覽商城(特價)JS -->
 <script src="${pageContext.request.contextPath}/front-end/prod/js/browse_sale.js"></script>
+<!-- bootstrap JS 5.1 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+<!-- shop2 JS -->
+<script src="${pageContext.request.contextPath}/front-end/prod/js/shop2.js"></script>
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<%-- <script src="${pageContext.request.contextPath}/static/template/js/front_layout.js"></script> --%>
- <script>
-   $("#cart_btn").click(function () {
-       location.href = '/CGA102G3/front-end/prod/car.jsp';
-   });
- </script>
+<!--  <script> -->
+//    $("#cart_btn").click(function () {
+//        location.href = '/CGA102G3/front-end/prod/car.jsp';
+//    });
+<!--  </script> -->
 </body>
 </html>

@@ -8,7 +8,6 @@
 <%@page import="com.cga102g3.web.prod.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,9 +106,12 @@
             ${prodID.book.tableContent}
         </div>
     </div>
+    <input type="hidden" id="path" value="${pageContext.request.contextPath}">
+    <input type="hidden" id="prodID" value="${prodID.prodID}">
 </main>
-
+<%@include file="/front-end/review/listAllRev.jsp" %>
 <%@include file="/static/template/front_layout_footer.jsp" %>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -122,7 +124,7 @@
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/static/template/js/front_layout.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
     //目錄換行
@@ -133,15 +135,16 @@
     //點擊加入購物車
     function add(e) {
         let path = $('#path').val();
-        let id = ($(e).parent().attr('id')).substr(7);
-        fetch('' + path + '/ProdServlet.do?prodID=' + id + '&action=add')
+        let prodID = $('#prodID').val();
+        console.log(prodID)
+        fetch('' + path + '/ProdServlet.do?prodID=' + prodID + '&action=add')
             .then(response => response.text())
             .then(myjson => {
                 if (myjson === 'success') swal("Good job!", "加入成功", "success");
                 else {
                     swal("加入失敗!", "請先登入", "error");
                     setTimeout(function () {
-                        location.href = '' + path + '/front-end/prod/shop.jsp'
+                        location.href = '' + path + '/front-end/mem/login.jsp'
                     }, 3000);
                 }
             })
@@ -150,8 +153,8 @@
     //點擊直接購買
     function car(e) {
         let path = $('#path').val();
-        let id = ($(e).parent().prev().attr('id')).substr(7);
-        fetch('' + path + '/ProdServlet.do?prodID=' + id + '&action=add')
+        let prodID = $('#prodID').val();
+        fetch('' + path + '/ProdServlet.do?prodID=' + prodID + '&action=add')
             .then(response => response.text())
             .then(myjson => {
                 if (myjson === 'success') {

@@ -13,7 +13,7 @@ function checkout() {
             obj.amountArray.push(amount);
     })
 
-    if (obj.prodID.length === 0) alert('未選取商品');
+    if (obj.prodID.length === 0) swal('未選取商品!','麻煩重新選擇!', "error");
     else {
         $.ajax({
             type :"post",

@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
 <!-- bootstrap -->
-<%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">--%>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <!-- bootstrap icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
@@ -14,7 +13,6 @@
 <!-- 瀏覽商城CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/front-end/prod/css/browse.css">
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
         .mytable{
@@ -40,7 +38,7 @@
 <input id="path" type="hidden" value="${pageContext.request.contextPath}">
 <!-- main -->
 <main class="container">
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb mt-5">
         <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/index.jsp" class="text-success bg-transparent">首頁</a></li>
             <li class="breadcrumb-item active text-dark" aria-current="page">一般商城</li>
@@ -83,8 +81,8 @@
 							</datalist>
                 <div class="mb-4">
                 	<small class="text-muted">0</small>
-                	<small class="text-muted ms-2">400</small>
-                	<small class="text-muted ms-2">800</small>
+                	<small class="text-muted ms-1">400</small>
+                	<small class="text-muted ms-1">800</small>
                 	<small class="text-muted ms-1">1200</small>
                 	<small class="text-muted ms-1">1600</small>
                	</div>
@@ -98,22 +96,21 @@
 			</div>
         </div>
         
-        <div class="main-content col-9 m-auto p-3">
+        <div class="main-content col-9 mx-auto p-3">
 
             <div class="search-result row mb-3">
                 <div class="col-12 mb-3"></div>
             </div>
 <!-- display books  -->
-            <div class="d-flex flex-row flex-wrap mb-4 justify-content-between"></div>
+            <div class="d-flex flex-row flex-wrap mb-4 justify-content-around"></div>
         </div>
 
     </div>
 
     <!-- <img class="god" src="images/Godbless.png" height="500px;" width="500px;"></img><br> -->
-    <img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-            data-title="test" aria-controls="offcanvasExample">
-        Button with data-bs-target
+<button class="cs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" data-title="test" aria-controls="offcanvasExample"
+            style="height:60px; width:60px;border-radius:50px; background-color:black">
+        <img src="${pageContext.request.contextPath}/static/images/mall.png" ></img>
     </button>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 600px">
         <div class="offcanvas-header">
@@ -150,14 +147,21 @@
 
 
 <%@include file="/static/template/front_layout_footer.jsp" %>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
+
+
 <!-- JQuery JS -->
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- 瀏覽商城JS -->
 <script src="${pageContext.request.contextPath}/front-end/prod/js/browse.js"></script>
+<!-- bootstrap JS 5.1 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+<!-- shop2 JS -->
 <script src="${pageContext.request.contextPath}/front-end/prod/js/shop2.js"></script>
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </body>
 
 </html>

@@ -27,11 +27,12 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 <body>
 
 	<main class="main">
-		<div class="container">
+					<h3>會員專區 / 錢包管理 / 錢包儲值</h3>
 
-				<h3>會員專區 / 錢包管理 / 錢包儲值</h3>
+		<div class="container" style="background-color:#F5F5F5; border:3px #678F74 solid;" cellpadding="10" border='1'>
 <h3>　</h3>
 
+<div>
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
 			<font style="color: red">請修正以下錯誤:</font>
@@ -46,7 +47,7 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 			<table>
 				<tr>
 					<!-- 		<td><b>會員編號</b></td> -->
-					<td><input type="hidden" name="mbr_ID" size="60" value="1" />
+					<td><input type="hidden" name="mbr_ID" size="60" value="${memVO.mbrID}" />
 					</td>
 				</tr>
 				<tr>
@@ -74,7 +75,6 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 					</td>
 					<td>　　　　　　　　　　　</td>
 					<td><input type="hidden" name="action" value="insert">
-						<input type="hidden" name="action2" value="updateMEM">
 						<input type="submit" class="btn btn-success" value="確定儲值">
 						</td>
 				</tr>
@@ -83,7 +83,7 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 			<h1>　</h1>
 			<h1>　</h1>
 		</FORM>
-		</div>
+		</div></div>
 	</main>
 </body>
 

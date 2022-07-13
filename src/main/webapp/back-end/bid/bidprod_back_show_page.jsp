@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="com.cga102g3.web.bid_prod.entity.*"%>
 
 
@@ -51,7 +52,6 @@
 						<th>圖片</th>
 						<th>競標底價</th>
 						<th>直購價</th>
-						<th>最高出價</th>
 						<th>商品狀態</th>
 						<th>起標時間</th>
 						<th>結標時間</th>
@@ -67,10 +67,9 @@
 						</td>
 						<td>${bidProd.startPrice}</td>      <!--競標起始價-->
 						<td>${bidProd.bidDirectPrice}</td>  <!--競標直購價-->
-						<td>${bidProd.bidCurPrice}</td>     <!--目前最高價-->
 						<td class="prodState">${bidProd.bidProdStat}</td>
-						<td>${bidProd.bidStart}</td>   <!-- 起標時間 -->
-						<td>${bidProd.bidEnd}</td>     <!-- 結標時間 -->
+						<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:00" /></td>   <!-- 起標時間 -->
+						<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:00"/></td>     <!-- 結標時間 -->
 						<td class="last-col">
 							<form method="post" action="bid.do">
 							<button class="btn btn-sm btn-outline-secondary" type="submit">
@@ -95,12 +94,21 @@
 			d.textContent='待上架';
 		} else if (d.innerHTML == 2) {
 			d.textContent='標案進行中';
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
 		} else if (d.innerHTML == 3) {
 			d.textContent='結標售出'; 
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
 		} else if (d.innerHTML == 4) {
 			d.textContent='流標';
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
 		} else if (d.innerHTML == 5) {
 			d.textContent='撤消';
+	        d.parentNode.style.color="gainsboro";
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
 		}
 	}
 </script>

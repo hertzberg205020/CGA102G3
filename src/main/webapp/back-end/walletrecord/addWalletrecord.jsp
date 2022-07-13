@@ -48,7 +48,7 @@ WalletrecordVO walletrecordVO = (WalletrecordVO) request.getAttribute("walletrec
 </c:if>
 
 <FORM METHOD="post" ACTION="walletrecord.do" name="form1">
-<table>
+<table >
 	<tr>
 <!-- 		<td><b>會員編號</b></td> -->
 		<td><input class="walletrecord" type="hidden" name="mbr_ID" size="60" 

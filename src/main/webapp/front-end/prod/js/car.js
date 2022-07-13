@@ -3,6 +3,7 @@ window.onload = function () {
     fetch(path + '/ProdServlet.do?action=car&prodID=0')
         .then(response => response.json())
         .then(function (myjson) {
+            console.log(myjson)
             if (myjson.length == 0) {
                 $('tbody').append(`<tr>
                     <th colspan="6" class="text-center table-danger">無選取產品</th>
@@ -36,11 +37,11 @@ window.onload = function () {
                         <td><select class="quantity" >
                         </select>
                         </td>
-                        <td>
-                        <div class="total">$${price * amount}</div>
+                        <td  style="width: 80px">
+                        <div class="total"  style="width: 80px">$${price * amount}</div>
                         </td>
                         <td>
-                        <button type="button" class="btn btn-outline-danger cancel">取消</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm cancel" style="width: 50px">取消</button>
                         </td>
                         </tr>`)
                     //生成select數量選單
@@ -106,7 +107,8 @@ window.onload = function () {
                     })
             })
             $('.back').click(function (){
-                location.href = `${path}/front-end/prod/shop.jsp`;
+                console.log('123')
+                location.href = `${path}/front-end/prod/browse.jsp`;
             })
         })
 }

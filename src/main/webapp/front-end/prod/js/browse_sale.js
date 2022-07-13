@@ -17,7 +17,7 @@ window.onload = function() {
 												</div>
 												<button class="btn btn-sm btn-warning ml-3" onclick="add(this)">加入購物車 <i class="bi bi-cart-plus"></i></button>
 											</div>`);
-				count++;
+					count++;
 				}
 			}
 			let result = document.getElementById('result');
@@ -38,12 +38,22 @@ window.onload = function() {
 
 
 function add(e) {
-	let id = ($(e).parent().attr('id'));
-	fetch('/CGA102G3/ProdServlet.do?prodID=' + id + '&action=add')
+
+	let path = $('#path').val();
+	let id = $(e).parent().attr('id');
+
+	console.log(id)
+
+	fetch(path + '/ProdServlet.do?prodID=' + id + '&action=add')
 		.then(response => response.text())
 		.then(myjson => {
-			if (myjson === 'success') alert('加入成功');
-			else alert('加入失敗');
+			if (myjson === 'success') swal("Good job!", "加入成功", "success");
+			else {
+				swal("加入失敗!請先登入", "5秒後為你跳轉畫面", "error");
+				setTimeout(function () {
+					location.href = `${path}/front-end/mem/login.jsp`
+				}, 3000);
+			}
 		})
 }
 

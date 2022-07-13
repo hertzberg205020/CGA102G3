@@ -32,8 +32,6 @@
     } 
 %>
 
-<%if (pageNumber>0){%>
-  <b><font color=black>第<%=whichPage%>/<%=pageNumber%>頁</font></b>
-<%}%>
 
-<b>，目前共有 <font color=black><%=rowNumber%></font> 則留言。</b>
+
+<b>　　目前共有 <font color=black><%=rowNumber%></font> 則討論留言。</b>

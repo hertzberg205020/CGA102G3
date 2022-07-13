@@ -42,7 +42,7 @@
 
     <div class="container p-5">
         <div class="mb-2  p-1" style="background-color: steelblue; width: 60px; border-radius: 5px;">
-            <a class="text-light" style="text-decoration: none;" href="bidprod_back_page.jsp">上一頁</a>
+            <a class="text-light" style="text-decoration: none;" href="${pageContext.request.contextPath}/back-end/sale/sale.jsp">上一頁</a>
         </div>
 
         <div class="row mb-3">

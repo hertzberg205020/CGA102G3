@@ -29,39 +29,39 @@ public class WalletrecordServlet extends HttpServlet {
 		
 		if ("updateMEM".equals(action2)) { // 來自update_MEM_input.jsp的請求
 			
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-		
-				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
-Integer mbr_ID = Integer.valueOf(req.getParameter("mbr_ID").trim());
-Integer note = Integer.valueOf(req.getParameter("note"));				
-//String note = req.getParameter("note");		
-
-
-				WalletrecordVO walletrecordVO = new WalletrecordVO();
-				walletrecordVO.setNote(note);
-
-
-				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//					req.setAttribute("walletrecordVO", walletrecordVO); // 含有輸入格式錯誤的walletrecordVO物件,也存入req
-//					RequestDispatcher failureView = req
-//							.getRequestDispatcher("/back-end/walletrecord/update_walletrecord_input.jsp");
-//					failureView.forward(req, res);
-//					return; //程式中斷
-//				}
-				
-				/***************************2.開始修改資料*****************************************/
-				WalletrecordService walletrecordSvc = new WalletrecordService();
-				walletrecordVO = walletrecordSvc.updateWalletrecord(note, mbr_ID);
-				
-				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("walletrecordVO", walletrecordVO); // 資料庫update成功後,正確的的walletrecordVO物件,存入req
-				String url = "/front-end/walletrecord/listAllWalletrecord.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllWalletrecord.jsp
-				successView.forward(req, res);
+//			List<String> errorMsgs = new LinkedList<String>();
+//			// Store this set in the request scope, in case we need to
+//			// send the ErrorPage view.
+//			req.setAttribute("errorMsgs", errorMsgs);
+//		
+//				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+//Integer mbr_ID = Integer.valueOf(req.getParameter("mbr_ID").trim());
+//Integer note = Integer.valueOf(req.getParameter("note"));				
+////String note = req.getParameter("note");		
+//
+//
+//				WalletrecordVO walletrecordVO = new WalletrecordVO();
+//				walletrecordVO.setNote(note);
+//
+//
+//				// Send the use back to the form, if there were errors
+////				if (!errorMsgs.isEmpty()) {
+////					req.setAttribute("walletrecordVO", walletrecordVO); // 含有輸入格式錯誤的walletrecordVO物件,也存入req
+////					RequestDispatcher failureView = req
+////							.getRequestDispatcher("/back-end/walletrecord/update_walletrecord_input.jsp");
+////					failureView.forward(req, res);
+////					return; //程式中斷
+////				}
+//				
+//				/***************************2.開始修改資料*****************************************/
+//				WalletrecordService walletrecordSvc = new WalletrecordService();
+//				walletrecordVO = walletrecordSvc.updateWalletrecord(note, mbr_ID);
+//				
+//				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+//				req.setAttribute("walletrecordVO", walletrecordVO); // 資料庫update成功後,正確的的walletrecordVO物件,存入req
+//				String url = "/front-end/walletrecord/listAllWalletrecord.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listAllWalletrecord.jsp
+//				successView.forward(req, res);
 		}
 		
 		
@@ -247,7 +247,12 @@ req.setAttribute("walletrecordVO", walletrecordVO); // 含有輸入格式錯誤�
 				walletrecordVO = walletrecordSvc.addWalletrecord(walletrecordVO);
 				
 				//需update member 的錢
+				walletrecordVO = walletrecordSvc.updateWalletrecord(note, mbr_ID);
 				
+				MemService memSvc = new MemService();
+				MemVO memVO = memSvc.getOneMem(mbr_ID);
+				HttpSession session = req.getSession();
+				session.setAttribute("memVO", memVO);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/walletrecord/listAllWalletrecord.jsp";

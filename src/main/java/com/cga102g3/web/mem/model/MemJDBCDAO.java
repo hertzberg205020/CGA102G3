@@ -26,6 +26,7 @@ public class MemJDBCDAO implements MemDAO_interface {
 	private static final String LOGIN = "SELECT * FROM member where mbr_account = ? and mbr_password=  ?";
 	private static final String FORGOT = "SELECT mbr_name, mbr_password  FROM member where mbr_email = ?";
 	private static final String UPDATESTATUS = "UPDATE member set mbr_status= 1 where mbr_ID = ?";
+	private static final String UPDATESTATUSBYEMP = "UPDATE member set mbr_status= ? where mbr_ID = ?";
 	private static final String SIGNUPSTATUS = "SELECT mbr_ID FROM member where mbr_email = ?";
 	
 	public void signup(MemVO memVO) {
@@ -403,6 +404,47 @@ public class MemJDBCDAO implements MemDAO_interface {
 		}
 		
 	}
+	
+	public void updateStatusByEmp(Integer mbrID, Integer mbrStatus) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UPDATESTATUSBYEMP);
+			
+			pstmt.setInt(1, mbrStatus);
+			pstmt.setInt(2, mbrID);
+
+			pstmt.executeUpdate();
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		
+	}
+	
+	
 	// 從mail取出會員ID
 	 public MemVO signupStatus(MemVO memVO) {
 		 MemVO memVO08 = null;

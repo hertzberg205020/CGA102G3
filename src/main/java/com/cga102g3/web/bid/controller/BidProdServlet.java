@@ -161,7 +161,7 @@ public class BidProdServlet extends HttpServlet {
 			/* Check if input exist in DB */
 			BidService bs = new BidService();
 			List<BidProd> bidProd = bs.showTitle(bidProdTitle);
-			if (bidProd == null) {
+			if (bidProd.size() == 0) {
 				errorMsgs.add("查無資料");
 			}
 			if (!errorMsgs.isEmpty()) {

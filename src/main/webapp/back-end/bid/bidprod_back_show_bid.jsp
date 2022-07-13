@@ -58,12 +58,11 @@
 						<th>圖片</th>
 						<th>競標底價</th>
 						<th>直購價</th>
-						<th>最高出價</th>
 						<th>競標紀錄</th>
 						<th>商品狀態</th>
 						<th>起標時間</th>
-						<th>結標時間</th>
-						<th style="border-radius: 0 8px 0 0;">修改</th>
+						<th style="border-radius: 0 8px 0 0;">結標時間</th>
+<!-- 						<th style="border-radius: 0 8px 0 0;">修改</th> -->
 					</tr>
 				</thead>
 				<%@ include file="page1.file" %> 		
@@ -80,7 +79,6 @@
 						</td>
 						<td>${bidProd.startPrice}</td>
 						<td>${bidProd.bidDirectPrice}</td>
-						<td>${bidProd.bidCurPrice}</td>
 						<td>
 							<form method="post" action="bid.do">
 							<input type="hidden" name="bidID" value="${bidProd.bidID}">
@@ -88,14 +86,14 @@
 							<button type="submit" class="btn btn-sm btn-outline-primary"><i class="bi bi-caret-down-fill"></i></button></form>
 						</td>
 						<td class="prodState">${bidProd.bidProdStat}</td>
-						<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:00:00"/></td>
-						<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:00:00"/></td>
-						<td class="last-col">
-							<form method="post" action="bid.do">
-								<button class="btn btn-sm btn-outline-secondary" type="submit"><i class="bi bi-pencil-fill"></i></button>
-								<input type="hidden" name="bidID" value="${bidProd.bidID}">
-								<input type="hidden" name="action" value="get_update"></form>
-						</td>
+						<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:00"/></td>
+						<td class="last-col"><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:00"/></td>
+<!-- 						<td class="last-col"> -->
+<!-- 							<form method="post" action="bid.do"> -->
+<!-- 								<button class="btn btn-sm btn-outline-secondary" type="submit"><i class="bi bi-pencil-fill"></i></button> -->
+<%-- 								<input type="hidden" name="bidID" value="${bidProd.bidID}"> --%>
+<!-- 								<input type="hidden" name="action" value="get_update"></form> -->
+<!-- 						</td> -->
 					</tr>
 					</c:forEach>	
 					

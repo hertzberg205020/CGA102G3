@@ -53,13 +53,12 @@
 			<div style="font-size: 22px;" class="mb-2 mt-3">查詢結果</div>
 			<table class="table table-sm">
 				<thead>
-					<tr class="listHeader">
+					<tr>
 						<th style="border-radius: 8px 0 0 0">競標商品編號</th>
 						<th>書目編號</th>
 						<th>圖片</th>
 						<th>競標底價</th>
 						<th>直購價</th>
-						<th>最高出價</th>
 						<th>商品狀態</th>
 						<th>起標時間</th>
 						<th>結標時間</th>
@@ -69,21 +68,17 @@
 				<%@ include file="page1.file" %> 		
 				<tbody>
 					<c:forEach var="bidProd" items="${list}" begin="<%=pageIndex %>" end="<%=pageIndex+rowsPerPage-1 %>">
-					<tr class="prodList">
-						<th class="header-row" scope="row">${bidProd.bidID} <a
-							href="${pageContext.request.contextPath}/template/bid_front_layout.html"
-							target="_blank" data-toggle="tooltip" data-placement="right"
-							title="查看商品詳情"><i class="bi bi-book"></i></a></th>
+					<tr>
+						<th class="header-row" scope="row">${bidProd.bidID} </th>
 						<td>${bidProd.book.title}</td>
 						<td>
 						<img src="${pageContext.request.contextPath}/static/images/books/${bidProd.bookID}.jpg" height="80px">							
 						</td>
 						<td>${bidProd.startPrice}</td>
 						<td>${bidProd.bidDirectPrice}</td>
-						<td>${bidProd.bidCurPrice}</td>
 						<td class="prodState">${bidProd.bidProdStat}</td>
-						<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:00:00"/></td>
-						<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:00:00"/></td>
+						<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:00"/></td>
+						<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:00"/></td>
 						<td class="last-col">
 							<form method="post" action="bid.do">
 								<button class="btn btn-sm btn-outline-secondary" type="submit"><i class="bi bi-pencil-fill"></i></button>
@@ -106,7 +101,7 @@
 	
 <script>
  	const td = document.getElementsByClassName('prodState');
-	
+ 	
  	for (d of td) {			
  		if (d.innerHTML == 0){
 			d.textContent='安排競標';
@@ -114,14 +109,25 @@
  			d.textContent='待上架';
  		} else if (d.innerHTML == 2) {
  			d.textContent='標案進行中';
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
  		} else if (d.innerHTML == 3) {
  			d.textContent='結標售出';
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
  		} else if (d.innerHTML == 4) {
  			d.textContent='流標';
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
  		} else if (d.innerHTML == 5) {
  			d.textContent='撤消';
+	        d.parentNode.style.color="gainsboro";
+	        d.parentNode.lastElementChild.firstElementChild
+	        .firstElementChild.disabled=true;
 		}
  	}
+ 	
+ 	
 
 </script>
 

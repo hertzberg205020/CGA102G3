@@ -141,7 +141,6 @@ pageContext.setAttribute("prodList", prod_list);
 						<th>圖片</th>
 						<th>底價</th>
 						<th>直購價</th>
-<!-- 						<th>最高出價</th> -->
 						<th>商品狀態</th>
 						<th>起標時間</th>
 						<th>結標時間</th>
@@ -159,13 +158,12 @@ pageContext.setAttribute("prodList", prod_list);
 							<td><img src="${pageContext.request.contextPath}/static/images/books/${bidProd.bookID}.jpg" height="90px"></td>
 							<td>${bidProd.startPrice}</td>
 							<td>${bidProd.bidDirectPrice}</td>
-<%-- 							<td>${bidProd.bidCurPrice}</td> --%>
 							<td class="prodState">${bidProd.bidProdStat}</td>
-							<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:00:00" /></td>
-							<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:00:00" /></td>
+							<td><fmt:formatDate value="${bidProd.bidStart}" pattern="yyyy-MM-dd HH:mm:00" /></td>
+							<td><fmt:formatDate value="${bidProd.bidEnd}" pattern="yyyy-MM-dd HH:mm:00" /></td>
 							<td class="last-col">
 								<form method="post" action="bid.do">
-								<button class="btn btn-sm btn-outline-secondary" type="submit">
+								<button class="update btn btn-sm btn-outline-secondary" type="submit">
 									<i class="bi bi-pencil-fill"></i>
 								</button>
 								<input type="hidden" name="bidID" value="${bidProd.bidID}">
@@ -194,15 +192,21 @@ pageContext.setAttribute("prodList", prod_list);
 				d.textContent='待上架';
 			} else if (d.innerHTML == 2) {
 				d.textContent='標案進行中';
+				d.parentNode.lastElementChild.firstElementChild
+		        .firstElementChild.disabled=true;
 			} else if (d.innerHTML == 3) {
 				d.textContent='結標售出'; 
+				d.parentNode.lastElementChild.firstElementChild
+		        .firstElementChild.disabled=true;
 			} else if (d.innerHTML == 4) {
 				d.textContent='流標';
+				d.parentNode.lastElementChild.firstElementChild
+		        .firstElementChild.disabled=true;
 			} else if (d.innerHTML == 5) {
 				d.textContent='撤消';
 		        d.parentNode.style.color="gainsboro";
 		        d.parentNode.lastElementChild.firstElementChild
-		        .firstElementChild.setAttribute("disabled", "");
+		        .firstElementChild.disabled=true;
 			}
 		}
 		

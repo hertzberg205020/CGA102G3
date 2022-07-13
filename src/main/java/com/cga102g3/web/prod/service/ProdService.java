@@ -51,4 +51,55 @@ public class ProdService {
     public CarObj forCar(int prodID){return dao.getForCar(prodID);}
 
     public Integer forDetail(int prodID){return dao.checkSale(prodID);}
+
+    /**
+     * @description: TODO
+     * @author: Alan
+     * @date: 2022/6/22
+     **/
+    public ProdVO addProd(Integer bookID, Integer price, Integer status) {
+
+        ProdVO prodVO = new ProdVO();
+
+        prodVO.setBookID(bookID);
+        prodVO.setPrice(price);
+        prodVO.setStatus(status);
+        dao.insert(prodVO);
+
+        return prodVO;
+    }
+
+    public ProdVO updateProd(Integer price, Integer status, Integer prodID) {
+
+        ProdVO prodVO = new ProdVO();
+
+        prodVO.setPrice(price);
+        prodVO.setStatus(status);
+        prodVO.setProdID(prodID);
+        dao.update(prodVO);
+
+        return prodVO;
+    }
+
+    public List<Map<String, Object>> getALLSALE() {
+        return dao.findAllSale();
+    }
+    public List<Map<String, Object>> getALLSALE(Integer i) {
+        return dao.showAll();
+    }
+
+    public List<Map<String, Object>> getTOPSALE() {
+        return dao.findTopSale();
+    }
+
+    //後台商品觀禮搜尋
+    public List<ProdVO> searchTITLE(String title) {
+        return dao.searchTitle(title);
+    }
+    public List<Map<String, Object>> getALL(Integer no) {
+        return dao.findAll(1);
+    }
+
+
+
 }

@@ -188,11 +188,13 @@ $.datetimepicker.setLocale('zh'); // kr ko ja en
 $(function(){
 	 $('#date1').datetimepicker({
 	 closeOnWithoutClick :false,
-	  format:'Y-m-d H:00:00',
-	  allowTimes: [
-		  '12:00'
-	  ],
-	  defaultTime: '12:00',
+// 	  format:'Y-m-d H:00:00',
+	  format:'Y-m-d H:i:00',
+	  step: 5,
+// 	  allowTimes: [
+// 		  '12:00'
+// 	  ],
+// 	  defaultTime: '12:00',
 	  onShow:function(){
 	   this.setOptions({
 	    maxDate:$('#date2').val()?$('#date2').val():false
@@ -204,11 +206,13 @@ $(function(){
 	 
 	 $('#date2').datetimepicker({
 	 closeOnWithoutClick :false,
-	  format:'Y-m-d H:00:00',
-	  allowTimes: [
-		  '22:00'
-	  ],
-	  defaultTime: '22:00',
+// 	  format:'Y-m-d H:00:00',
+	  format: 'Y-m-d H:i:00',
+	  step: 5,
+// 	  allowTimes: [
+// 		  '22:00'
+// 	  ],
+// 	  defaultTime: '22:00',
 	  onShow:function(){
 	   this.setOptions({
 	    minDate:$('#date1').val()?$('#date1').val():false
@@ -224,7 +228,7 @@ $(function(){
 		    beforeShowDay: function(date) {
 		  	  if (  date.getYear() <  somedate1.getYear() || 
 			           (date.getYear() == somedate1.getYear() && date.getMonth() <  somedate1.getMonth()) || 
-			           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate() + 1)
+			           (date.getYear() == somedate1.getYear() && date.getMonth() == somedate1.getMonth() && date.getDate() < somedate1.getDate() )
 		        ) {
 		             return [false, ""]
 		        }

@@ -75,9 +75,9 @@ public class SaleServlet extends HttpServlet {
         }
         //=====================抓取Category====================
         if (("getCategory").equals(action)) {
-            CategoryServiceImpl svc = new CategoryServiceImpl();
+            SaleService svc = new SaleService();
             Gson gson = new Gson();
-            List<Category> list = svc.getAll();
+            List<Category> list = svc.getProdCategory();
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(list));
@@ -133,6 +133,14 @@ public class SaleServlet extends HttpServlet {
                 }
                 return;
             }
+
+        //=====================判斷時間區段====================
+        if ("delete".equals(action)) {
+            String saleID = request.getParameter("saleID");
+            boolean delete = new SaleService().delete(Integer.valueOf(saleID));
+            PrintWriter out = response.getWriter();
+            out.print(delete);
+        }
 
     }
 }

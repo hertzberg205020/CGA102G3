@@ -6,7 +6,6 @@ $(function(){
         format:'Y-m-d',
         onShow:function(){
             this.setOptions({
-                minDate: new Date(),
                 maxDate:$('#date2').val()?$('#date2').val():false
             })
         },
@@ -25,7 +24,7 @@ $(function(){
 });
 let path = $('#path').val();
 $('#date1').change(function (){
-    if (!$(this).val()) alert('請選擇時間');
+    if (!$(this).val()) swal("哎呀!", "還沒選取時間!", "error");
     else{
         $.ajax({
             url: path + '/SaleServlet.do',
@@ -43,7 +42,7 @@ $('#date1').change(function (){
     }
 })
 $('#date2').blur(function (){
-    if(!$(this).val()) alert('請選擇時間');
+    if(!$(this).val()) swal("哎呀!", "還沒選取時間!", "error");
     else {
         $.ajax({
             url : path + '/SaleServlet.do',

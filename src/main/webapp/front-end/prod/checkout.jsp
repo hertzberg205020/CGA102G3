@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <title>商城首頁</title>
+    <title>結帳首頁</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/front_layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/front-end/prod/css/checkout.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
@@ -21,7 +21,12 @@
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     <script src="${pageContext.request.contextPath}/front-end/prod/js/jquery.twzipcode.js"></script>
     <script src="${pageContext.request.contextPath}/front-end/prod/js/checkout.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        input.cardxxx {
+            width: 42px;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,15 +52,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="radio" name="method" id="creditcard" value="信用卡" ><label
+                        <input type="radio" name="method" id="creditcard" value="0" ><label
                             for="creditcard">信用卡</label>
-                        <input type="radio" name="method" id="moneybag" value="TibaNi錢包"><label
+                        <input type="radio" name="method" id="moneybag" value="1"><label
                             for="moneybag">TibaNi錢包</label>
-                        <input type="radio" name="method" id="delivery" value="貨到付款" checked><label
+                        <input type="radio" name="method" id="delivery" value="2" checked><label
                             for="delivery" >貨到付款</label>
                         <font color="red">${errorMsgs.method}</font>
                     </td>
-                    <td colspan="1" class="text-left"></td>
+                    <td colspan="1" class="text-left" id="xxx"></td>
                 </tr>
                 <tr>
                     <th colspan="2" class="text-center table-primary" style="font-size: 20px;">收貨人資訊</th>
@@ -77,41 +82,14 @@
                 </tbody>
             </table>
             <input type="hidden" name="action" value="order">
-            <input type="submit" value="確認送出" class="btn btn-warning" style="margin-left: 45%;">
+            <input type="submit" value="確認送出" class="btn btn-warning" style="margin-left: 45%;" id="push">
         </div>
     </form>
 </main>
-<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">
+<%--<img class="cs" src="${pageContext.request.contextPath}/static/images/cs.png" height="90px;" width="90px;" href="#">--%>
 <%@include file="/static/template/front_layout_footer.jsp" %>
-<script>
-    let moneybag = '<h5>錢包餘額 : $<span id="balance">1000</span></h5>';
-
-    //付款方式
-    $('input[name=method]').change(function () {
-        if ($(this).val() === '信用卡') {
-            $(this).parent().next().html('請輸入卡號 : <input type="text" placeholder="xxxx-xxxx-xxxx"><br>');
-            $(this).parent().next().append('<br><div>卡片到期日 : <input type="text" id="datepicker"></div>');
-            $('#datepicker').datepicker({minDate: 0});
-        } else if ($(this).val() === 'TibaNi錢包') {
-            $(this).parent().next().html(moneybag);
-            let total = parseInt($('#total').text());
-            let balance = parseInt($('#balance').text());
-            if (total > balance) {
-                $(this).parent().next().append('<span>餘額不足，請<a href="" style="color: red;">儲值</a></span>')
-            }
-        } else {
-            $(this).parent().siblings().html('');
-        }
-    })
-    //地址選取預設
-    $('#twzipcode').twzipcode({
-        'zipcodeSel': '106',
-        'countySel': '臺北市',
-        'districtSel': '大安區',
-        zipcodeIntoDistrict: true
-    });
-
-</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/front-end/prod/js/checkout2.js"></script>
 </body>
 </html>
 

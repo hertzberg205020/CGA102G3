@@ -13,14 +13,14 @@
             <item>
                 <h3>商城</h3>
                     <ul>
-                        <li><a href="#">一般商城</a></li>
-                        <li><a href="#">競標商城</a></li>
+                        <li><a href="${pageContext.request.contextPath}/front-end/prod/browse.jsp">一般商城</a></li>
+                        <li><a href="${pageContext.request.contextPath}/front-end/bid/bid_prod_view.jsp">競標商城</a></li>
                     </ul>
             </item>
             <item>        
                 <h3>關於</h3>
                     <ul>
-                        <li><a href="#">常見問題FAQ</a></li>
+                        <li><a href="${pageContext.request.contextPath}/front-end/faq/listAllFaq.jsp">常見問題FAQ</a></li>
                         <li><a href="#">聯絡方式</a></li>
                         <li><a href="#">團隊</a></li>
                     </ul>

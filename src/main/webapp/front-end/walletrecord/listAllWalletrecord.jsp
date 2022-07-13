@@ -1,13 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cga102g3.web.walletrecord.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.cga102g3.web.walletrecord.model.*"%>
+<%@ page import="com.cga102g3.web.mem.model.*"%>
 
 <%
+//  MemVO memVO = (MemVO) request.getAttribute("memVO");
+	MemVO memVO = (MemVO)session.getAttribute("memVO");
 	WalletrecordService walletrecordSvc = new WalletrecordService();
-    List<WalletrecordVO> list = walletrecordSvc.getOneWalletrecord2(1);
+    List<WalletrecordVO> list = walletrecordSvc.getOneWalletrecord2(memVO.getMbrID()); //這裡不能寫死 抓會員ID
     pageContext.setAttribute("list",list);
+    
 %>
 
 <!DOCTYPE html>
@@ -17,7 +21,7 @@
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="0">
-    <Meta http-equiv="ReFresh" Content="10">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <!-- Bootstrap4.6 -->
@@ -43,7 +47,7 @@
 <table id="table-1">
 
 	<tr>
-<h3>會員專區 / 錢包管理</h3>
+<h3>會員專區 / 錢包管理</h3> <div><b><font color="blue" size="5" >錢包餘額 ${memVO.tcoinBal} 元</font></b></div>
 				 
 <!-- 	<td> -->
 <!-- 	    <FORM METHOD="post" ACTION="walletrecord.do" > -->
@@ -59,11 +63,11 @@
 
   
 
-<table class="table table-striped text-center table-hover">
+<table class="table table-striped text-center table-hover"  style="border:3px #678F74 solid;" cellpadding="10" border='1'>
 
 	<tr class="table-success">
 <!-- 		<th scope="col" class="col-2">錢包使用紀錄編號</th> -->
-		<th scope="col" class="col-1">會員編號</th>
+<!-- 		<th scope="col" class="col-1">會員編號</th> -->
 		<th scope="col" class="col-3">錢包使用備註</th>
 		<th scope="col" class="col-2">金額(元)</th>
 		<th scope="col" class="col-3">紀錄時間</th>	
@@ -72,7 +76,7 @@
 	<c:forEach var="walletrecordVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">		
 	<tr>
 <%-- 			<td>${walletrecordVO.wallet_rec_no}</td> --%>
-			<td>${walletrecordVO.mbr_ID}</td>
+<%-- 			<td>${walletrecordVO.mbr_ID}</td> --%>
 			<td>
 <c:set var="note" value="${walletrecordVO.note}"/>
 			<c:choose>
@@ -119,15 +123,15 @@
 	
 </table>  
 
-<div class="text-center">	
+<div class="text-center">
 	<%@ include file="page2.file" %>
 	
 	<button type="button" class="btn btn-success"
 onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/walletrecord/addWalletrecord.jsp'">
 我要儲值
 </button>   
-<input type="hidden" name="action" value="7"></div>
-	</div>
+<input type="hidden" name="action" value="${memVO.mbrID}"></div>
+</div>
 </main>
 </body>
 
@@ -139,6 +143,5 @@ onclick="javascript:location.href='${pageContext.request.contextPath}/front-end/
 <!-- bootstrap JS-->
 <script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/static/template/js/front_layout.js"></script>
-<script src="${pageContext.request.contextPath}/front-end/book/js/front_book_view.js"></script>
 
 </html>

@@ -74,4 +74,16 @@ import java.util.Map;
      * @date: 2022/07/10 12:48:27
      */
     public Integer checkSale(int prodID);
+
+
+
+    public List<Map<String,Object>> findAllSale();
+
+    public List<Map<String,Object>> findTopSale();
+
+    public List<ProdVO> searchTitle(String title);
+
+    List<Map<String,Object>> findAll(Integer no);
+    public List<Map<String,Object>> showAll();
+
 }

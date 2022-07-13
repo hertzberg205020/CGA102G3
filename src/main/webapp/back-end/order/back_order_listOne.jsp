@@ -69,7 +69,7 @@ response.setDateHeader("Expires", 0);
  		<div class="input-group-prepend">
     		<span class="input-group-text">下單會員</span>
     		<input readonly type="text" class="form-control"
-    		value="${memSvc.findByPrimaryKey(param.mbrID).mbrName}">
+    		value="${memSvc.getOneMem(param.mbrID).mbrName}">
   		</div>
 	</div>
 			
@@ -99,6 +99,7 @@ response.setDateHeader("Expires", 0);
 				${param.ship_status == 0 ? '<h5><span class="badge badge-primary">檢貨中</span><h5>':''}
 				${param.ship_status == 1 ? '<h5><span class="badge badge-info">配送中</span><h5>':''}
 				${param.ship_status == 2 ? '<h5><span class="badge badge-success">已送達</span><h5>':''}
+				${param.order_status == 3 ? '<h5><span class="badge badge-secondary">訂單取消</span><h5>':''}
 				</td>
 				<td style="vertical-align:middle">
 				${param.pay_status == 0 ? 

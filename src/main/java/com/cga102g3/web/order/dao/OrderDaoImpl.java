@@ -1,6 +1,8 @@
 package com.cga102g3.web.order.dao;
 
 import com.cga102g3.core.util.JDBCUtil;
+import com.cga102g3.web.bid_activ.dao.MemberDao;
+import com.cga102g3.web.bid_activ.dao.impl.MemberDaoImpl;
 import com.cga102g3.web.book.entity.Book;
 import com.cga102g3.web.order.entity.OrderVO;
 import com.cga102g3.web.order_Item.dao.OrderItemDao;
@@ -51,6 +53,10 @@ public class OrderDaoImpl implements OrderDao {
             ps.setInt(6, orderVO.getPayMethod());
             ps.executeUpdate();
 
+            if (orderVO.getPayMethod() == 1){
+                MemberDao dao = new MemberDaoImpl();
+                dao.prepaid4Bid(con,orderVO.getMbrID(),orderVO.getTotalPrice());
+            }
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 orderID = rs.getInt(1);

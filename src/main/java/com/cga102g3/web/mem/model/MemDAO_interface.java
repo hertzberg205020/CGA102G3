@@ -14,5 +14,6 @@ public interface MemDAO_interface {
     public MemVO findNamePassWordByEmail(String mbrEmail);
     public List<MemVO> getAll();
     public void updateStatus(Integer mbrID);
+    public void updateStatusByEmp(Integer mbrID, Integer mbrStatus);
     public MemVO signupStatus(MemVO memVO);
 }

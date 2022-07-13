@@ -73,9 +73,10 @@ display:block ;
             cursor: pointer;
             width: 100px;
             border-radius: 5px
-
 }
-
+input.updateEmp:hover {
+            opacity: 0.8;
+        }
 </style>
 
 </head>

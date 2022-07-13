@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.cga102g3.web.prod.model.*"%>
+<%@ page import="com.cga102g3.web.prod.service.*"%>
 
 <%
 ProdService pdSvc = new ProdService(); //每次都拿最新資料
@@ -28,8 +28,8 @@ request.setAttribute("list", list2);
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-	<script src="${pageContext.request.contextPath}/static/template/js/index.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <title>商城首頁</title>
 </head>
 <body>
@@ -95,27 +95,10 @@ request.setAttribute("list", list2);
     <div style="background-color:#678F74; border-radius: 3px 3px 0 0">
         <BIG style="color: white; padding-left: 20px; font-size:28px">競標商城</BIG>
     </div> 
-    <ul class="item_list">
-          <li>       
-            <div class="col-3" style="margin-top:20px">
-               <div class="picture mb-2"><img src="${pageContext.request.contextPath}/static/images/9.jpg"></div>
-                  <div style="width:200px; font-weight:700;">
-                     <a href="#" style="width:100px">Book title goes here</a>
-                  </div>
-               <div class="price text-dark mb-2 p-2" style="width:200px;">
-                  此刻競標價格: <span>1000</span>元<br>
-                  剩餘競標時間: <br><span style="color:indianred;">dd HH:mm:ss</span>
-               </div>
-            </div>   
-          </li>
-
+    <ul class="item_list" id="bid_list">
+         
     </ul>
 </main>
-    
-    <button class="cs" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" data-title="test" aria-controls="offcanvasExample"
-    style="height:60px; width:60px;border-radius:50px; background-color:black">
-    <img src="${pageContext.request.contextPath}/static/images/mall.png" ></img>
-    </button>
     
 <%@include file="/static/template/front_layout_footer.jsp"%>
 
@@ -129,11 +112,12 @@ function add(e) {
             else {
                 swal("加入失敗!請先登入", "5秒後為你跳轉畫面", "error");
                 setTimeout(function () {
-                    location.href = `/CGA102G3/front-end/prod/shop.jsp`
+                location.href = `/CGA102G3/front-end/prod/shop.jsp`
                 }, 3000);
             }
         })
-}
+	}
 </script>
+<script src="${pageContext.request.contextPath}/static/template/js/index.js"></script>
 </body>
 </html>
