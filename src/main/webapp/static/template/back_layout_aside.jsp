@@ -120,4 +120,5 @@
 
 
 </aside>
+<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
 
