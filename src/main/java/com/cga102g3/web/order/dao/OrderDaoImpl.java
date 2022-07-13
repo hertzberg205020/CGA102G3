@@ -192,7 +192,7 @@ public class OrderDaoImpl implements OrderDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        final String sql = "select o.mbr_id,o.order_date,o.total_price,o.order_status,o.ship_status,o.pay_status,o.pay_method,oi.prod_id,oi.amount,oi.sale_price \n"
+        final String sql = "select o.order_ID,o.mbr_id,o.order_date,o.total_price,o.order_status,o.ship_status,o.pay_status,o.pay_method,oi.prod_id,oi.amount,oi.sale_price \n"
                 + "from `order` o \n"
                 + "join order_item oi \n"
                 + "on o.order_id = oi.order_id \n"
@@ -208,24 +208,27 @@ public class OrderDaoImpl implements OrderDao {
             ps.setInt(1, orderID);
             rs = ps.executeQuery();
 
-            rs.next();
-            OrderVO order = new OrderVO();
-            OrderItemVO orderitem = new OrderItemVO();
-            order.setMbrID(rs.getInt("mbr_id"));
-            order.setOrderDate(rs.getTimestamp("order_date"));
-            order.setTotalPrice(rs.getInt("total_price"));
-            order.setOrderStatus(rs.getInt("order_status"));
-            order.setShipStatus(rs.getInt("ship_status"));
-            order.setPayStatus(rs.getInt("pay_status"));
-            order.setPayMethod(rs.getInt("pay_method"));
+            if (rs.next()) {
+                OrderVO order = new OrderVO();
+                OrderItemVO orderitem = new OrderItemVO();
+                order.setOrderID(rs.getInt("order_ID"));
+                order.setMbrID(rs.getInt("mbr_id"));
+                order.setOrderDate(rs.getTimestamp("order_date"));
+                order.setTotalPrice(rs.getInt("total_price"));
+                order.setOrderStatus(rs.getInt("order_status"));
+                order.setShipStatus(rs.getInt("ship_status"));
+                order.setPayStatus(rs.getInt("pay_status"));
+                order.setPayMethod(rs.getInt("pay_method"));
 
-            orderitem.setOrderVO(order);
-            orderitem.setProdID(rs.getInt("prod_id"));
-            orderitem.setAmount(rs.getInt("amount"));
-            orderitem.setSalePrice(rs.getInt("sale_price"));
-
+                orderitem.setOrderVO(order);
+                orderitem.setProdID(rs.getInt("prod_id"));
+                orderitem.setAmount(rs.getInt("amount"));
+                orderitem.setSalePrice(rs.getInt("sale_price"));
+                order.setOrderItemVO(orderitem);
+                return order;
+            }
             rs.close();
-            return order;
+            return null;
         } catch (SQLException e) {
             if (con != null) {
                 try {

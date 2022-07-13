@@ -28,21 +28,22 @@ public class BackOrderServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		
+
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-	        
-	        
+
+
 	        if ("getOne_For_Display".equals(action)) {
 
 					/***************************1.接收請求參數****************************************/
 					Integer orderID = Integer.valueOf(req.getParameter("orderID"));
 					/***************************2.開始查詢資料****************************************/
 					OrderService orderSvc = new OrderService();
-					OrderVO orderVO = orderSvc.getOne(orderID);									
+					OrderVO orderVO = orderSvc.getOne(orderID);
 					/***************************3.查詢完成,準備轉交(Send the Success view)************/
-					String param = 
-							   "?orderID="     +orderVO.getOrderID()+
+					String param =
+								"?a=a"+
+							   "&orderID="     +orderVO.getOrderID()+
 						       "&mbrID="       +orderVO.getMbrID()+
 						       "&order_date="  +orderVO.getOrderDate()+
 						       "&total_price=" +orderVO.getTotalPrice()+
@@ -53,11 +54,10 @@ public class BackOrderServlet extends HttpServlet {
 						       "&oiVO_prodID=" +orderVO.getOrderItemVO().getProdID()+
 						       "&oiVO_saleprice="+orderVO.getOrderItemVO().getSalePrice()+
 						       "&oiVO_amount=" +orderVO.getOrderItemVO().getAmount();
-					
 					String url = "/back-end/order/back_order_listOne.jsp"+param;
 					RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 back_order_listOne.jsp
 					successView.forward(req, res);
 			}
-	        
+
 		}
 	}

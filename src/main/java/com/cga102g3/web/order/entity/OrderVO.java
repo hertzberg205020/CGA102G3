@@ -78,4 +78,19 @@ public class OrderVO implements Serializable {
     public void setOrderItemVO(OrderItemVO orderItemVO) {
         this.orderItemVO = orderItemVO;
     }
+
+    @Override
+    public String toString() {
+        return "OrderVO{" +
+                "orderID=" + orderID +
+                ", mbrID=" + mbrID +
+                ", orderDate=" + orderDate +
+                ", totalPrice=" + totalPrice +
+                ", orderStatus=" + orderStatus +
+                ", shipStatus=" + shipStatus +
+                ", payStatus=" + payStatus +
+                ", payMethod=" + payMethod +
+                ", orderItemVO=" + orderItemVO +
+                '}';
+    }
 }

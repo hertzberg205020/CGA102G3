@@ -175,26 +175,26 @@ public class ProdDaoImpl implements ProdDao{
 
             ps.setInt(1, prodID);
             ResultSet rs = ps.executeQuery();
-
-            rs.next();
-            ProdVO pb = new ProdVO();
-            Book book = new Book();
-            book.setISBN(rs.getString("isbn"));
-            book.setAuthor(rs.getString("author"));
-            book.setCategoryName(rs.getString("category_name"));
-            book.setTitle(rs.getString("title"));
-            book.setPublisher(rs.getString("publisher"));
-            book.setPubdate(rs.getDate("pubdate"));
-            book.setPages(rs.getInt("pages"));
-            book.setSummary(rs.getString("summary"));
-            book.setTableContent(rs.getString("table_content"));
-            pb.setBook(book);
-            pb.setPrice(rs.getInt("price"));
-            pb.setBookID(rs.getInt("book_id"));
-            pb.setProdID(rs.getInt("prod_id"));
-            pb.setStatus(rs.getInt("status"));
-            return pb;
-
+            if (rs.next()) {
+                ProdVO pb = new ProdVO();
+                Book book = new Book();
+                book.setISBN(rs.getString("isbn"));
+                book.setAuthor(rs.getString("author"));
+                book.setCategoryName(rs.getString("category_name"));
+                book.setTitle(rs.getString("title"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setPubdate(rs.getDate("pubdate"));
+                book.setPages(rs.getInt("pages"));
+                book.setSummary(rs.getString("summary"));
+                book.setTableContent(rs.getString("table_content"));
+                pb.setBook(book);
+                pb.setPrice(rs.getInt("price"));
+                pb.setBookID(rs.getInt("book_id"));
+                pb.setProdID(rs.getInt("prod_id"));
+                pb.setStatus(rs.getInt("status"));
+                return pb;
+            }
+            return null;
         }catch(ClassNotFoundException e) {
             throw new RuntimeException("A database error occured. " + e.getMessage());
         } catch (SQLException e) {

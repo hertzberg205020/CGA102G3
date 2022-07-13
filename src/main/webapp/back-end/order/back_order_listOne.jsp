@@ -5,6 +5,7 @@
 
 <%
 String orderID = request.getParameter("orderID");
+	System.out.println(orderID);
 OrderItemService orderitemSvc = new OrderItemService(); //每次都拿最新資料
 List <Map<String, Object>> list = orderitemSvc.getALL(Integer.parseInt(orderID)); //資料庫有異動就會呈現出來
 request.setAttribute("list", list);
