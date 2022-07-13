@@ -306,7 +306,7 @@ public class BookDaoImpl implements BookDao {
                 "       author, translator, publisher, pubdate, pages,\n" +
                 "       summary, table_content\n" +
                 "from book\n" +
-                "where lower(title)  regexp concat(lower(?), '')\n" +
+                "where lower(title)  like concat('%', lower(?), '%')\n" +
                 "limit ?, ?;";
         try {
             conn = JDBCUtil.getConnection();

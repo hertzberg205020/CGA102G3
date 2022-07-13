@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
             String fileExtension = getFileNameExtension(part);
             if (Arrays.asList(EXTENSIONS).contains(fileExtension)) {
                 File bookImgFile = new File(destDir, bookId + fileExtension);
-                System.out.println(bookImgFile);
+//                System.out.println(bookImgFile);
                 part.write(bookImgFile.toString());
 //                byte[] bytes = part.getInputStream().readAllBytes();
             }

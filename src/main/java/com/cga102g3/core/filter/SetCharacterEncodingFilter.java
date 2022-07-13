@@ -6,10 +6,8 @@ package com.cga102g3.core.filter; /**
  */
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebFilter(filterName = "SetCharacterEncodingFilter")
 public class SetCharacterEncodingFilter implements Filter {
     protected String encoding = null;
     protected FilterConfig config = null;

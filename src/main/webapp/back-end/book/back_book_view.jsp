@@ -19,8 +19,8 @@
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="0">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>--%>
     <!-- Bootstrap4.6 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/bootstrap4/css/bootstrap.css">
     <!--    基礎版面樣式  -->
@@ -32,16 +32,16 @@
 </head>
 <body>
 <header class="header">
-    <h1>這邊再麻煩大家寫自己的項目名稱</h1>
+    <h1 style="text-align: center">書目管理</h1>
 </header>
-<%@include file="/static/template/back_layout_aside.jsp"%>
+<%@include file="/static/template/back_layout_aside.jsp" %>
 <main class="main">
     <div class="table_container">
         <input type="hidden" value="${pageContext.request.contextPath}" id="prefix">
         <div class="container">
-<%--            <div class="row col-6 ml-auto mb-3">--%>
-<%--                <input class="form-control" id="myInput" type="text" placeholder="Search..">--%>
-<%--            </div>--%>
+            <%--            <div class="row col-6 ml-auto mb-3">--%>
+            <%--                <input class="form-control" id="myInput" type="text" placeholder="Search..">--%>
+            <%--            </div>--%>
 
             <div class="row justify-content-between">
                 <div class="input-group col-6 mb-3">
@@ -51,7 +51,8 @@
                     </button>
                 </div>
                 <div class="input-group col-6 mb-3">
-                    <input type="search" id="keyword_input" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <input type="search" id="keyword_input" class="form-control rounded" placeholder="Search"
+                           aria-label="Search" aria-describedby="search-addon"/>
                     <button type="button" class="btn btn-outline-info ml-2" id="search_btn">search</button>
                 </div>
             </div>
@@ -66,25 +67,25 @@
                             <th scope="col" class="col-1">版次</th>
                             <th scope="col" class="col-4">書名</th>
                             <th scope="col" class="col-1">分類</th>
-                            <th scope="col" class="col-2">編輯/查看詳情</th>
+                            <th scope="col" class="col-2">查看詳情/編輯</th>
                         </tr>
                         </thead>
 
                         <tbody>
-<%--                        <tr>--%>
-<%--                            <th scope="row">1</th>--%>
-<%--                            <td>9787121408564</td>--%>
-<%--                            <td>1</td>--%>
-<%--                            <td>王利濤</td>--%>
-<%--                            <td>C</td>--%>
-<%--                            <td>--%>
-<%--                                <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>--%>
-<%--                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
+                        <%--                        <tr>--%>
+                        <%--                            <th scope="row">1</th>--%>
+                        <%--                            <td>9787121408564</td>--%>
+                        <%--                            <td>1</td>--%>
+                        <%--                            <td>王利濤</td>--%>
+                        <%--                            <td>C</td>--%>
+                        <%--                            <td>--%>
+                        <%--                                <button type="button" class="btn btn-primary"><i class="far fa-eye"></i></button>--%>
+                        <%--                                <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button>--%>
+                        <%--                            </td>--%>
+                        <%--                        </tr>--%>
                         </tbody>
                     </table>
-<%--                    <div id="modal_container"></div>--%>
+                    <%--                    <div id="modal_container"></div>--%>
                 </div>
             </div>
 

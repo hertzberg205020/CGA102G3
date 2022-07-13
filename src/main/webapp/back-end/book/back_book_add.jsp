@@ -30,7 +30,7 @@
 </head>
 <body>
 <header class="header">
-    <h1>這邊再麻煩大家寫自己的項目名稱</h1>
+    <h1 style="text-align: center">添加書目資訊</h1>
 </header>
 <%@include file="/static/template/back_layout_aside.jsp" %>
 <main class="main">
@@ -46,7 +46,7 @@
         </div>
 
 
-        <form class="align-items-start form-row">
+        <form class="align-items-start form-row" id="form">
             <fieldset class="form-row">
                 <input type="hidden" name="action" value="insert">
                 <input type="hidden" id="prefix" value="${pageContext.request.contextPath}">

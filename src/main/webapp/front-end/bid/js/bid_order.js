@@ -2,28 +2,29 @@ const prefix = document.getElementById('prefix').value;
 const mbrID = document.getElementById('mbrID').value;
 
 // Call start
-(async() => {
+(async () => {
     await init();
 })();
 
 // dataTable樣式控制
-$(document).ready( function () {
+$(document).ready(function () {
     $('#myTable').removeAttr('width').DataTable(
-        {searching: false,
-              info: false,
-              paging: false,
-              columnDefs: [
-                { width: "10%", targets: 0, className: "dt-head-center", orderable: false },
-                { width: "20%", targets: 1, className: "dt-head-center", orderable: false },
-                { width: "10%", targets: 2, className: "dt-head-center", orderable: false },
-                { width: "30%", targets: 3, className: "dt-head-center", orderable: false },
-                { width: "10%", targets: 4, className: "dt-head-center", orderable: false },
-                { width: "10%", targets: 5, className: "dt-head-center", orderable: false },
-              ],
-             fixedColumns: true
+        {
+            searching: false,
+            info: false,
+            paging: false,
+            columnDefs: [
+                {width: "10%", targets: 0, className: "dt-head-center", orderable: false},
+                {width: "20%", targets: 1, className: "dt-head-center", orderable: false},
+                {width: "10%", targets: 2, className: "dt-head-center", orderable: false},
+                {width: "30%", targets: 3, className: "dt-head-center", orderable: false},
+                {width: "10%", targets: 4, className: "dt-head-center", orderable: false},
+                {width: "10%", targets: 5, className: "dt-head-center", orderable: false},
+            ],
+            fixedColumns: true
         }
     );
-} );
+});
 
 function showEmpty() {
     const tbody = $('tbody');
@@ -91,39 +92,58 @@ function showInfo(data) {
                 </tr>
             `);
             $(`#${bidInfo.bidOrderID}`).click(async function () {
-                $(this).parent().prev().text('已送達');
-                // 發送ajax請求，變更訂單狀態
-                await(
-                    async () => {
-                        fetch(`${prefix}/bidOrder/api/updateStat2Delivered?bidOrderID=${bidInfo.bidOrderID}`
-                            , {
-                                method: 'GET',
-                                // headers 加入 json 格式
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                credentials: 'same-origin',
-                            }).then((response) => {
-                            return response.json();
-                        }).then((jsonData) => {
-                            // 相當於success
-                            const {stat} = {...jsonData};
-                            if (stat === 'successful') {
-                                swal({
-                                    position: 'top',
-                                    icon: 'success',
-                                    title: '發送通知已收貨成功',
-                                    button: false,
-                                    timer: 2000
-                                });
-                            }
-                        }).catch((err) => {
-                            console.log('錯誤:', err);
-                        })
-                    }
-                )();
+                swal({
+                    title: "確認送出 ?",
+                    text: "請再次確認是否收到貨物",
+                    icon: "info",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then(async (willDelete) => {
+                        if (willDelete) {
+                            $(this).parent().prev().text('已送達');
+                            // 發送ajax請求，變更訂單狀態
+                            await (
+                                async () => {
+                                    fetch(`${prefix}/bidOrder/api/updateStat2Delivered?bidOrderID=${bidInfo.bidOrderID}`
+                                        , {
+                                            method: 'GET',
+                                            // headers 加入 json 格式
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            credentials: 'same-origin',
+                                        }).then((response) => {
+                                        return response.json();
+                                    }).then((jsonData) => {
+                                        // 相當於success
+                                        const {stat} = jsonData;
+                                        if (stat === 'successful') {
+                                            swal({
+                                                position: 'top',
+                                                icon: 'success',
+                                                title: '發送通知已收貨成功',
+                                                button: false,
+                                                timer: 2000
+                                            });
+                                        }
+                                    }).catch((err) => {
+                                        console.log('錯誤:', err);
+                                    })
+                                }
+                            )();
 
-                $(this).hide('slow');
+                            $(this).hide('slow');
+
+                        } else {
+                            swal({
+                                title: "未變更貨物物流狀態",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            });
+                        }
+                    });
             });
         } else {
             tbody.append(`

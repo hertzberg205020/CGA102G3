@@ -123,12 +123,12 @@ function chkPass() {
 }
 
 function sendFormData(res) {
-    const bookData = new FormData(form);
     $.ajax({
         type: 'POST',
         url: `${prefix}/book/edit`,
-        data: bookData,
+        data: new FormData($('#form')[0]),
         contentType: false,
+        cache : false,
         processData: false,
         dataType: 'json',
         async: false,

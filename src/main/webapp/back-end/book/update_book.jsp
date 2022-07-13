@@ -36,14 +36,14 @@
 </head>
 <body>
 <header class="header">
-    <h1>這邊再麻煩大家寫自己的項目名稱</h1>
+    <h1 style="text-align: center">修改書目內容</h1>
 </header>
 <%@include file="/static/template/back_layout_aside.jsp" %>
 <main class="main">
     <div id="table_container" class="">
         <%--        回書籍查詢頁面--%>
 
-        <form class="align-items-start form-row">
+        <form class="align-items-start form-row" id="form">
             <fieldset class="form-row">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" id="preCategory" value="${book.categoryName}">

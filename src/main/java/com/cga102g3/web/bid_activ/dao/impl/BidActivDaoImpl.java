@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -30,6 +31,7 @@ import java.util.*;
 public class BidActivDaoImpl implements BidActivDao {
     private final Gson gson = new GsonBuilder().create();
     private static final JedisPool pool = JedisPoolUtil.getJedisPool();
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private final int pageSize = Integer.parseInt(
             ResourceBundle.getBundle("jdbc").getString("pageSize"));
 
@@ -334,7 +336,7 @@ public class BidActivDaoImpl implements BidActivDao {
             bidInfo.put("ISBN", rs.getString("ISBN"));
             bidInfo.put("edition", rs.getInt("edition"));
             bidInfo.put("title", rs.getString("title"));
-            bidInfo.put("bid_end", rs.getTimestamp("bid_end"));
+            bidInfo.put("bid_end", sdf.format(rs.getTimestamp("bid_end")));
             bidInfo.put("book_id", rs.getInt("book_id"));
             bidInfoList.add(bidInfo);
         }

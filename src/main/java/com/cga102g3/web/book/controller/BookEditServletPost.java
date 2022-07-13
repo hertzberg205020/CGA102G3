@@ -51,12 +51,11 @@ public class BookEditServletPost extends PostBaseServlet {
 //        String destDirPath = getServletContext().getRealPath(saveDir);
         getDestDirPath();
         // 開發環境下文件位置 realPath=C:\CGA102_WebApp\apache-tomcat-9.0.56\webapps\bookmall\images\books
-
         // 包裝數據 和 驗證數據
         Map<String, String[]> parameterMap = BookEditParamUtil.handleParams(request.getParameterMap());
 
         Book book = WebUtils.copyParams2Bean(parameterMap, new Book());
-        System.out.println(book);
+//        System.out.println(book);
         // 請求參數驗證方法
         Set<String> errMsgs = BookEditParamUtil.chkInsertBookParams(book);
         if (!errMsgs.isEmpty()) {

@@ -109,17 +109,17 @@ function showInfo() {
 
         tbody.append(`
              <tr>
-                <th scope="row">${book.bookID}</th>
-                <td>${book.ISBN}</td>
-                <td>${book.edition}</td>
+                <th scope="row" class="align-middle">${book.bookID}</th>
+                <td class="align-middle">${book.ISBN}</td>
+                <td class="align-middle">${book.edition}</td>
 <!--                <td>${selectOneAuthor(book.author)}</td>-->
-                <td>${book.title}</td>
-                <td>${book.categoryName}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" data-target=#Modal${book.bookID} data-toggle="modal"><i class="far fa-eye"></i></button>
+                <td class="align-middle">${book.title}</td>
+                <td class="align-middle">${book.categoryName}</td>
+                <td class="align-middle">
+                    <button type="button" class="btn btn-primary" data-target=#Modal${book.bookID} data-toggle="modal"><i class="fas fa-cog fa-spin"></i></button>
                     <button type="button" class="btn btn-success" 
                         onclick="javascript:location.href='${prefix}/book/update/getOneForUpdate?bookID=${book.bookID}'">
-                        <i class="fas fa-edit"></i>
+                        <i class="fa-solid fa-circle-plus fa-beat"></i>
                     </button>
                 </td>
             </tr> 

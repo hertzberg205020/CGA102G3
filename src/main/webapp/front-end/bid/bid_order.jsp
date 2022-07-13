@@ -69,7 +69,7 @@
 <%--    </div>--%>
     <input type="hidden" id="prefix" value="${pageContext.request.contextPath}">
     <%--  測試用  --%>
-    <input type="hidden" id="mbrID" value="2">
+    <input type="hidden" id="mbrID" value="1">
     <%--  測試用  --%>
     <table id="myTable" class="mt-5 table table-bordered text-center mx-auto">
         <thead class="table-dark">

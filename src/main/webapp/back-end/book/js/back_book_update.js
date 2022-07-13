@@ -124,23 +124,48 @@ function chkPass() {
     submit_btn['disabled'] = false;
 }
 
-function sendFormData(res) {
-    const bookData = new FormData(form);
-    $.ajax({
-        type: 'POST',
-        url: `${prefix}/book/edit`,
-        data: bookData,
-        contentType: false,
-        processData: false,
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            const {err, msg} = {...response};
-            res['err'] = err;
-        },
-        error: function (thrownError) {
-            console.log(thrownError);
-        }
+async function sendFormData(res) {
+    // $.ajax({
+    //     type: 'POST',
+    //     url: `${prefix}/book/edit`,
+    //     data: new FormData($('#form')[0]),
+    //     contentType: false,
+    //     cache: false,
+    //     processData: false,
+    //     dataType: 'json',
+    //     async: false,
+    //     success: function (response) {
+    //         const {err, msg} = {...response};
+    //         res['err'] = err;
+    //     },
+    //     error: function (thrownError) {
+    //         console.log(thrownError);
+    //     }
+    // });
+
+    // await fetch(`${prefix}/book/edit`, {
+    //     method: 'POST',
+    //     body: bookData
+    // })
+    //     .then(response => response.json())
+    //     .then(response => {
+    //         const {err, msg} = {...response};
+    //         res['err'] = err;
+    //     })
+    //     .catch(error => console.error('Error:', error));
+
+    await fetch(`${prefix}/book/edit`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: new FormData($('#form')[0]),
+    }).then((response) => {
+        return response.json();
+    }).then((jsonData) => {
+        // 相當於success
+        const {err, msg} = jsonData;
+        res['err'] = err;
+    }).catch((err) => {
+        console.log('錯誤:', err);
     });
 }
 
@@ -166,7 +191,7 @@ function init() {
     /**
      * 使用sweetAlter綁定提交事件
      */
-    submit_btn.addEventListener('click', event => {
+    submit_btn.addEventListener('click', function (event) {
         event.preventDefault();    // ←取消預設事件行為
         swal({
             title: "確認送出 ?",
@@ -175,12 +200,12 @@ function init() {
             buttons: true,
             dangerMode: true,
         })
-            .then((willDelete) => {
+            .then(async (willDelete) => {
                 if (willDelete) {
                     // form.submit();
                     // 送出資料
                     let res = {err: true};
-                    sendFormData(res);
+                    await sendFormData(res);
                     if (!res['err']) {
                         swal({
                             position: 'top',
@@ -367,9 +392,8 @@ function init() {
         //disabledDates:    ['2022/06/08','2022/06/09','2022/06/10'], // 去除特定不含
         //startDate:	        '2022/07/10',  // 起始日
         //minDate:           '-1970-01-01', // 去除今日(不含)之前
-        maxDate:           '+1970-01-01'  // 去除今日(不含)之後
+        maxDate: '+1970-01-01'  // 去除今日(不含)之後
     });
-
 
 
     // 檔案上傳時顯示上傳圖片的檔名
@@ -385,8 +409,6 @@ function init() {
     }).prop('selected', true);
 
 }
-
-
 
 
 init();
