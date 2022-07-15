@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.cga102g3.web.walletrecord.model.*"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.cga102g3.web.walletrecord.model.*" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
@@ -10,11 +10,19 @@
 <%-- %> --%>
 
 <%
-  	WalletrecordService walletrecordSvc = new WalletrecordService();
-	Integer mbrID = (Integer) request.getAttribute("mbrID");
-	System.out.println(mbrID);
-     List<WalletrecordVO> list = walletrecordSvc.getOneWalletrecord2(mbrID);
-     pageContext.setAttribute("list",list);
+    WalletrecordService walletrecordSvc = new WalletrecordService();
+    Integer mbrID = null;
+    List<WalletrecordVO> list = null;
+    if (request.getAttribute("mbrID") != null) {
+        mbrID = (Integer) request.getAttribute("mbrID");
+        list = walletrecordSvc.getOneWalletrecord2(mbrID);
+        session.setAttribute("walletRecordListForOne", list);
+    }
+    if (session.getAttribute("walletRecordListForOne") != null) {
+        list = (List<WalletrecordVO>) session.getAttribute("walletRecordListForOne");
+    }
+
+    pageContext.setAttribute("list", list);
 %>
 
 <!DOCTYPE html>
@@ -38,64 +46,64 @@
     <h1>金流管理 / 查詢錢包使用紀錄 / 會員錢包</h1>
 </header>
 
-<%@include file="/static/template/back_layout_aside.jsp"%>
+<%@include file="/static/template/back_layout_aside.jsp" %>
 
 <main class="main">
-<div class="container">
-<h4><a href="select_page.jsp">返回查詢會員</a></h4>
+    <div class="container">
+        <h4><a href="select_page.jsp">返回查詢會員</a></h4>
 
 
-<table class="table table-striped text-center table-hover">
+        <table class="table table-striped text-center table-hover">
 
-	<tr class="table-info ">
-		<th scope="col" class="col-2">會員編號</th>
-<!-- 		<th scope="col" class="col-2">錢包使用紀錄編號</th> -->
-		<th scope="col" class="col-2">錢包使用備註</th>
-		<th scope="col" class="col-3">金額(元)</th>
-		<th scope="col" class="col-3">紀錄時間</th>	
-	</tr>
-	<%@ include file="page1.file" %> 
-	<c:forEach var="walletrecordVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">		
-	<tr>
+            <tr class="table-info ">
+                <th scope="col" class="col-2">會員編號</th>
+                <!-- 		<th scope="col" class="col-2">錢包使用紀錄編號</th> -->
+                <th scope="col" class="col-2">錢包使用備註</th>
+                <th scope="col" class="col-3">金額(元)</th>
+                <th scope="col" class="col-3">紀錄時間</th>
+            </tr>
+            <%@ include file="page1.file" %>
+            <c:forEach var="walletrecordVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+                <tr>
 
-			<td>${walletrecordVO.mbr_ID}</td>
-<%-- 			<td>${walletrecordVO.wallet_rec_no}</td>			 --%>
-			<td>
-<c:set var="note" value="${walletrecordVO.note}"/>
-			<c:choose>
-    <c:when test="${note == 0}">
-       <b><font color=green>會員儲值(+)</font></b>
-    </c:when>
-    <c:when test="${note == 1}">
-       <b><font color=red>支出(-)</font></b>
-    </c:when>
-    <c:when test="${note == 2}">
-       <b><font color=green>收入(平台支付二手賣家)(+)</font></b>
-    </c:when>
-    <c:when test="${note == 3}">
-       <b><font color=red>競標預扣除金額(-)</font></b>
-    </c:when>
-    <c:when test="${note == 4}">
-       <b><font color=green>競標金額退回(+)</font></b>
-    </c:when> 
-    <c:otherwise>
-        --
-    </c:otherwise>
-</c:choose>
-</td>
-			<td><b>${walletrecordVO.amount}</b></td>
-<td><fmt:formatDate type="both"  value="${walletrecordVO.rec_time}" /></td>
-		
-	</tr>
-	</c:forEach>
+                    <td>${walletrecordVO.mbr_ID}</td>
+                        <%-- 			<td>${walletrecordVO.wallet_rec_no}</td>			 --%>
+                    <td>
+                        <c:set var="note" value="${walletrecordVO.note}"/>
+                        <c:choose>
+                            <c:when test="${note == 0}">
+                                <b><font color=green>會員儲值(+)</font></b>
+                            </c:when>
+                            <c:when test="${note == 1}">
+                                <b><font color=red>支出(-)</font></b>
+                            </c:when>
+                            <c:when test="${note == 2}">
+                                <b><font color=green>收入(平台支付二手賣家)(+)</font></b>
+                            </c:when>
+                            <c:when test="${note == 3}">
+                                <b><font color=red>競標預扣除金額(-)</font></b>
+                            </c:when>
+                            <c:when test="${note == 4}">
+                                <b><font color=green>競標金額退回(+)</font></b>
+                            </c:when>
+                            <c:otherwise>
+                                --
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td><b>${walletrecordVO.amount}</b></td>
+                    <td><fmt:formatDate type="both" value="${walletrecordVO.rec_time}"/></td>
+
+                </tr>
+            </c:forEach>
 
 
-</table>
-</div>
+        </table>
+    </div>
 
-<div class="text-center">	
-	<%@ include file="page2.file" %>
-</div>
+    <div class="text-center">
+        <%@ include file="page2.file" %>
+    </div>
 
 </main>
 
@@ -106,6 +114,5 @@
 <!-- bootstrap JS-->
 <script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 <script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
-<script src="${pageContext.request.contextPath}/back-end/book/js/back_book_view.js"></script>
 </body>
 </html>

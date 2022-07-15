@@ -51,7 +51,7 @@
                         <input class="aside" type="checkbox" id="btn-3">
                         <ul>
                             <!-- <li><a id="a" ref ="#">二手商品匯款管理</a></li> -->
-                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/walletrecord/listAllWalletrecord.jsp">查詢錢包使用紀錄</a></li>
+                            <li><a id="a" href="${pageContext.request.contextPath}/back-end/walletrecord/select_page.jsp">查詢錢包使用紀錄</a></li>
                         </ul>
                     </li>
                 </c:if>

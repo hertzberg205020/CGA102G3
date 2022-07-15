@@ -1,4 +1,5 @@
 window.onload = function () {
+    console.log('111')
     let path = $('#path').val();
     fetch(path + '/SaleServlet.do?action=getAll')
         .then(response => response.json())

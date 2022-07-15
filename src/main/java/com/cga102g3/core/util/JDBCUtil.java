@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  */
 public class JDBCUtil {
     private static DataSource ds;
-    private static final Boolean  isConnectionPool = false;
+    private static final Boolean  isConnectionPool = true;
 
     private JDBCUtil(){}
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("jdbc");

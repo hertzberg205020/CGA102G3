@@ -8,6 +8,7 @@ package com.cga102g3.web.prod.controller;
 
 import com.cga102g3.core.util.JedisPoolUtil;
 import com.cga102g3.web.category.service.impl.CategoryServiceImpl;
+import com.cga102g3.web.mem.model.MemService;
 import com.cga102g3.web.order.entity.OrderVO;
 import com.cga102g3.web.order.service.OrderService;
 import com.cga102g3.web.order_Item.entity.OrderItemVO;
@@ -274,15 +275,14 @@ public class ProdServlet extends HttpServlet {
 
             //========================永續層=======================
 
-//            session.setAttribute("mbrID", "5");
-            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
-            Jedis jedis = jedisPool.getResource();
-            Object mbrID = session.getAttribute("mbrID");
+            session.setAttribute("mbrID", 5);
+            Integer mbrID = (Integer) session.getAttribute("mbrID");
             List<CarObj> carList = (List<CarObj>) session.getAttribute("list");
             List<OrderItemVO> list = new ArrayList<>();
             int total = 0;
             int price = 0;
-
+            JedisPool jedisPool = JedisPoolUtil.getJedisPool();
+            Jedis jedis = jedisPool.getResource();
             try {
 
                 for (int i = 0; i < carList.size(); i++) {
@@ -302,40 +302,57 @@ public class ProdServlet extends HttpServlet {
                     //移除redis中物品
                     jedis.hdel("mbrID" + mbrID, "prodID" + obj.getProdID());
                 }
+
             } finally {
                 jedis.close();
             }
             OrderVO orderVO = new OrderVO();
-            String mbrIDStr = mbrID + "";
-            orderVO.setMbrID(Integer.valueOf(mbrIDStr));
+            orderVO.setMbrID(Integer.valueOf(mbrID));
             orderVO.setTotalPrice(total);
             orderVO.setOrderStatus(0);
             orderVO.setShipStatus(0);
 
-            if ("信用卡".equals(method)) {
+            if ("0".equals(method)) {
                 orderVO.setPayMethod(0);
-            } else if ("TibaNi錢包".equals(method)) {
+                request.setAttribute("ans","信用卡");
+            } else if ("1".equals(method)) {
                 orderVO.setPayMethod(1);
+
+                request.setAttribute("ans","TibaNi錢包");
             } else {
                 orderVO.setPayMethod(2);
+                request.setAttribute("ans","貨到付款");
             }
-            if (!("貨到付款".equals(method))) orderVO.setPayStatus(0);
+            if (!("2".equals(method))) orderVO.setPayStatus(0);
             else orderVO.setPayStatus(1);
 
             OrderService service = new OrderService();
             service.addWithOrderItem(orderVO, list);
+
 
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/front-end/prod/order.jsp");
             requestDispatcher.forward(request, response);
 
             return;
         }
+        //=======================完成訂單=====================
+
         if ("finish".equals(action)) {
             List<CarObj> carList = (List<CarObj>) session.getAttribute("list");
             response.setContentType("application/json; charset=UTF-8");
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(carList));
             return;
+        }
+
+        //=======================獲取會員錢包餘額=====================
+        if ("getMoney".equals(action)) {
+            session.setAttribute("mbrID",5);
+            Integer mbrID = (Integer) session.getAttribute("mbrID");
+            Integer tcoinBal = new MemService().getOneMem(mbrID).getTcoinBal();
+            PrintWriter out = response.getWriter();
+            out.print(tcoinBal);
+
         }
 
         //****** Browse Product by Category, Sale, Price Range, Keyword Search *******//

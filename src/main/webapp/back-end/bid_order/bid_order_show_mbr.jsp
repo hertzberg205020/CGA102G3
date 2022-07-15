@@ -49,7 +49,7 @@
 <a href="${pageContext.request.contextPath}/back-end/bid_order/bid_order_page.jsp" class="btn btn-secondary">回最新訂單列表</a>
 </div>
 			
-			<h5 class="font-weight-bold mb-3">待出貨商品: </h5>
+			<h5 class="font-weight-bold mb-3">查詢結果如下: </h5>
 
 <!------------------------- Bid Orders by Member-------------------------------------------------------->
 

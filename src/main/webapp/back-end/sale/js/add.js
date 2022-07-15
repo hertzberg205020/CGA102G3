@@ -1,5 +1,5 @@
 //大吳老師日期選擇器
-$.datetimepicker.setLocale('zh'); // kr ko ja en
+// $.datetimepicker.setLocale('zh'); // kr ko ja en
 $(function(){
     $('#date1').datetimepicker({
         closeOnWithoutClick :false,

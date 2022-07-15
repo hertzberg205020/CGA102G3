@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 
 <head>
@@ -16,20 +17,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/template/css/back_layout.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/back-end/sale/css/sale_back_add.css">
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.css" />
+
     <title>管理後臺 | 促銷專案管理</title>
-    <script>
-        window.onload = function (){
-            fetch('${pageContext.request.contextPath}/SaleServlet.do?action=getCategory')
-                .then(response => response.json())
-                .then(function (myjosn){
-                    for (let i = 0; i < myjosn.length; i++){
-                        let json = myjosn[i];
-                        $('select[name=category]').append('<option value="'+json.categoryName+'">'+json.categoryName+'</option>')
-                    }
-                })
-        }
-    </script>
 </head>
 
 <body>
@@ -88,13 +78,27 @@
     </div>
     <input type="hidden" value="${pageContext.request.contextPath}" id="path">
 </main>
-</body>
-
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.css" />
-<script src="<%=request.getContextPath()%>/static/datetimepicker/jquery.js"></script>
-<script src="<%=request.getContextPath()%>/static/datetimepicker/jquery.datetimepicker.full.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/static/datetimepicker/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/static/datetimepicker/jquery.datetimepicker.full.js"></script>
+<script>
+    window.onload = function (){
+        console.log('111')
+        fetch('${pageContext.request.contextPath}/SaleServlet.do?action=getCategory')
+            .then(response => response.json())
+            .then(function (myjosn){
+                for (let i = 0; i < myjosn.length; i++){
+                    let json = myjosn[i];
+                    $('select[name=category]').append('<option value="'+json.categoryName+'">'+json.categoryName+'</option>')
+                }
+            })
+    }
+</script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="${pageContext.request.contextPath}/back-end/sale/js/add.js"></script>
+</body>
+
+
 
 
 </html>

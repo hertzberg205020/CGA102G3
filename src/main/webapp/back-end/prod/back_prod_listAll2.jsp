@@ -124,6 +124,5 @@ response.setDateHeader("Expires", 0);
 	<!-- bootstrap JS-->
 	<script src="${pageContext.request.contextPath}/static/bootstrap4/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/static/template/js/back_layout.js"></script>
-	<script src="${pageContext.request.contextPath}/back-end/book/js/back_book_update.js"></script>
 </body>
 </html>

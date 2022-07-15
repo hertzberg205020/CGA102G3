@@ -44,7 +44,8 @@ public class ProdDaoImpl implements ProdDao{
            "select prod_id,p.book_id,price,title,status \n" +
                    "from product p\n" +
                    "join book b\n" +
-                   "on p.book_ID = b.book_ID";
+                   "on p.book_ID = b.book_ID\n"+
+                   "order by prod_ID";
 
     private static final String FRONT_SALE_STRING =
             "select b.book_ID, p.prod_ID, p.price AS price1, b.title,\n"
@@ -66,7 +67,7 @@ public class ProdDaoImpl implements ProdDao{
                     + "  on p.book_ID = b.book_ID\n"
                     + "where\n"
                     + " p.status = 1 \n"
-                    + "limit 9";
+                    + "limit 8";
 
     private static final String FRONT_TOP_SALE =
             "select b.book_ID, p.prod_ID, p.price AS price1, b.title, sum(oi.amount),\n"
@@ -92,7 +93,7 @@ public class ProdDaoImpl implements ProdDao{
                     + " p.status = 1\n"
                     + "group by p.prod_ID,b.book_ID, s.sale_ID,price1, price2, b.title\n"
                     + "order by sum(oi.amount) desc\n"
-                    + "limit 5;";
+                    + "limit 4;";
 
     @Override
 	public void insert(ProdVO prodVO) {
@@ -236,7 +237,8 @@ public class ProdDaoImpl implements ProdDao{
                         + " left join book b\r\n"
                         + "  on p.book_ID = b.book_ID\r\n"
                         + "where\r\n"
-                        + " p.status = 1";
+                        + " p.status = 1"
+                        + " order by p.prod_ID";
 
 
         try{
@@ -598,7 +600,8 @@ public class ProdDaoImpl implements ProdDao{
                         + "from product p \n"
                         + "left join book b \n"
                         + "on p.book_ID = b.book_ID \n"
-                        + "where b.title like ?";
+                        + "where b.title like ?"
+                        + "order by p.prod_id";
         try {
             conn = JDBCUtil.getConnection();
             pstmt = conn.prepareStatement(sql);

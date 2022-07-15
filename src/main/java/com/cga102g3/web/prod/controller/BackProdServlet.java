@@ -11,6 +11,8 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
+import com.cga102g3.web.book.service.BookService;
+import com.cga102g3.web.book.service.impl.BookServiceImpl;
 import com.cga102g3.web.prod.entity.ProdVO;
 import com.cga102g3.web.prod.service.ProdService;
 
@@ -35,12 +37,17 @@ public class BackProdServlet extends HttpServlet {
             Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
             req.setAttribute("errorMsgs", errorMsgs);
             ProdService prodSvc = new ProdService();
+            BookService bookService = new BookServiceImpl();
             /***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
             Integer bookID = null;
             try {
                 bookID = Integer.valueOf(req.getParameter("bookID"));
+
                 if (prodSvc.getOne(bookID) != null) {
                     errorMsgs.put("bookID", "此書目編號已存在");
+                }
+                if (bookService.getBookById(bookID) == null) {
+                    errorMsgs.put("bookID", "不存在此bookID");
                 }
             } catch (NumberFormatException e) {
                 errorMsgs.put("bookID", "編號請勿空白");
